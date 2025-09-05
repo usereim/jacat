@@ -4,5 +4,30 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	
+	<!-- 데이터베이스 커넥션 설정 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://192.168.0.52:3306/jacat_db" />
+		<property name="username" value="jacat_admin" />
+		<property name="password" value="jacat" />
+	</bean>
+
+	<!-- mybatis sql 설정 객체 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:/mybatis/mybatis-config.xml" />
+		<property name="mapperLocations"
+			value="classpath:/mybatis/mapper/**/*.xml" />
+	</bean>
+
+	<!-- mybatid sql 실행 객체 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
 </beans>
