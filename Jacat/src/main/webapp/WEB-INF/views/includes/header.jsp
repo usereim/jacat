@@ -1,0 +1,67 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>jacatHeader</title>
+		<style>
+			header{
+				height:10vh;
+			}
+			#headerBox{
+				display:flex;
+				flex-direction:row;
+				justify-content:space-between;
+			}
+			#navigationBar{
+				display:flex;
+				justify-content:space-around;
+			}
+			#mainLogo{
+				width:5vh;
+				height:5vh;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div id="headerBox">
+				<a href="${contextPath }">
+					<img 
+					src="<c:url value="resources/img/jacat_main_logo.png"/>"
+					id="mainLogo">
+				</a>
+				<form action="#" method="get">
+					<input type="text" id="searchBox" name="search">
+					<button type="submit">🔎</button>
+				</form>
+				<%--
+				<c:choose>
+					<c:when test="${empty sessionScope.user }">
+						<a href="${contextPath }/sign-up">
+							로그인
+						</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#">
+							로그아웃
+						</a>
+					</c:otherwise>
+				</c:choose>
+				 --%>
+				<a href="${contextPath }/sign-up">
+					로그인
+				</a>
+				
+			</div>
+			<nav id="navigationBar">
+				<a href="#">공지사항</a>
+				<a href="#">고객센터</a>
+				<a href="#">자유게시판</a>
+				<a href="#">자격증 정보</a>
+				<a href="#">마이페이지</a>
+			</nav>
+		</header>
+	</body>
+</html>
