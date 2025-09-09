@@ -12,6 +12,7 @@ public class FreeBoardVO {
 	private String content;
 	private String w_date;
 	private boolean delyn;
+
 	private String board_type;
 	private List<FreeBoardFileVO> filelist;
 	private UserVO user;
@@ -27,6 +28,7 @@ public class FreeBoardVO {
 		this.board_type = board_type;
 	}
 	
+
 	public FreeBoardVO() {}
 	
 	public int getBoard_num() {
@@ -85,6 +87,14 @@ public class FreeBoardVO {
 		this.board_type = board_type;
 	}
 
+	public List<FreeBoardFileVO> getFilelist() {
+		return filelist;
+	}
+	
+	public void setFilelist(List<FreeBoardFileVO> filelist) {
+		this.filelist = filelist;
+	}
+	
 	public UserVO getUser() {
 		return user;
 	}
@@ -93,7 +103,6 @@ public class FreeBoardVO {
 		this.user = user;
 	}
 
-	
 	
 	
 	
