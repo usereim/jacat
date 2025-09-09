@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/noticeBoard")
 
-public class noticeBoardController {
+public class NoticeBoardController {
+	
+	NoticeService noticeBoardService;
+	
 	@Autowired
-	public noticeBoardController(noticeBoardService noticeBoardService) {
+	public NoticeBoardController(NoticeService noticeBoardService) {
 		this.noticeBoardService = noticeBoardService;
 	}
-	@RequeatMappig
+	
 }
+	
 
 

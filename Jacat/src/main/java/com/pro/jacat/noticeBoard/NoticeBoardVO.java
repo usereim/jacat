@@ -6,7 +6,7 @@ import com.pro.jacat.file.vo.UserFileVO;
 import com.pro.jacat.noticeBoard.fileVO.noticeBoardFileVO;
 import com.pro.jacat.user.vo.UserVO;
 
-public class noticeBoardVO {
+public class NoticeBoardVO {
 	private	int board_num;
 	private String users_id;
 	private String title;
@@ -18,7 +18,7 @@ public class noticeBoardVO {
 	private List<noticeBoardFileVO> fileList;
 	private UserVO user;
 	
-	public noticeBoardVO(int board_num,String users_id,String title,String Content,String w_date,
+	public NoticeBoardVO(int board_num,String users_id,String title,String Content,String w_date,
 			String modify_date,String delyn,String board_type) {
 		this.board_num = board_num;
 		this.users_id = users_id;
@@ -29,7 +29,7 @@ public class noticeBoardVO {
 		this.delyn = delyn;
 		this.board_type = board_type;
 	}
-	public noticeBoardVO() {}
+	public NoticeBoardVO() {}
 	
 	public int getBoard_num() {
 		return board_num;
