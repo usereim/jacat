@@ -36,8 +36,11 @@
 			)
 			</otherwise>
 		</choose>
-		
 	</insert>
+	
+	<select id="selectUsersOne" parameterType="user" resultType="user">
+		select id, nick, grade from users where id = #{id} and pw = #{pw};
+	</select>
 </mapper>
 
 

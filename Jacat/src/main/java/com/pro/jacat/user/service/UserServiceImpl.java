@@ -37,8 +37,6 @@ public class UserServiceImpl implements UserService {
 		return response;
 	}
 
-	
-
 	@Override
 	public UserResponse selectUsersCntByNick(String nick) {
 		UserResponse response = new UserResponse();
@@ -77,6 +75,11 @@ public class UserServiceImpl implements UserService {
 		user.transferFileToUser(file);
 		
 		return userRepository.insertUsersOne(user);
+	}
+
+	public UserVO selectUsersOne(UserVO user) {
+		return userRepository.selectUsersOne(user);
+		
 	}
 
 }

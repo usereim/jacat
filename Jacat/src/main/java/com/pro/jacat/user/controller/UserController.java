@@ -41,6 +41,7 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public String login(UserVO user, HttpSession session) {
+		logger.info(user.getId());
 		UserVO userVO = userService.selectUsersOne(user);
 		
 		if (userVO == null) {
@@ -48,7 +49,14 @@ public class UserController {
 		}
 		
 		session.setAttribute("user", userVO);
-		return "redirec:/";
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	@PostMapping("/id-check")
