@@ -1,5 +1,7 @@
 package com.pro.jacat.user.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,23 @@ public class UserController {
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup() {
 		return "user/signup";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login() {
+		return "user/login";
+	}
+	
+	@PostMapping("/login")
+	public String login(UserVO user, HttpSession session) {
+		UserVO userVO = userService.selectUsersOne(user);
+		
+		if (userVO == null) {
+			return "redirect:/user/login";
+		}
+		
+		session.setAttribute("user", userVO);
+		return "redirec:/";
 	}
 	
 	@PostMapping("/id-check")

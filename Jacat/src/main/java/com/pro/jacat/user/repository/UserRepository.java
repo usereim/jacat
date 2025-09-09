@@ -31,6 +31,10 @@ public class UserRepository {
 	public int insertUsersOne(UserVO user) {
 		return template.insert("userMapper.insertUsersOne", user);
 	}
+
+	public UserVO selectUsersOne(UserVO user) {
+		return template.selectOne("userMapper.selectUsersOne", user);
+	}
 	
 	
 	

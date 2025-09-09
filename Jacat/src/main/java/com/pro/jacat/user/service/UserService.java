@@ -10,4 +10,5 @@ public interface UserService {
 	public UserResponse selectUsersCntByNick(String nick);
 	public UserResponse selectUsersCntByEmail(String email);
 	public int insertUsersOne(UserVO user, MultipartFile profile);
+	public UserVO selectUsersOne(UserVO user);
 }

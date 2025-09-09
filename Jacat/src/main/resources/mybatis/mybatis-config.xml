@@ -14,7 +14,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.pro.jacat.user.vo.UserVO" alias="user" />
-		<typeAlias type="com.pro.jacat.freeboard.vo.FreeboardVO" alias="freeboard" />
+		<typeAlias type="com.pro.jacat.freeboard.vo.FreeBoardVO" alias="freeboard" />
 		
 	</typeAliases>
 </configuration>
