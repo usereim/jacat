@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- mybatis mapper파일 -->
+
+<mapper namespace="freeboardMapper">
+	<resultMap id="freeboardFileMap" type="freeboard">
+		<id property="board_num" column="board_num" />
+		<result property="users_id" column="users_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="w_date" column="w_date" />
+		<result property="delyn" column="delyn" />
+		<result property="board_type" column="board_type" />
+
+
+		<association property="user" javaType="user">
+			<id property="id" column="id" />
+			<result property="nick" column="nick"/>
+			<result property="grade" column="grade" />
+		</association>
+	</resultMap>
+
+	<select id="selectAllBoard" resultType="board">
+		select * from board where #{board_type};
+	</select>
+
+
+	<!-- 게시글 단건 조회 -->
+	<select id="selectBoardByBno" 
+		parameterType="int" 
+		resultMap="freeboardFileMap">
+		select * from board
+			left join users
+		on board.users_id = users.id where board.board_num = #{board_num}
+	</select>
+</mapper>
