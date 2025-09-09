@@ -27,7 +27,7 @@
 	<body>
 		<header>
 			<div id="headerBox">
-				<a href="${contextPath }">
+				<a href="<c:url value='/'/>">
 					<img 
 					src="<c:url value="resources/img/jacat_main_logo.png"/>"
 					id="mainLogo">
@@ -50,7 +50,8 @@
 					</c:otherwise>
 				</c:choose>
 				 --%>
-				<a href="${contextPath }/sign-up">
+				<a href="<c:url value='/user/signup'/>">
+				<!-- signup -> login으로 변경 -->
 					로그인
 				</a>
 				
