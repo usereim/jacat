@@ -25,7 +25,7 @@
 	</resultMap>
 
 	<select id="selectAllBoard" resultType="freeboard">
-		select * from board where board.board_type = 'F';
+		select * from boards where boards.board_type = 'F';
 	</select>
 
 
@@ -33,8 +33,8 @@
 	<select id="selectBoardByBno" 
 		parameterType="int" 
 		resultMap="freeboardFileMap">
-		select * from board
+		select * from boards
 			left join users
-		on board.users_id = users.id where board.board_num = #{board_num}
+		on boards.users_id = users.id where boards.board_num = #{board_num}
 	</select>
 </mapper>

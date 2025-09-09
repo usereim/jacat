@@ -25,6 +25,6 @@ public class FreeBoardRepository {
 	}
 	
 	public FreeBoardVO selectBoardByBno(int board_num) {
-		return template.selectOne("freeboardMapper.select");
+		return template.selectOne("freeboardMapper.selectBoardByBno");
 	}
 }

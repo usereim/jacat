@@ -14,7 +14,7 @@ import com.pro.jacat.freeboard.service.FreeBoardService;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
 @Controller
-@RequestMapping("/freeboard")
+@RequestMapping(value="/freeboard")
 public class FreeBoardController {
 	
 	private final FreeBoardService freeboardService;
@@ -25,18 +25,18 @@ public class FreeBoardController {
 	}
 	
 	//게시글 목록화면
-	@RequestMapping(value="/boards", method=RequestMethod.GET)
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public String freeboardList(Model model) throws ClassNotFoundException, SQLException{
 		
-	List<FreeBoardVO> list = freeboardService.selectAllBoard(); 
+		List<FreeBoardVO> list = freeboardService.selectAllBoard(); 
+		
+		model.addAttribute("FreeBoardList", list);
+		
+		return "freeboard/freeboardList";
 	
-	model.addAttribute("FreeBoardList", list);
+	}
 	
-	return "freeboard/freeboardList";
-	
-}
-	
-	@RequestMapping(value="/freeboard/{bno}", method=RequestMethod.GET)
+	@RequestMapping(value="/freeboards/{board_num}", method=RequestMethod.GET)
 	public String freeboardView(
 		@PathVariable("board_num") int board_num,
 		Model model
