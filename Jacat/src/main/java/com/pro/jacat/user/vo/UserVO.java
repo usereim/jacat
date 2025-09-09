@@ -1,5 +1,7 @@
 package com.pro.jacat.user.vo;
 
+import com.pro.jacat.file.vo.UserFileVO;
+
 public class UserVO {
 	private String id;
 	private String pw;
@@ -71,5 +73,16 @@ public class UserVO {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public void transferFileToUser(UserFileVO file) {
+		if (file == null) {
+			return;
+		} else {
+			this.setRealFileName(file.getRealFileName());
+			this.setFileName(file.getFileName());
+			this.setPath(file.getPath());
+			this.setType(file.getType());
+		}
 	}
 }

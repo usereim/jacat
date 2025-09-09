@@ -12,7 +12,7 @@
 	<main>
 		<h2>회원가입</h2>
 
-		<form action="<c:url value='/user/join' />" method="post" id="sign_form">
+		<form action="<c:url value='/user/join' />" method="post" id="sign_form" enctype="multipart/form-data">
 			아이디 : <input type="text" name="id">
 			<br>
 			<div id="id_message" class="message"></div>
@@ -30,7 +30,11 @@
 			<br>
 			<div id="email_message" class="message"></div>
 			이메일 인증번호 : <input type="text" name="code">
-			<button type="button" id="codeBtn" disabled>인증하기</button> <br><br>
+			<button type="button" id="codeBtn" disabled>인증하기</button> <br>
+			프로필 이미지 : <input type="file" name="profile">
+			<br>
+			<div id="profile_message" class="message"></div>
+			<br>
 			<input type="submit" value="회원가입">
 		</form>
 	</main>
@@ -43,6 +47,7 @@
 			let pw_check = false;
 			let email_check = false;
 			let nick_check = false;
+			let profile_check = true;
 
 			$("input[name=id]").keyup(
 					function() {
@@ -68,7 +73,7 @@
 										id_check = true;
 									}
 								},
-								erroe : function() {
+								error : function() {
 									id_check = false;
 								}
 							});
@@ -186,6 +191,23 @@
 					});
 				}
 			});
+			
+			$("input[name=profile]").change(function() {
+				profile_check = false;
+				
+				let file = $(this)[0].files[0];
+				let _this = $(this);
+				let regex = /\.(jpe?g|png|gif|bmp|svg|webp)$/i;
+				
+				if (regex.test(file.name) && file.type.startsWith('image/')) {
+			        $("#profile_message").text("");
+			    	profile_check = true;
+			    } else {
+			    	_this.val('');
+			        $("#profile_message").text("프로필 이미지는 이미지 파일만 업로드 할수 있습니다.");
+			        profile_check = false;
+			    }
+			}); 
 
 			function checkId() {
 				let regex = /^[a-z0-9]{5,20}$/;
@@ -246,6 +268,7 @@
 				reCheckPw();
 			}
 			
+			
 			function reCheckPw() {
 				let rePw = $("input[name=re_pw]").val();
 				let pw = $("input[name=pw]").val();
@@ -286,6 +309,10 @@
 				}
 				
 				if (!nick_check) {
+					return false;
+				}
+				
+				if (!profile_check) {
 					return false;
 				}
 				

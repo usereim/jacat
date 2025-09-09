@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.user.response.UserResponse;
 import com.pro.jacat.user.service.UserServiceImpl;
@@ -50,8 +51,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/join")
-	public String join(UserVO user) {
-		int result = userService.insertUsersOne(user);
+	public String join(UserVO user,
+			@RequestParam("profile") MultipartFile profile) {
+		userService.insertUsersOne(user, profile);
 		return "redirect:/";
 	}
 }

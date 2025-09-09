@@ -17,7 +17,32 @@
 	</select>
 	
 	<insert id="insertUsersOne" parameterType="user">
-		insert into users(id, pw, nick, email)
-		values(#{id}, #{pw}, #{nick}, #{email})
+		insert into users(id, pw, nick, email
+		<choose>
+			<when test="realFileName != null">
+				, real_file_name, file_name, path, type)
+			</when>
+			<otherwise>
+			)
+			</otherwise>
+		</choose>
+		
+		values(#{id}, #{pw}, #{nick}, #{email}
+		<choose>
+			<when test="realFileName != null">
+				, #{realFileName}, #{fileName}, #{path}, #{type})
+			</when>
+			<otherwise>
+			)
+			</otherwise>
+		</choose>
+		
 	</insert>
 </mapper>
+
+
+
+
+
+
+
