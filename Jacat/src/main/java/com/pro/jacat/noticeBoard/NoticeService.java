@@ -1,5 +1,5 @@
 package com.pro.jacat.noticeBoard;
 
-public class noticeBoardService {
+public interface NoticeService {
 
 }
