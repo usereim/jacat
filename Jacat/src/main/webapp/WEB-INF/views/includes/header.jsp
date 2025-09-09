@@ -36,24 +36,19 @@
 					<input type="text" id="searchBox" name="search">
 					<button type="submit">🔎</button>
 				</form>
-				<%--
+				
 				<c:choose>
 					<c:when test="${empty sessionScope.user }">
-						<a href="${contextPath }/sign-up">
+						<a href="<c:url value='/user/login'/>">
 							로그인
 						</a>
 					</c:when>
 					<c:otherwise>
-						<a href="#">
+						<a href="<c:url value='/user/logout'/>">
 							로그아웃
 						</a>
 					</c:otherwise>
 				</c:choose>
-				 --%>
-				<a href="<c:url value='/user/signup'/>">
-				<!-- signup -> login으로 변경 -->
-					로그인
-				</a>
 				
 			</div>
 			<nav id="navigationBar">
