@@ -53,10 +53,10 @@
 				
 			</div>
 			<nav id="navigationBar">
-				<a href="#">공지사항</a>
+				<a href="<c:url value='/noticeBoard'/>">공지사항</a>
 				<a href="#">고객센터</a>
-				<a href="<c:url value='/freeboard'/>">자유게시판</a>
-				<a href="#">자격증 정보</a>
+				<a href="<c:url value='/freeboard/boards'/>">자유게시판</a>
+				<a href="<c:url value='/licenses/'/>">자격증 정보</a>
 				<a href="#">마이페이지</a>
 			</nav>
 		</header>
