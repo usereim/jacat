@@ -1,6 +1,8 @@
 package com.pro.jacat.freeboard.vo;
 
 
+import java.util.List;
+
 import com.pro.jacat.user.vo.UserVO;
 
 public class FreeBoardVO {
@@ -11,6 +13,7 @@ public class FreeBoardVO {
 	private String w_date;
 	private boolean delyn;
 	private String board_type;
+	private List<FreeBoardFileVO> filelist;
 	private UserVO user;
 	
 	public FreeBoardVO(int board_num, String users_id, String title, String content, String w_date, 
