@@ -16,6 +16,10 @@
 		select count(*) from users where email = #{email}
 	</select>
 	
+	<select id="selectUsersCntByIdEmail" parameterType="user" resultType="int">
+		select count(*) from users where id = #{id} and email = #{email}
+	</select>
+	
 	<insert id="insertUsersOne" parameterType="user">
 		insert into users(id, pw, nick, email
 		<choose>
@@ -39,8 +43,16 @@
 	</insert>
 	
 	<select id="selectUsersOne" parameterType="user" resultType="user">
-		select id, nick, grade from users where id = #{id} and pw = #{pw};
+		select id, nick, grade from users where id = #{id} and pw = #{pw}
 	</select>
+	
+	<select id="selectUsersIdByEmail" parameterType="String" resultType="String">
+		select id from users where email = #{email}
+	</select>
+	
+	<update id="updateUsersPwByEmail" parameterType="user">
+		update users set pw = #{pw} where email = #{email}
+	</update>
 </mapper>
 
 

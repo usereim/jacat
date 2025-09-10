@@ -39,16 +39,18 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@PostMapping("/login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO user, HttpSession session) {
 		logger.info(user.getId());
 		UserVO userVO = userService.selectUsersOne(user);
 		
 		if (userVO == null) {
+			logger.info("userVO is null");
 			return "redirect:/user/login";
 		}
 		
 		session.setAttribute("user", userVO);
+		
 		return "redirect:/";
 	}
 	
@@ -77,10 +79,44 @@ public class UserController {
 		return userService.selectUsersCntByEmail(email);
 	}
 	
+	@PostMapping("/idmail-check")
+	@ResponseBody
+	public UserResponse idEmailCheck(@RequestParam("id") String id,
+			@RequestParam("email") String email) {
+		UserVO user = new UserVO();
+		user.setId(id);
+		user.setEmail(email);
+		
+		return userService.selectUsersCntByIdEmail(user);
+	}
+	
 	@PostMapping("/join")
 	public String join(UserVO user,
 			@RequestParam("profile") MultipartFile profile) {
 		userService.insertUsersOne(user, profile);
-		return "redirect:/";
+		return "redirect:/user/login";
+	}
+	
+	@RequestMapping(value = "/id-search", method = RequestMethod.GET)
+	public String idSearch() {
+		return "user/id_search";
+	}
+	
+	@RequestMapping(value = "/id-search", method = RequestMethod.POST)
+	@ResponseBody
+	public String idSearch(@RequestParam("email") String email) {
+		logger.info("id-search post");
+		return userService.selectUsersIdByEmail(email);
+	}
+	
+	@RequestMapping(value = "/pw-search", method = RequestMethod.GET)
+	public String pwSearch() {
+		return "user/pw_search";
+	}
+	
+	@RequestMapping(value = "/pw-search", method = RequestMethod.POST)
+	@ResponseBody
+	public UserResponse pwSearch(UserVO user) {		
+		return userService.updateUsersPwByEmail(user);
 	}
 }

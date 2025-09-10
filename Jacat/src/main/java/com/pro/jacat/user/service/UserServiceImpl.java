@@ -54,6 +54,15 @@ public class UserServiceImpl implements UserService {
 		response.setCode(cnt);
 		return response;
 	}
+	
+	@Override
+	public UserResponse selectUsersCntByIdEmail(UserVO user) {
+		UserResponse response = new UserResponse();
+		int cnt = userRepository.selectUsersCntByIdEmail(user);
+		
+		response.setCode(cnt);
+		return response;
+	}
 
 	@Override
 	public int insertUsersOne(UserVO user, MultipartFile profile) {
@@ -77,11 +86,26 @@ public class UserServiceImpl implements UserService {
 		return userRepository.insertUsersOne(user);
 	}
 
+	@Override
 	public UserVO selectUsersOne(UserVO user) {
 		return userRepository.selectUsersOne(user);
 		
 	}
 
+	@Override
+	public String selectUsersIdByEmail(String email) {
+		return userRepository.selectUsersIdByEmail(email);
+	}
+
+	public UserResponse updateUsersPwByEmail(UserVO user) {
+		UserResponse response = new UserResponse();
+		int cnt = userRepository.updateUsersPwByEmail(user);
+		
+		response.setCode(cnt);
+		return response;
+	}
+
+	
 }
 
 

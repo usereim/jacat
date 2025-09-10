@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+<script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
 	<main>
@@ -19,8 +20,25 @@
 		</form>
 		
 		<br>
-		<button type="button">아이디 찾기</button>
-		<button type="button">비밀번호 찾기</button>
+		<button type="button" id="idSearchBtn">아이디 찾기</button>
+		<button type="button" id="pwSearchBtn">비밀번호 찾기</button>
+		<button type="button" id="signupBtn">회원가입</button>
 	</main>
+	
+	<script>
+		$(function() {
+			$("#idSearchBtn").click(function() {
+				location.href = "<c:url value='/user/id-search' />";
+			});
+			
+			$("#pwSearchBtn").click(function() {
+				location.href = "<c:url value='/user/pw-search' />";
+			});
+			
+			$("#signupBtn").click(function() {
+				location.href = "<c:url value='/user/signup' />";
+			});
+		});
+	</script>
 </body>
 </html>
