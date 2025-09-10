@@ -25,7 +25,7 @@ public class FreeBoardController {
 	}
 	
 	//게시글 목록화면
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@RequestMapping(value="/boards", method=RequestMethod.GET)
 	public String freeboardList(Model model) throws ClassNotFoundException, SQLException{
 		
 		List<FreeBoardVO> list = freeboardService.selectAllBoard(); 
@@ -36,7 +36,7 @@ public class FreeBoardController {
 	
 	}
 	
-	@RequestMapping(value="/freeboards/{board_num}", method=RequestMethod.GET)
+	@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
 	public String freeboardView(
 		@PathVariable("board_num") int board_num,
 		Model model

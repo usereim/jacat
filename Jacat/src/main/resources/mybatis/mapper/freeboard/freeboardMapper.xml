@@ -25,7 +25,7 @@
 	</resultMap>
 
 	<select id="selectAllBoard" resultType="freeboard">
-		select * from boards where boards.board_type = 'F';
+		select *,(select count(*) from visit_board where boards_board_num = boards.board_num ) as visit from boards where boards.board_type = 'F';
 	</select>
 
 
