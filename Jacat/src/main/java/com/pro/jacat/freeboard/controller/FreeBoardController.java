@@ -1,17 +1,25 @@
 package com.pro.jacat.freeboard.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.freeboard.service.FreeBoardService;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
+import com.pro.jacat.user.vo.UserVO;
 
 @Controller
 @RequestMapping(value="/freeboard")
@@ -24,6 +32,24 @@ public class FreeBoardController {
 		this.freeboardService = boardService;
 	}
 	
+	
+	
+	@RequestMapping(value="/freeboardWrite", method=RequestMethod.GET)
+	public String write(HttpSession session) {
+		return "freeboard/freeboardWrite";
+	}
+	
+	@RequestMapping(value="/freeboardWrite", method=RequestMethod.POST)
+	public String writePost(@ModelAttribute FreeBoardVO vo,
+				@RequestParam("file") List<MultipartFile> file,
+				@SessionAttribute("user") UserVO user
+			) throws IllegalStateException, IOException {
+			vo.setUsersId(user.getId());
+			freeboardService.insertBoard(vo, file);
+			return "redirect:/freeboard/boards/"+vo.getBoardNum();
+			
+			
+	}
 	//게시글 목록화면
 	@RequestMapping(value="/boards", method=RequestMethod.GET)
 	public String freeboardList(Model model) throws ClassNotFoundException, SQLException{
@@ -33,7 +59,6 @@ public class FreeBoardController {
 		model.addAttribute("FreeBoardList", list);
 		
 		return "freeboard/freeboardList";
-	
 	}
 	
 	@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
