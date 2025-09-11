@@ -1,7 +1,7 @@
 package com.pro.jacat.licenses.vo;
 
 //자격증 별 시험일정 테이블 VO
-public class LicenseTestDate {
+public class LicenseTestDateVO {
 	private int ltdNum;				//관리번호
 	private int implSeq;			//회차
 	private String licenseListJmcd;	//종목 코드

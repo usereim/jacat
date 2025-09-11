@@ -19,9 +19,15 @@
 		
 		<typeAlias type="com.pro.jacat.noticeBoard.vo.NoticeBoardVO" alias="noticeboard"/>
 		
+		<!-- 자격증 게시판 VO 클래스 Alias -->
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardsVO" alias="lboard"/>
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO" alias="lcomment"/>
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO" alias="lfile"/>
+		
+		<!-- API 공공데이터 VO 클래스 Alias -->
+		<typeAlias type="com.pro.jacat.licenses.vo.LicenseListVO" alias="lList"/>
+		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestVO" alias="lTest"/>
+		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestDateVO" alias="lTestDate"/>
 		
 	</typeAliases>
 </configuration>
