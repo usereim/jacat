@@ -24,7 +24,7 @@
 	</style>
 </head>
 <body>
-	<%@ include file="includes/header.jsp"%>
+	<c:import url="/WEB-INF/views/includes/header.jsp"/>
 	<main>
 		<div>
 			<h2>2025년 인기 자격증</h2>
@@ -47,6 +47,6 @@
 			</ol>
 		</div>
 	</main>
-	<%@ include file="includes/footer.jsp" %>
+	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 </body>
 </html>
