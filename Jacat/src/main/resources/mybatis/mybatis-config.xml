@@ -14,9 +14,14 @@
 	
 	<typeAliases>
 		<typeAlias type="com.pro.jacat.user.vo.UserVO" alias="user" />
+		
 		<typeAlias type="com.pro.jacat.freeboard.vo.FreeBoardVO" alias="freeboard" />
-		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardsVO" alias="lboard"/>
+		
 		<typeAlias type="com.pro.jacat.noticeBoard.vo.NoticeBoardVO" alias="noticeboard"/>
+		
+		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardsVO" alias="lboard"/>
+		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO" alias="lcomment"/>
+		<typeAlias type="com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO" alias="lfile"/>
 		
 	</typeAliases>
 </configuration>
