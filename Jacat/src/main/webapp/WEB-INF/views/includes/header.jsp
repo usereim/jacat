@@ -30,7 +30,7 @@
 			<div id="headerBox">
 				<a href="<c:url value='/'/>">
 					<img 
-					src="<c:url value="resources/img/jacat_main_logo.png"/>"
+					src="<c:url value="/resources/img/jacat_main_logo.png"/>"
 					id="mainLogo">
 				</a>
 				<form action="#" method="get">
@@ -55,8 +55,8 @@
 			<nav id="navigationBar">
 				<a href="<c:url value='/noticeBoard'/>">공지사항</a>
 				<a href="#">고객센터</a>
-				<a href="<c:url value='/freeboard/boards'/>">자유게시판</a>
-				<a href="<c:url value='/licenses/'/>">자격증 정보</a>
+				<a href="<c:url value='/freeboard'/>">자유게시판</a>
+				<a href="<c:url value='/licenses/lists'/>">자격증 정보</a>
 				<a href="#">마이페이지</a>
 			</nav>
 		</header>
