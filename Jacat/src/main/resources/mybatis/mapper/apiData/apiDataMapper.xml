@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="apiDataMapper">
+
+	<insert id="insertLicenseList" parameterType="java.util.List">
+		insert into license_list(
+		jmcd,
+		qualgbcd,
+		qualgbnm,
+		seriescd,
+		seriesnm,
+		jmfldnm,
+		obligfldcd,
+		obligfldnm,
+		mdobligfldcd,
+		mdobligfldnm,
+		licensing_authority
+		) values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.jmcd},
+			#{item.jmfldnm},
+			#{item.mdobligfldcd},
+			#{item.mdobligfldnm},
+			#{item.obligfldcd},
+			#{item.obligfldnm},
+			#{item.qualgbcd},
+			#{item.qualgbnm},
+			#{item.seriescd},
+			#{item.seriesnm},
+			'한국산업인력공단'
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertLicenseTestDate"
+		parameterType="java.util.List">
+		insert into license_test_date (
+			impl_seq,
+			license_list_jmcd,
+			impl_yy,
+			description,
+			doc_reg_start_dt,
+			doc_reg_end_dt,
+			doc_exam_start_dt,
+			doc_exam_end_dt,
+			doc_pass_dt,
+			prac_reg_start_dt,
+			prac_reg_end_dt,
+			prac_exam_start_dt,
+			prac_exam_end_dt,
+			prac_pass_dt
+		) values
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.implSeq},
+				#{item.jmcd},
+				#{item.implYy},
+				#{item.description},
+				#{item.docRegStartDt},
+				#{item.docRegEndDt},
+				#{item.docExamStartDt},
+				#{item.docExamEndDt},
+				#{item.docPassDt},
+				#{item.pracRegStartDt},
+				#{item.pracRegEndDt},
+				#{item.pracExamStartDt},
+				#{item.pracExamEndDt},
+				#{item.pracPassDt}
+			)
+		</foreach>
+	</insert>
+	
+	<insert id="insertLicenseTestCenter" parameterType="java.util.List">
+		insert into license_test_center (
+			address,
+			brch_cd,
+			brch_nm,
+			exam_area_gb_nm,
+			exam_area_nm,
+			plce_loct_gid,
+			tel_no
+		) values
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.address},
+			#{item.brchCd},
+			#{item.brchNm},
+			#{item.examAreaGbNm},
+			#{item.examAreaNm},
+			#{item.plceLoctGid},
+			#{item.telNo}
+		)
+		</foreach>
+	</insert>
+	
+	<insert id="insertLicenceEligibility" parameterType="java.util.List">
+		insert into license_eligibility (
+			emqual_cd,
+			emqual_disp_nm,
+			grd_cd,
+			grd_nm,
+			qualgb_cd,
+			qualgb_nm
+		) values
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.emqualCd},
+			#{item.emqualDispNm},
+			#{item.grdCd},
+			#{item.grdNm},
+			#{item.qualgbCd},
+			#{item.qualgbNm}
+		)
+		</foreach>
+	</insert> 
+
+	<select id="selectLicenseListJmcd" resultType="String">
+		select jmcd from
+		license_list;
+	</select>
+</mapper>

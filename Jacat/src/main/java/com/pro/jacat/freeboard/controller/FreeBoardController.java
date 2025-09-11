@@ -33,7 +33,6 @@ public class FreeBoardController {
 		model.addAttribute("FreeBoardList", list);
 		
 		return "freeboard/freeboardList";
-	
 	}
 	
 	@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
