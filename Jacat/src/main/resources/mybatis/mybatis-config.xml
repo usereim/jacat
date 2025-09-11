@@ -29,5 +29,8 @@
 		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestVO" alias="lTest"/>
 		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestDateVO" alias="lTestDate"/>
 		
+		<!-- 사용자 일정 VO -->
+		<typeAlias type="com.pro.jacat.calendar.vo.CalendarVO" alias="calendar"/>
+		
 	</typeAliases>
 </configuration>
