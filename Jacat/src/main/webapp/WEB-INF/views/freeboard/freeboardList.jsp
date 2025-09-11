@@ -25,7 +25,7 @@
 		<c:forEach var="freeboard" items="${FreeBoardList}">
 			<tr>
 				<td>
-					<a href="<c:url value="/freeboard/freeboards/${freeboard.boardNum}" />">
+					<a href="<c:url value="/freeboard/boards/${freeboard.boardNum}" />">
 						${freeboard.title}
 					</a>
 				</td> 

@@ -61,6 +61,7 @@ public class FreeBoardController {
 		return "freeboard/freeboardList";
 	}
 	
+	//게시글 단건 조회
 	@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
 	public String freeboardView(
 		@PathVariable("board_num") int board_num,
@@ -75,5 +76,18 @@ public class FreeBoardController {
 		
 	}
 	
-	
+	//삭제 컨트롤러
+	@RequestMapping(value = "/delete/{board_num}", method = RequestMethod.POST)
+	public String delete(
+			@PathVariable("board_num") int board_num,
+			@SessionAttribute("user") UserVO user
+	) {
+		
+		int result = freeboardService.deleteBoard(board_num, user.getId());
+		if(result <= 0) {
+			return "redirect:/freeboard/boards/"+board_num;
+		}
+		
+		return "redirect:/freeboard/boards";
+	}
 }

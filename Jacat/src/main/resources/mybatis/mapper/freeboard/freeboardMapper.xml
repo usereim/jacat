@@ -8,13 +8,13 @@
 
 <mapper namespace="freeboardMapper">
 	<resultMap id="freeboardFileMap" type="freeboard">
-		<id property="board_num" column="board_num" />
-		<result property="users_id" column="users_id"/>
+		<id property="boardNum" column="board_num" />
+		<result property="usersId" column="users_id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
-		<result property="w_date" column="w_date" />
+		<result property="wDate" column="w_date" />
 		<result property="delyn" column="delyn" />
-		<result property="board_type" column="board_type" />
+		<result property="boardType" column="board_type" />
 
 
 		<association property="user" javaType="user">
@@ -25,7 +25,7 @@
 	</resultMap>
 
 	<select id="selectAllBoard" resultType="freeboard">
-		select *,(select count(*) from visit_board where boards_board_num = boards.board_num ) as visit from boards where boards.board_type = 'F';
+		select *,(select count(*) from visit_board where boards_board_num = boards.board_num ) as visit from boards where boards.board_type = 'F' and delyn = 'N';
 	</select>
 
 
@@ -37,4 +37,9 @@
 			left join users
 		on boards.users_id = users.id where boards.board_num = #{board_num}
 	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		update boards set delyn = 'Y' where board_num = #{board_num}
+	</delete>
 </mapper>

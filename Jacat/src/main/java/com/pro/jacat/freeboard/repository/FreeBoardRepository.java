@@ -20,11 +20,18 @@ public class FreeBoardRepository {
 		this.template = template;	//SqlSession -> 핵심 객체로 DB쿼리 실행과 매핑을 담당
 	}
 	
+	//목록조회
 	public List<FreeBoardVO> selectAllBoard(){
 		return template.selectList("freeboardMapper.selectAllBoard");
 	}
 	
+	//단건조회
 	public FreeBoardVO selectBoardByBno(int board_num) {
-		return template.selectOne("freeboardMapper.selectBoardByBno");
+		return template.selectOne("freeboardMapper.selectBoardByBno",board_num);
+	}
+	
+	//게시글 삭제
+	public int deleteBoard(int board_num) {
+		return template.delete("freeboardMapper.deleteBoard", board_num);
 	}
 }

@@ -1,11 +1,22 @@
 package com.pro.jacat.freeboard.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
 public interface FreeBoardService {
+	
+	
 	List<FreeBoardVO> selectAllBoard();	//FreeBoardVO에 있는 리스트들을 조건없이 조회
 
 	FreeBoardVO selectBoardByBno(int board_num);	//게시글 단건 조회
+	
+	void insertBoard(FreeBoardVO vo, List<MultipartFile> file)	//파일첨부
+		throws IllegalArgumentException, IOException;
+	
+	int deleteBoard(int boardNum, String usersId);	//게시글 삭제 
+	
 }
