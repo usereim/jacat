@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="licenseBoardMapper">
+
+	<resultMap type="lboard" id="licenseBoardCommentAndFileMap">
+		<id property="boardNum" column="board_num"/>
+		<result property="usersId" column="users_id"/>
+		<result property="licenseListJmcd" column="license_list_jmcd"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="wDate" column="w_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="delYN" column="delyn"/>
+		<result property="boardType" column="board_type"/>
+		
+		<result property="nick" column="board_author"/>
+		
+		<result property="visitCount" column="visit_count"/>
+		
+		<result property="licenseName" column="lname"/>
+		
+		<!--association property="user" javaType="user">
+			<id property="id" column="id"/>
+			<result property="pw" column="pw"/>
+			<result property="nick" column="nick"/>
+		</association-->
+		
+		<!-- 댓글 테이블 매핑 -->
+		<collection property="lComment" ofType="lcomment">
+			<id property="commentNum" column="comment_num"/>
+			<result property="licenseBoardsBoardNum" column="c_lbb_num"/>
+			<result property="usersId" column="c_users_id"/>
+			<result property="parentComment" column="c_parent_comment"/>
+			<result property="content" column="c_content"/>
+			<result property="wDate" column="c_w_date"/>
+			<result property="modifyDate" column="c_modify_date"/>
+			<result property="nick" column="comment_author"/>
+		</collection>
+		<!-- 컬럼명 겹칠 때 테이블별로 다르게 출력하는 방법?(*쓰면 안되나?) -->
+		
+		<!-- 파일 테이블 매핑 -->
+		<collection property="lFile" ofType="lfile">
+			<id property="fileNum" column="file_num"/>
+			<result property="licenseBoardsBoardNum" column="f_lbb_num"/>
+			<result property="realFileName" column="real_file_name"/>
+			<result property="fileName" column="file_name"/>
+			<result property="path" column="path"/>
+			<result property="wDate" column="f_w_date"/>
+			<result property="type" column="type"/>
+		</collection>
+		
+	</resultMap>
+	
+	<!-- 자격증 리스트 조회 -->
+	<select id="selectLicenseLists" resultType="lList">
+		select * from jacat_db.license_list;
+	</select>
+	
+	<!-- 자격증별 상세조회 -->
+	<select id="selectLicenseOne" parameterType="String" resultType="lboard">
+		select * from jacat_db.license_list llist
+		 inner join jacat_db.license_test ltest
+		 on llist.jmcd = ltest.license_list_jmcd
+		 inner join jacat_db.license_test_date ldate
+		 on llist.jmcd = ldate.license_list_jmcd
+		 where llist.jmcd = #{licenseListJmcd};
+	</select>
+	
+	<!-- QnA 게시글 목록 조회 -->
+	<select id="selectQnABoards" resultType="lboard">
+		select lb.board_num, lb.users_id, lb.license_list_jmcd, 
+		 lb.title, lb.content, date_format(lb.w_date,'%Y-%m-%d') as w_date, lb.modify_date,
+		 lb.delyn, lb.board_type,u.nick,
+		 (
+		  select count(*) from jacat_db.visit_license_board vlb 
+		  where lb.board_num = vlb.license_board_num
+		 ) as visit_count
+ 		 FROM jacat_db.license_boards lb , jacat_db.users u
+ 		 where lb.board_type = 'Q' and u.id = lb.users_id;
+	</select>
+	
+	<!-- QnA 게시글 상세조회 -->
+	<select id="selectQnABoardOne" parameterType="int" resultMap="licenseBoardCommentAndFileMap">
+		select lb.board_num,
+		 lb.users_id,
+		 (select u.nick from users u where u.id = lb.users_id) as board_author,
+		 lb.license_list_jmcd,
+         lb.title,
+         lb.content,
+         date_format(lb.w_date,'%Y-%m-%d') as w_date,
+         date_format(lb.modify_date,'%Y-%m-%d') as modify_date,
+         lb.delyn,
+         lb.board_type,
+         (select count(*) from visit_license_board vlb where vlb.license_board_num = #{boardNum}) as visit_count,
+        
+		 lc.comment_num,
+         lc.license_boards_board_num as c_lbb_num,
+         lc.users_id as c_users_id,
+         (select u.nick from users u where u.id = lc.users_id) as comment_author,
+         lc.parent_comment_num as c_parent_comment,
+         lc.content as c_content,
+         date_format(lc.w_date,'%Y-%m-%d') as c_w_date,
+         date_format(lc.modify_date,'%Y-%m-%d') as c_modify_date,
+        
+         flb.file_num,
+         flb.license_boards_board_num as f_lbb_num,
+         flb.real_file_name,
+         flb.file_name,
+         flb.path,
+         date_format(flb.w_date,'%Y-%m-%d') as f_w_date,
+         flb.type,
+        
+         (select l.qualgbcd from license_list l where l.jmcd = lb.license_list_jmcd) as lname 
+         
+		from license_boards lb 
+		 left join license_comment lc
+		 on lb.board_num = lc.license_boards_board_num
+         left join file_license_board flb
+         on flb.license_boards_board_num = lb.board_num
+		 where lb.board_num = #{boardNum} and lb.board_type='Q';
+	</select>
+	
+	<!-- QnA 게시글 작성 -->
+	<insert id="insertQnABoardOne" parameterType="lboard">
+		insert into jacat_db.license_boards(
+		users_id,license_list_jmcd,title,content,w_date,board_type)
+		values(#{boardNum},#{licenseListJmcd},#{title},#{content},#{wDate},'Q');
+	</insert>
+	
+	<!-- QnA 게시글 수정 -->
+	<update id="updateQnABoardOne" parameterType="lboard">
+		update jacat_db.license_boards set
+		 title = #{title}, content = #{content}, modify_date = #{modify_date}
+		 where board_num = #{boardNum};
+	</update>
+	
+	<!-- QnA 게시글 삭제 -->
+	<update id="deleteQnABoardOne" parameterType="lboard">
+		update jacat_db.license_boards set
+		 delyn = 'Y'
+		 where board_num = #{boardNum};
+	</update>
+	
+	<!-- 자료실 목록조회 -->
+	<select id="selectDataroomBoards" resultType="java.util.List">
+		select lb.board_num, lb.users_id, lb.license_list_jmcd, 
+		 lb.title, lb.content, lb.w_date, lb.modify_date,
+		 lb.delyn, lb.board_type,
+		 (
+		  select count(*) from jacat_db.visit_license_board vlb 
+		  where lb.board_num = vlb.license_board_num
+		 ) as visit_count
+ 		 FROM jacat_db.license_boards lb where lb.board_type = 'D';
+	</select>
+	
+	<!-- 자료실 게시글 상세조회 -->
+	<select id="selectDataroomBoardOne" parameterType="int" resultType="lboard">
+		select * from jacat_db.license_boards lboards 
+		 left join jacat_db.license_comment lcomment
+		 on lboards.board_num = lcomment.license_boards_board_num
+		 where lboards.board_num = #{boardNum} and lboards.board_type='D';
+	</select>
+	
+	<!-- 자료실 게시글 작성 -->
+	<insert id="insertDataroomBoardOne" parameterType="lboard">
+		insert into jacat_db.license_boards(
+		users_id,license_list_jmcd,title,content,w_date,board_type)
+		values(#{boardNum},#{licenseListJmcd},#{title},#{content},#{wDate},'D');
+	</insert>
+	
+	<!-- 자료실 게시글 수정 -->
+	<update id="updateDataroomBoardOne" parameterType="lboard">
+		update jacat_db.license_boards set
+		 title = #{title}, content = #{content}, modify_date = #{modify_date}
+		 where board_num = #{boardNum};
+	</update>
+	
+	<!-- 자료실 게시글 삭제 -->
+	<update id="deleteDataroomBoardOne" parameterType="lboard">
+		update jacat_db.license_boards set
+		 delyn = 'Y'
+		 where board_num = #{boardNum};
+	</update>
+	
+</mapper>

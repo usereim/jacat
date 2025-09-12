@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="licenseBoardsFilesMapper">
+	
+	<!-- <insert id="insertFIleOne" parameterType="lfile">
+		insert into file_license_board
+		(license_boards_board_num,real_file_name,file_name,path,type)
+		values
+		(#{licenseBoardsBoardNum},#{realFileName},#{fileName},#{path},#{type});
+	</insert> -->
+	
+	<insert id="insertFiles" parameterType="java.util.List">
+		insert into file_license_board
+		(license_boards_board_num,real_file_name,file_name,path,type)
+		values
+		<foreach collection="list" item="lfile" separator=",">
+			(
+			#{lfile.licenseBoardsBoardNum},
+			#{lfile.realFileName},
+			#{lfile.fileName},
+			#{lfile.path},
+			#{lfile.type}
+			);
+		</foreach>
+	</insert>
+	
+	<!-- <delete id="deleteFiles" parameterType="int">
+		delete from file_license_board where file_num = #{licenseBoardsBoardNum};
+	</delete> -->
+	
+</mapper>

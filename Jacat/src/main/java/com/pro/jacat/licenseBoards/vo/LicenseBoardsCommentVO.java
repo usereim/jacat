@@ -9,6 +9,8 @@ public class LicenseBoardsCommentVO {
 	private String wDate;
 	private String modifyDate;
 	
+	private String nick;
+	
 	public int getCommentNum() {
 		return commentNum;
 	}
@@ -50,6 +52,13 @@ public class LicenseBoardsCommentVO {
 	}
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 	
 	

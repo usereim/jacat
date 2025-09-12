@@ -19,6 +19,8 @@ public class LicenseBoardsVO {
 	
 	private String nick;
 	
+	private String licenseName;
+	
 	private List<LicenseBoardsCommentVO> lComment;
 	
 	private List<FileLicenseBoardVO> lFile;
@@ -102,6 +104,14 @@ public class LicenseBoardsVO {
 		this.nick = nick;
 	}
 
+	
+	public String getLicenseName() {
+		return licenseName;
+	}
+	public void setLicenseName(String licenseName) {
+		this.licenseName = licenseName;
+	}
+	
 	
 	public List<LicenseBoardsCommentVO> getlComment() {
 		return lComment;
