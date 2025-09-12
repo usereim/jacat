@@ -6,6 +6,7 @@
 <configuration>
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="logImpl" value="LOG4J2"/>
 		<!-- 
 			테이블의 _컬럼을 카멜케이스 자바변수로 변환
 			create_date -> createDate
