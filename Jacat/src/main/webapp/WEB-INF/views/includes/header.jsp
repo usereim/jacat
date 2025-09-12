@@ -54,10 +54,17 @@
 			</div>
 			<nav id="navigationBar">
 				<a href="<c:url value='/noticeBoard'/>">공지사항</a>
-				<a href="#">고객센터</a>
+				<a href="<c:url value='/csc/main'/>">고객센터</a>
 				<a href="<c:url value='/freeboard/boards'/>">자유게시판</a>
 				<a href="<c:url value='/licenses/lists'/>">자격증 정보</a>
-				<a href="#">마이페이지</a>
+				<c:choose>
+					<c:when test="${empty sessionScope.user}">
+						<a href="javascript:alert('로그인후 이용해 주세요.')">마이페이지</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#">마이페이지</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</header>
 	</body>
