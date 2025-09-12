@@ -39,8 +39,10 @@
 			</form>
 		</c:if>
 	</main>
-	<script>
-	let boardNum = ${board.boardNum};
+</body>
+
+<script>
+	let boardNum = ${FreeBoard.boardNum};
 	console.log(boardNum);
 	
 	let title = "${FreeBoard.title}";
@@ -50,5 +52,5 @@
 		location.href="${pageContext.request.contextPath}/freeboard/freeboardModify/"+boardNum;
 	}
 </script>
-</body>
+
 </html>

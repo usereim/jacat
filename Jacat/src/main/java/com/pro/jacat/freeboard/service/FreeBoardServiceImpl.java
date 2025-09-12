@@ -1,24 +1,40 @@
 package com.pro.jacat.freeboard.service;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.file.repository.FileRepository;
+import com.pro.jacat.freeboard.repository.FreeBoardFileRepository;
 import com.pro.jacat.freeboard.repository.FreeBoardRepository;
+import com.pro.jacat.freeboard.vo.FreeBoardFileVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
+
 
 @Service
 public class FreeBoardServiceImpl implements FreeBoardService{
+	
 	private final FreeBoardRepository freeboardRepository;
+	private final ServletContext context;
+	private final FreeBoardFileRepository freeboardFileRepository;
 	
 	@Autowired
 	public FreeBoardServiceImpl(
-				FreeBoardRepository freeboardRepository
+				FreeBoardRepository freeboardRepository,
+				ServletContext context,
+				FreeBoardFileRepository freeboardFileRepository
 			) {
 		this.freeboardRepository = freeboardRepository;
+		this.context = context;
+		this.freeboardFileRepository =freeboardFileRepository;
 	}
 	
 	//게시글 목록 조회
@@ -43,16 +59,67 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		}
 		return freeboardRepository.deleteBoard(board_num);
 	}
+	
+	//게시글 수정처리
+	@Override
+	public boolean updateBoard(FreeBoardVO vo) {
+		if(vo.getTitle() == null || vo.getTitle().equals("")) {
+			return false;
+		}
+		int result = freeboardRepository.updateBoard(vo);
+		if(result <=0) {
+			return false;
+		}else {
+			return true;			
+		}
+	}
 
 	@Override
 	public void insertBoard(FreeBoardVO vo, List<MultipartFile> file) throws IllegalArgumentException, IOException {
-		// TODO Auto-generated method stub
+		
+		//첨부파일 업로드를 위한 폴더 생성
+		String path = context.getRealPath("/uploads");
+		File dir = new File(path);
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		//게시글 insert
+		freeboardRepository.insertBoard(vo);
+		
+		//첨부파일 업로드
+		List<FreeBoardFileVO> list = new ArrayList<>();
+		
+		for(MultipartFile f : file) {
+			if(f.isEmpty()) {
+				continue;
+			}
+			
+			//파일업로드
+			String realFileName = f.getOriginalFilename();
+			String ext = realFileName.substring(realFileName.lastIndexOf("."));
+			
+			String fileName = UUID.randomUUID().toString()+ ext;
+			String type = f.getContentType();
+			
+			File newFile = new File(path+"/"+fileName);
+			f.transferTo(newFile);
+			
+			FreeBoardFileVO freeboardFileVO = new FreeBoardFileVO();
+			freeboardFileVO.setBoardNum(vo.getBoardNum());
+			freeboardFileVO.setType(type);
+			freeboardFileVO.setRealFileName(realFileName);
+			freeboardFileVO.setFileName(fileName);
+			freeboardFileVO.setPath(path);
+			
+			list.add(freeboardFileVO);	
+			
+		}if(!list.isEmpty()) {
+			freeboardFileRepository.insertFiles(list);
+		}
 		
 	}
-		
 	
 }
-	
-
 
 

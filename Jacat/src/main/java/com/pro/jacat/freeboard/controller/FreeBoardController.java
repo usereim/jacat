@@ -33,7 +33,7 @@ public class FreeBoardController {
 	}
 	
 	
-	
+	//글쓰기
 	@RequestMapping(value="/freeboardWrite", method=RequestMethod.GET)
 	public String write(HttpSession session) {
 		return "freeboard/freeboardWrite";
@@ -44,6 +44,7 @@ public class FreeBoardController {
 				@RequestParam("file") List<MultipartFile> file,
 				@SessionAttribute("user") UserVO user
 			) throws IllegalStateException, IOException {
+			System.out.println("freeBoardWrite Post ");
 			vo.setUsersId(user.getId());
 			freeboardService.insertBoard(vo, file);
 			return "redirect:/freeboard/boards/"+vo.getBoardNum();
@@ -90,4 +91,35 @@ public class FreeBoardController {
 		
 		return "redirect:/freeboard/boards";
 	}
+	
+		//게시글 수정화면 컨트롤러
+		@RequestMapping(value="/freeboardModify/{board_num}", method=RequestMethod.GET)
+		public String modify(
+				@PathVariable("board_num") int board_num,
+				Model model
+				
+		) {
+			
+			FreeBoardVO vo = freeboardService.selectBoardByBno(board_num);
+			model.addAttribute("FreeBoardModify", vo);
+			return "freeboard/freeboardModify";
+			///WEB-INF/views/board/modify.jsp로 포워딩
+		}
+		
+		@RequestMapping(value="/freeboardModify/{board_num}", method=RequestMethod.POST)
+		public String modifyPost(
+				@PathVariable("board_num") int board_num,
+				FreeBoardVO vo
+			) {
+			vo.setBoardNum(board_num);
+			boolean result = freeboardService.updateBoard(vo);
+			if(!result) {
+				return "redirect:/freeboard/boards/";
+			}
+			//화면에서 전달한 데이터를 받고
+			//데이터베이스에서 update처리
+			//금방 수정한 게시글로 리다이렉트
+			return "redirect:/freeboard/boards/"+board_num;
+		}
+
 }

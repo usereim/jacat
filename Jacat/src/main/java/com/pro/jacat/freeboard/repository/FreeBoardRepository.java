@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
-
-
 @Repository
 public class FreeBoardRepository {
 
@@ -34,4 +32,15 @@ public class FreeBoardRepository {
 	public int deleteBoard(int board_num) {
 		return template.delete("freeboardMapper.deleteBoard", board_num);
 	}
+	
+	//게시글 수정
+	public int updateBoard(FreeBoardVO vo) {
+		return template.update("freeboardMapper.updateBoard", vo);
+	}
+	
+	//게시글 입력
+	public int insertBoard(FreeBoardVO vo){
+		return template.insert("freeboardMapper.insertBoard", vo);
+	}
+
 }
