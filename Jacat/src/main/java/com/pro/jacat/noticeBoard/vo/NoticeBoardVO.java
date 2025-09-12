@@ -2,7 +2,6 @@ package com.pro.jacat.noticeBoard.vo;
 
 import java.util.List;
 
-import com.pro.jacat.file.vo.UserFileVO;
 import com.pro.jacat.user.vo.UserVO;
 
 public class NoticeBoardVO {

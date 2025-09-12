@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<!-- mybatis Mapper -->
+<mapper namespace="noticeMapper">
+	<resultMap id="noticeBoardFileVO" type="noticeboard">
+			<id property="board_num" column="board_num" />
+			<result property="users_id" column="users_id"/>
+			<result property="title" column="title"/>
+			<result property="content" column="content"/>
+			<result property="w_date" column="w_date" />
+			<result property="modify_date" column="modify_date" />
+			<result property="delyn" column="delyn" />
+			<result property="board_type" column="board_type" />
+ </resultMap>
+ 	
+ 	<select id="selectAllBoard" resultType="noticeboard">
+		<!-- id는 매퍼 내부에서 고유한 id(자바에서 호출하기 위해서) -->
+		<!-- resultType은 쿼리의 실행 결과를 반환해줄 자바 타입 -->
+		select * from boards where board_type='N';
+		<!-- bno : 1,  title : 제목1, body : 본문1, author : hong... -->
+	</select>
+ 	
+ 	
+ </mapper>	
+ 	
+ 	
