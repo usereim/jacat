@@ -34,5 +34,8 @@
 		<!-- 사용자 일정 VO -->
 		<typeAlias type="com.pro.jacat.calendar.vo.CalendarVO" alias="calendar"/>
 		
+		<!-- 고객센터 VO -->
+		<typeAlias type="com.pro.jacat.csc.vo.CscVO" alias="csc"/>
+		
 	</typeAliases>
 </configuration>

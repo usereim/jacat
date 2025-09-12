@@ -2,7 +2,7 @@ package com.pro.jacat.calendar.vo;
 
 public class CalendarVO {
 	private int dataNum;
-	private String userId;
+	private String usersId;
 	private String startDate;
 	private String endDate;
 	private String title;
@@ -14,11 +14,11 @@ public class CalendarVO {
 	public void setDataNum(int dataNum) {
 		this.dataNum = dataNum;
 	}
-	public String getUserId() {
-		return userId;
+	public String getUsersId() {
+		return usersId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUsersId(String usersId) {
+		this.usersId = usersId;
 	}
 	public String getStartDate() {
 		return startDate;
