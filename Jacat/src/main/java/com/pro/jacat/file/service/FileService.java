@@ -28,23 +28,23 @@ public class FileService {
 
 	public void uploadFile(List<MultipartFile> file, String subPath) throws IllegalStateException, IOException {
 		String path = context.getRealPath("/uploads/" + subPath);
-		//~~~~~~~/webapp/uploads/
+
 		File dir = new File(path);
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
 		
-		//Ã·ºÎÆÄÀÏ ¾÷·Îµå
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 		for(MultipartFile f : file) {
 			if(f.isEmpty()) {
 				continue;
 			}
-			//ÆÄÀÏ ¾÷·Îµå
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 			
 			String originalName = f.getOriginalFilename();
 			String ext 
 				= originalName.substring(originalName.lastIndexOf("."));
-			//image - º¹»çº».jpg
+			//image - ï¿½ï¿½ï¿½çº».jpg
 			//indexOf(".") -> 11
 			//lastIndexOf(".") -> 11
 			//subString(11)

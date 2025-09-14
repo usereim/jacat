@@ -12,16 +12,17 @@
 	
 	<main>
 		<c:choose>
-			<c:when test="${sessionScope.type eq 'Q'}">
+			<c:when test="${type eq 'Q'}">
 				<p>FAQ 등록</p>
 			</c:when>
 		</c:choose>
 		
 		
-		<form action="<c:url value='/csc/write'/>" method="post"> 
+		<form action="<c:url value='/csc/write/${type }'/>" method="post"
+			enctype="multipart/form-data"> 
 			제목 : <input type="text" name="title"> <br>
 			내용 : <input type="text" name="content"> <br>
-			<!-- 이미지 : <input type="file" name="file" multiple><br> -->
+			이미지 : <input type="file" name="file" multiple><br>
 			
 			<input type="submit" value="글 등록">
 		</form>

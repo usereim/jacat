@@ -16,6 +16,7 @@
 				type : "post",
 				data : {
 					"boardNum" : boardNum,
+					"type" : "Q"
 				}, success : function(response) {
 					p = $("<p>");
 					p.text(response.content);
@@ -30,7 +31,7 @@
 	
 	$(function() {
 		$("#addBtn").click(function() {
-			location.href = "<c:url value='/csc/write' />";
+			location.href = "<c:url value='/csc/write/Q' />";
 		});
 	});
 </script>
