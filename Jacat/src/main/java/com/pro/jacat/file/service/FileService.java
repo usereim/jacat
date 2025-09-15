@@ -2,6 +2,7 @@ package com.pro.jacat.file.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.file.repository.FileRepository;
+import com.pro.jacat.file.vo.BoardsFileVO;
 import com.pro.jacat.file.vo.UserFileVO;
 import com.pro.jacat.user.controller.UserController;
 
@@ -20,13 +23,15 @@ import com.pro.jacat.user.controller.UserController;
 public class FileService {
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 	private final ServletContext context;
+	private final FileRepository fileRepository;
 	
 	@Autowired
-	public FileService(ServletContext context) {
+	public FileService(ServletContext context, FileRepository fileRepository) {
 		this.context = context;
+		this.fileRepository = fileRepository;
 	}
 
-	public void uploadFile(List<MultipartFile> file, String subPath) throws IllegalStateException, IOException {
+	public void uploadFile(List<MultipartFile> file, String subPath, int bno) throws IllegalStateException, IOException {
 		String path = context.getRealPath("/uploads/" + subPath);
 
 		File dir = new File(path);
@@ -34,30 +39,37 @@ public class FileService {
 			dir.mkdirs();
 		}
 		
-		//÷������ ���ε�
+		List<BoardsFileVO> fileList = new ArrayList<>();
+		
 		for(MultipartFile f : file) {
+			BoardsFileVO _file = new BoardsFileVO();
+			
 			if(f.isEmpty()) {
 				continue;
 			}
-			//���� ���ε�
 			
 			String originalName = f.getOriginalFilename();
 			String ext 
 				= originalName.substring(originalName.lastIndexOf("."));
-			//image - ���纻.jpg
-			//indexOf(".") -> 11
-			//lastIndexOf(".") -> 11
-			//subString(11)
 			
 			String savedName = UUID.randomUUID().toString() + ext;
 			//long fileSize = f.getSize();
 			String contentType = f.getContentType();
 			
 			f.transferTo(new File(path+savedName));
-			//~~~~~/webapp/uploads/04afb2af-c19c8e4c.jpg
+			
+			_file.setBoardsBoardNum(bno);
+			_file.setRealFileName(originalName);
+			_file.setFileName(savedName);
+			_file.setType(contentType);
+			_file.setPath(path);
+			
+			fileList.add(_file);
 		}
+		
+		fileRepository.insertFileBoardList(fileList);
 	}
-	
+
 	public UserFileVO uploadFile(MultipartFile file, String subPath) throws IllegalStateException, IOException {
 		
 		if(file.isEmpty()) {
