@@ -1,5 +1,7 @@
 package com.pro.jacat.licenses.vo;
 
+import java.util.List;
+
 //자격증 리스트 테이블 VO
 public class LicenseListVO {
 	private String jmcd;				//종목 코드
@@ -13,6 +15,10 @@ public class LicenseListVO {
 	private String mdobligfldcd;		//중직무분야 코드
 	private String mdobligfldnm;		//중직무분야 명
 	private String licensingAutority;	//자격증 기관
+	
+	private List<LicenseTestVO> lTest;
+	
+	private List<LicenseTestDateVO> lTestDate;
 	
 	public String getJmcd() {
 		return jmcd;
@@ -79,6 +85,20 @@ public class LicenseListVO {
 	}
 	public void setLicensingAutority(String licensingAutority) {
 		this.licensingAutority = licensingAutority;
+	}
+	
+	public List<LicenseTestVO> getlTest() {
+		return lTest;
+	}
+	public void setlTest(List<LicenseTestVO> lTest) {
+		this.lTest = lTest;
+	}
+	
+	public List<LicenseTestDateVO> getlTestDate() {
+		return lTestDate;
+	}
+	public void setlTestDate(List<LicenseTestDateVO> lTestDate) {
+		this.lTestDate = lTestDate;
 	}
 	
 }

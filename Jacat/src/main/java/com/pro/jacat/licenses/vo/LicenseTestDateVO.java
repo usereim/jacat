@@ -17,5 +17,97 @@ public class LicenseTestDateVO {
 	private String pracExamStartDt;	//실기(작업) 시험 시작일
 	private String pracExamEndDt;	//실기(작업) 시험 종료일
 	private String pracPassDt;		//실기(작업) 합격자 발표일
+	public int getLtdNum() {
+		return ltdNum;
+	}
+	public void setLtdNum(int ltdNum) {
+		this.ltdNum = ltdNum;
+	}
+	public int getImplSeq() {
+		return implSeq;
+	}
+	public void setImplSeq(int implSeq) {
+		this.implSeq = implSeq;
+	}
+	public String getLicenseListJmcd() {
+		return licenseListJmcd;
+	}
+	public void setLicenseListJmcd(String licenseListJmcd) {
+		this.licenseListJmcd = licenseListJmcd;
+	}
+	public String getImplYy() {
+		return implYy;
+	}
+	public void setImplYy(String implYy) {
+		this.implYy = implYy;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getDocRegStartDt() {
+		return docRegStartDt;
+	}
+	public void setDocRegStartDt(String docRegStartDt) {
+		this.docRegStartDt = docRegStartDt;
+	}
+	public String getDocRegEndDt() {
+		return docRegEndDt;
+	}
+	public void setDocRegEndDt(String docRegEndDt) {
+		this.docRegEndDt = docRegEndDt;
+	}
+	public String getDocExamStartDt() {
+		return docExamStartDt;
+	}
+	public void setDocExamStartDt(String docExamStartDt) {
+		this.docExamStartDt = docExamStartDt;
+	}
+	public String getDocExamEndDt() {
+		return docExamEndDt;
+	}
+	public void setDocExamEndDt(String docExamEndDt) {
+		this.docExamEndDt = docExamEndDt;
+	}
+	public String getDocPassDt() {
+		return docPassDt;
+	}
+	public void setDocPassDt(String docPassDt) {
+		this.docPassDt = docPassDt;
+	}
+	public String getPracRegStartDt() {
+		return pracRegStartDt;
+	}
+	public void setPracRegStartDt(String pracRegStartDt) {
+		this.pracRegStartDt = pracRegStartDt;
+	}
+	public String getPracRegEndDt() {
+		return pracRegEndDt;
+	}
+	public void setPracRegEndDt(String pracRegEndDt) {
+		this.pracRegEndDt = pracRegEndDt;
+	}
+	public String getPracExamStartDt() {
+		return pracExamStartDt;
+	}
+	public void setPracExamStartDt(String pracExamStartDt) {
+		this.pracExamStartDt = pracExamStartDt;
+	}
+	public String getPracExamEndDt() {
+		return pracExamEndDt;
+	}
+	public void setPracExamEndDt(String pracExamEndDt) {
+		this.pracExamEndDt = pracExamEndDt;
+	}
+	public String getPracPassDt() {
+		return pracPassDt;
+	}
+	public void setPracPassDt(String pracPassDt) {
+		this.pracPassDt = pracPassDt;
+	}
+	
+	
 	
 }

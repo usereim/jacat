@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +19,19 @@ import com.pro.jacat.licenseBoards.repository.LicenseBoardsFileRepository;
 import com.pro.jacat.licenseBoards.repository.LicenseBoardsRepository;
 import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenses.vo.LicenseListVO;
 
 @Service
-public class licenseBoardsServiceImpl implements licenseBoardsService {
+public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(LicenseBoardsService.class);
 	private final LicenseBoardsRepository lBoardRepo;
 	private final ServletContext context;
 	private final LicenseBoardsFileRepository lFileRepo;
 	
 	//생성자
 	@Autowired
-	public licenseBoardsServiceImpl(
+	public LicenseBoardsServiceImpl(
 			LicenseBoardsRepository lBoardRepo, 
 			ServletContext context,
 			LicenseBoardsFileRepository lFileRepo
@@ -40,12 +44,12 @@ public class licenseBoardsServiceImpl implements licenseBoardsService {
 	
 	//자격증 목록 조회
 	@Override
-	public List<LicenseBoardsVO> selectLicenseLists(){
+	public List<LicenseListVO> selectLicenseLists(){
 		return lBoardRepo.selectLicenseLists();
 	}
 	//자격증 상세조회
 	@Override
-	public LicenseBoardsVO selectLicenseOne(String jmcd) {
+	public LicenseListVO selectLicenseOne(String jmcd) {
 		return lBoardRepo.selectLicenseOne(jmcd);
 	}
 	

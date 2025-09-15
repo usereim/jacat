@@ -10,11 +10,11 @@
 		(#{licenseBoardsBoardNum},#{realFileName},#{fileName},#{path},#{type});
 	</insert> -->
 	
-	<insert id="insertFiles" parameterType="java.util.List">
+	<insert id="insertFiles" parameterType="lfile">
 		insert into file_license_board
 		(license_boards_board_num,real_file_name,file_name,path,type)
 		values
-		<foreach collection="list" item="lfile" separator=",">
+		<!-- <foreach collection="list" item="lfile" separator=","> -->
 			(
 			#{lfile.licenseBoardsBoardNum},
 			#{lfile.realFileName},
@@ -22,7 +22,7 @@
 			#{lfile.path},
 			#{lfile.type}
 			);
-		</foreach>
+		<!-- </foreach> -->
 	</insert>
 	
 	<!-- <delete id="deleteFiles" parameterType="int">

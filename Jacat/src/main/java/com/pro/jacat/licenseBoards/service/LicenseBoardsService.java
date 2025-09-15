@@ -6,12 +6,13 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenses.vo.LicenseListVO;
 
-public interface licenseBoardsService {
+public interface LicenseBoardsService {
 	
-	public List<LicenseBoardsVO> selectLicenseLists();
+	public List<LicenseListVO> selectLicenseLists();
 	
-	public LicenseBoardsVO selectLicenseOne(String jmcd);
+	public LicenseListVO selectLicenseOne(String jmcd);
 	
 	public List<LicenseBoardsVO> selectQnABoards();
 	

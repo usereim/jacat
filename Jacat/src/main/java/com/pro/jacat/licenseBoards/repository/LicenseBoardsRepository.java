@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenses.vo.LicenseListVO;
 
 @Repository
 public class LicenseBoardsRepository {
@@ -20,11 +21,11 @@ public class LicenseBoardsRepository {
 	}
 	
 	//자격증 목록조회
-	public List<LicenseBoardsVO> selectLicenseLists() {
+	public List<LicenseListVO> selectLicenseLists() {
 		return template.selectList("licenseBoardMapper.selectLicenseLists");
 	}
 	//자격증 상세조회
-	public LicenseBoardsVO selectLicenseOne(String jmcd) {
+	public LicenseListVO selectLicenseOne(String jmcd) {
 		return template.selectOne("licenseBoardMapper.selectLicenseOne",jmcd);
 	}
 	

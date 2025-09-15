@@ -54,19 +54,65 @@
 		
 	</resultMap>
 	
+	<resultMap type="lList" id="licenseListSubInfoMap">
+		<id property="jmcd" column="jmcd"/>
+		<result property="qualgbcd" column="qualgbcd"/>
+		<result property="qualgbnm" column="qualgbnm"/>
+		<result property="seriescd" column="seriescd"/>
+		<result property="seriesnm" column="seriesnm"/>
+		<result property="jmfldnm" column="jmfldnm"/>
+		<result property="obligfldcd" column="obligfldcd"/>
+		<result property="obligfldnm" column="obligfldnm"/>
+		<result property="mdobligfldcd" column="mdobligfldcd"/>
+		<result property="mdobligfldnm" column="mdobligfldnm"/>
+		<result property="licensingAutority" column="licensing_authority"/>
+		
+		<collection property="lTest" ofType="ltest">
+			<id property="licenseNum" column="license_num"/>
+			<result property="jmcd" column="license_list_jmcd"/>
+			<result property="subjectName" column="subject_name"/>
+			<result property="testType" column="test_type"/>
+			<result property="testCount" column="test_count"/>
+			<result property="testVersion" column="test_version"/>
+			<result property="testTime" column="test_time"/>
+		</collection>
+		
+		<collection property="lTestDate" ofType="ltestdate">
+			<id property="ltdNum" column="ltd_num"/>
+			<result property="implSeq" column="impl_seq"/>
+			<result property="licenseListJmcd" column="license_list_jmcd"/>
+			<result property="implYy" column="impl_yy"/>
+			<result property="description" column="description"/>
+			<result property="docRegStartDt" column="doc_reg_start_dt"/>
+			<result property="docRegEndDt" column="doc_reg_end_dt"/>
+			<result property="docExamStartDt" column="doc_exam_start_dt"/>
+			<result property="docExamEndDt" column="doc_exam_end_dt"/>
+			<result property="docPassDt" column="doc_pass_dt"/>
+			<result property="pracRegStartDt" column="prac_reg_start_dt"/>
+			<result property="pracRegEndDt" column="prac_reg_end_dt"/>
+			<result property="pracExamStartDt" column="prac_exam_start_dt"/>
+			<result property="pracExamEndDt" column="prac_exam_end_dt"/>
+			<result property="pracPassDt" column="prac_pass_dt"/>
+		</collection>
+		
+	</resultMap>
+	
 	<!-- 자격증 리스트 조회 -->
 	<select id="selectLicenseLists" resultType="lList">
-		select * from jacat_db.license_list;
+		select ll.* from license_list ll
+		 order by ll.seriescd asc , ll.jmfldnm asc
+		 limit 50;
 	</select>
 	
 	<!-- 자격증별 상세조회 -->
-	<select id="selectLicenseOne" parameterType="String" resultType="lboard">
-		select * from jacat_db.license_list llist
-		 inner join jacat_db.license_test ltest
-		 on llist.jmcd = ltest.license_list_jmcd
-		 inner join jacat_db.license_test_date ldate
-		 on llist.jmcd = ldate.license_list_jmcd
-		 where llist.jmcd = #{licenseListJmcd};
+	<select id="selectLicenseOne" parameterType="String" resultMap="licenseListSubInfoMap">
+		select ll.*, lt.*, ltd.* from license_list ll 
+		 left join license_test lt 
+		 on ll.jmcd = lt.license_list_jmcd
+		 left join license_test_date ltd
+		 on ll.jmcd = ltd.license_list_jmcd
+		 where ll.jmcd = #{jmcd}
+		 order by ltd.impl_seq ASC, ltd.doc_reg_start_dt ASC;
 	</select>
 	
 	<!-- QnA 게시글 목록 조회 -->

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.HomeController;
-import com.pro.jacat.licenseBoards.service.licenseBoardsServiceImpl;
+import com.pro.jacat.licenseBoards.service.LicenseBoardsServiceImpl;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 import com.pro.jacat.user.vo.UserVO;
@@ -29,10 +29,10 @@ public class LicenseBoardsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LicenseBoardsController.class);
 	
-	private final licenseBoardsServiceImpl lboardService;
+	private final LicenseBoardsServiceImpl lboardService;
 	
 	@Autowired
-	public LicenseBoardsController(licenseBoardsServiceImpl lboardService) {
+	public LicenseBoardsController(LicenseBoardsServiceImpl lboardService) {
 		//super();
 		this.lboardService = lboardService;
 	}
@@ -42,16 +42,28 @@ public class LicenseBoardsController {
 	public String licenseInfo(Model model) {
 		logger.info("자격증 정보 진입");
 		
-		//List<LicenseListVO> list = 
+		List<LicenseListVO> list = lboardService.selectLicenseLists();
+		
+		model.addAttribute("lList",list);
 		
 		return "licenseBoards/licenses";
 	}
 	
 	//자격증 상세조회
 	@RequestMapping(value="/lists/{jmcd}",method=RequestMethod.GET)
-	public String licenseView() {
-		logger.info("자격증 상세정보 진입");
+	public String licenseView(@PathVariable("jmcd") String jmcd, Model model) {
+		logger.info("자격증 상세정보 진입(jmcd : {})",jmcd);
 		
+		LicenseListVO vo = lboardService.selectLicenseOne(jmcd);
+		
+		logger.info("{} 상세정보 진입",vo.getJmfldnm());
+		
+		model.addAttribute("jmcd",jmcd);
+		model.addAttribute("lListOne",vo);
+		
+		logger.info("lTest : {}, lTestDate : {}" , 1/*vo.getlTest()*/, vo.getlTestDate());
+		logger.info("lTest : {}, lTestDate : {}" , 1/*vo.getlTest()*/, vo.getlTestDate().get(0).getDocExamEndDt());
+		logger.info("시행기관 : {}", vo.getLicensingAutority());
 		return "licenseBoards/licenseView";
 	}
 	
@@ -116,6 +128,7 @@ public class LicenseBoardsController {
 		lboardService.insertQnABoardOne(vo,file);
 		
 		return "redirect:licenseBoards/qnaBoard/qnaBoardsView"+vo.getBoardNum();
+		
 	}
 	
 	//QnA 게시판 글 수정

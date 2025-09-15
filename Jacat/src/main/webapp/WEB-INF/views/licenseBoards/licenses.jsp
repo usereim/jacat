@@ -54,10 +54,10 @@
 			<hr>
 			<div id="lListContentBox">
 				<ul>
-					<c:forEach var="i" begin="1" end="50">
+					<c:forEach var="lList" items="${lList}">
 						
 						<li>
-							<a href="#">${i }</a>
+							<a href="<c:url value='/licenses/lists/${lList.jmcd}'/>">${lList.jmfldnm }</a>
 						</li>
 						
 					</c:forEach>
