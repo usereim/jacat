@@ -1,5 +1,7 @@
 package com.pro.jacat.csc.vo;
 
+import com.pro.jacat.file.vo.BoardsFileVO;
+
 public class CscVO {
 	private int boardNum;
 	private String usersId;
@@ -9,6 +11,8 @@ public class CscVO {
 	private String modifyDate;
 	private String delyn;
 	private String boardType;
+	
+	private BoardsFileVO boardsFile;
 	
 	public int getBoardNum() {
 		return boardNum;
@@ -57,5 +61,11 @@ public class CscVO {
 	}
 	public void setBoardType(String boardType) {
 		this.boardType = boardType;
+	}
+	public BoardsFileVO getBoardsFile() {
+		return boardsFile;
+	}
+	public void setBoardsFile(BoardsFileVO boardsFile) {
+		this.boardsFile = boardsFile;
 	}
 }

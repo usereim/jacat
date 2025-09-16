@@ -37,6 +37,7 @@
 		
 		<!-- 고객센터 VO -->
 		<typeAlias type="com.pro.jacat.csc.vo.CscVO" alias="csc"/>
+		<typeAlias type="com.pro.jacat.csc.vo.CscCommentsVO" alias="cscComments"/>
 		
 		<!-- 일반 게시판 첨부파일 VO -->
 		<typeAlias type="com.pro.jacat.file.vo.BoardsFileVO" alias="boardsFile"/>
