@@ -103,6 +103,15 @@ public class UserServiceImpl implements UserService {
 		return response;
 	}
 
+	@Override
+	public UserResponse selectUsersSuspendById(String id) {
+		UserResponse response = new UserResponse();
+		int cnt = userRepository.selectUsersSuspendById(id);
+		
+		response.setCode(cnt);
+		return response;
+	}
+
 	
 }
 

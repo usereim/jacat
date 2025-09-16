@@ -74,6 +74,10 @@ public class CscController {
 			}
 			
 		} else if (type.equals("A")) {
+			UserVO user = (UserVO)session.getAttribute("user");
+			if (user != null) {
+				return "redirect:/csc/main";
+			}
 			return "csc/appeal";
 		}
 

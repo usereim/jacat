@@ -14,4 +14,5 @@ public interface UserService {
 	public String selectUsersIdByEmail(String email);
 	public UserResponse selectUsersCntByIdEmail(UserVO user);
 	public UserResponse updateUsersPwByEmail(UserVO user);
+	UserResponse selectUsersSuspendById(String id);
 }

@@ -119,4 +119,11 @@ public class UserController {
 	public UserResponse pwSearch(UserVO user) {		
 		return userService.updateUsersPwByEmail(user);
 	}
+	
+	@RequestMapping(value = "/id-suspend", method = RequestMethod.POST)
+	@ResponseBody
+	public UserResponse idSuspend(@RequestParam("id") String id) {
+		// 정지회원 grade 'S'
+		return userService.selectUsersSuspendById(id);
+	}
 }

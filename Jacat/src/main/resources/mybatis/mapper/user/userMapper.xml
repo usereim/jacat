@@ -53,6 +53,12 @@
 	<update id="updateUsersPwByEmail" parameterType="user">
 		update users set pw = #{pw} where email = #{email}
 	</update>
+	
+	<select id="selectUsersSuspendById" parameterType="String" resultType="int">
+		select count(*) 
+		from users
+		where id = #{id} and grade = 'S'
+	</select>
 </mapper>
 
 

@@ -48,4 +48,8 @@ public class UserRepository {
 	public int updateUsersPwByEmail(UserVO user) {
 		return template.update("userMapper.updateUsersPwByEmail", user);
 	}
+
+	public int selectUsersSuspendById(String id) {
+		return template.selectOne("userMapper.selectUsersSuspendById", id);
+	}
 }
