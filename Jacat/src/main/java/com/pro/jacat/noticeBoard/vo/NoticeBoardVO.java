@@ -5,41 +5,40 @@ import java.util.List;
 import com.pro.jacat.user.vo.UserVO;
 
 public class NoticeBoardVO {
-	private	int board_num;
-	private String users_id;
+	private	int boardNum;
+	private String usersId;
 	private String title;
-	private String Content;
-	private String w_date;
-	private String modify_date;
+	private String content;
+	private String wDate;
+	private String modifyDate;
 	private String delyn;
-	private String board_type;
+	private String boardType;
 	private List<NoticeBoardFileVO> fileList;
 	private UserVO user;
 	
-	public NoticeBoardVO(int board_num,String users_id,String title,String Content,String w_date,
-			String modify_date,String delyn,String board_type) {
-		this.board_num = board_num;
-		this.users_id = users_id;
+	public NoticeBoardVO(int boardNum,String usersId,String title,String content,String wDate,
+			String modifyDate,String delyn,String boardType) {
+		this.boardNum = boardNum;
+		this.usersId = usersId;
 		this.title = title;
-		this.Content = Content;
-		this.w_date = w_date;
-		this.modify_date = modify_date;
+		this.content = content;
+		this.wDate = wDate;
+		this.modifyDate = modifyDate;
 		this.delyn = delyn;
-		this.board_type = board_type;
+		this.boardType = boardType;
 	}
 	public NoticeBoardVO() {}
-	
-	public int getBoard_num() {
-		return board_num;
+	public int getBoardNum() {
+		return boardNum;
 	}
-	public void setBoard_num(int board_num) {
-		this.board_num = board_num;
+	public void setBoardNum(int boardNum) {
+		this.boardNum = boardNum;
 	}
-	public String getUsers_id() {
-		return users_id;
+	public String getUsersId() {
+		return usersId;
 	}
-	public void setUsers_id(String users_id) {
-		this.users_id = users_id;
+	public void setUsersId(String usersId) {
+		this.usersId = usersId;
 	}
 	public String getTitle() {
 		return title;
@@ -48,22 +47,22 @@ public class NoticeBoardVO {
 		this.title = title;
 	}
 	public String getContent() {
-		return Content;
+		return content;
 	}
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
-	public String getW_date() {
-		return w_date;
+	public String getwDate() {
+		return wDate;
 	}
-	public void setW_date(String w_date) {
-		this.w_date = w_date;
+	public void setwDate(String wDate) {
+		this.wDate = wDate;
 	}
-	public String getModify_date() {
-		return modify_date;
+	public String getModifyDate() {
+		return modifyDate;
 	}
-	public void setModify_date(String modify_date) {
-		this.modify_date = modify_date;
+	public void setModifyDate(String modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 	public String getDelyn() {
 		return delyn;
@@ -71,11 +70,11 @@ public class NoticeBoardVO {
 	public void setDelyn(String delyn) {
 		this.delyn = delyn;
 	}
-	public String getBoard_type() {
-		return board_type;
+	public String getBoardType() {
+		return boardType;
 	}
-	public void setBoard_type(String board_type) {
-		this.board_type = board_type;
+	public void setBoardType(String boardType) {
+		this.boardType = boardType;
 	}
 	public List<NoticeBoardFileVO> getFileList() {
 		return fileList;

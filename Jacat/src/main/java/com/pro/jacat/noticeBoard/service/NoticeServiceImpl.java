@@ -22,14 +22,17 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	private final NoticeBoardRepository noticeBoardRepository;
 	private final ServletContext context;
+	private final NoticeFileRepository noticeFileRepository;
 	
 	@Autowired
 	public NoticeServiceImpl(
 			NoticeBoardRepository noticeBoardRepository,
-			ServletContext context
+			ServletContext context,
+			NoticeFileRepository noticeFileRepository
 	) {
 		this.noticeBoardRepository = noticeBoardRepository;
 		this.context = context;
+		this.noticeFileRepository = noticeFileRepository;
 	}
 
 	@Override
@@ -62,7 +65,7 @@ public class NoticeServiceImpl implements NoticeService {
 	//게시글 삭제처리
 	public int deleteNoticeBoard(int board_num, String id) {
 		NoticeBoardVO vo = noticeBoardRepository.selectBoardByBno(board_num);
-		if(!vo.getUsers_id().equals(id)) {
+		if(!vo.getUsersId().equals(id)) {
 			return 0;
 		}
 		return noticeBoardRepository.deleteBoard(board_num);
@@ -102,15 +105,16 @@ public class NoticeServiceImpl implements NoticeService {
 			//~~~~~/webapp/uploads/04afb2af-c19c8e4c.jpg
 			
 			NoticeBoardFileVO fileVO = new NoticeBoardFileVO();
-			/*
-			 * fileVO.setboard_num(vo.getboard_num()); fileVO.setContentType(contentType);
-			 * fileVO.setFileSize(fileSize); fileVO.setOriginalName(originalName);
-			 * fileVO.setSavedName(savedName); fileVO.setUploadPath(path);
-			 * 
-			 * list.add(fileVO); }
-			 * 
-			 * if(!list.isEmpty()) { NoticeFileRepository.insertFiles(list);
-			 */
+			fileVO.setBoards_board_num(vo.getBoardNum());
+			fileVO.setType(contentType);
+			fileVO.setReal_file_name(originalName);
+			fileVO.setFile_name(savedName);
+		 	fileVO.setPath(path);
+			
+			list.add(fileVO); }
+			
+			if(!list.isEmpty()) {
+				noticeFileRepository.insertFiles(list);
 		}
 	}
 }

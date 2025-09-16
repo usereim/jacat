@@ -1,4 +1,4 @@
-package com.pro.jacat.noticeBoard;
+ package com.pro.jacat.noticeBoard;
 
 import java.sql.SQLException;
 import java.util.List;
