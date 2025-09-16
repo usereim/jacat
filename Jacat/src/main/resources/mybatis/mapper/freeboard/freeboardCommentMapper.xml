@@ -15,10 +15,10 @@
 		<result property="wDate" column="w_date" />
 		<result property="modifyDate" column="modify_date" />
 		<result property="delyn" column="delyn" />
-		<result property="boardType" column="board_type" />
+		
 
 
-		<association property="user" javaType="user">
+		<association property="users" javaType="user">
 			<id property="id" column="id" />
 			<result property="nick" column="nick"/>
 			<result property="grade" column="grade" />
