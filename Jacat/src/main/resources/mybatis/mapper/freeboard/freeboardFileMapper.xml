@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- mybatis mapper파일 -->
+
+<mapper namespace="freeboardFileMapper">
+	<insert id="insertFile" parameterType="file">
+		insert into file_board(
+			file_num,
+			boards_board_num,
+			real_file_name,
+			file_name,
+			path,
+			type
+		)values(
+			#{fileNum},
+			#{boardNum},
+			#{realFileName},
+			#{fileName},
+			#{path},
+			#{type}
+		)
+	</insert>
+	
+	<insert id="insertFiles" parameterType="java.util.List">
+		insert into file_board(
+			file_num,
+			boards_board_num,
+			real_file_name,
+			file_name,
+			path,
+			type
+		)values
+		<foreach collection="list" item="file" separator=",">
+		(
+			#{file.fileNum},
+			#{file.boardNum},
+			#{file.realFileName},
+			#{file.fileName},
+			#{file.path},
+			#{file.type}
+		)
+		</foreach>
+	</insert>
+	
+	<!-- 특정 게시글의 파일 목록 조회 -->
+	<select id="selectFileByBno" parameterType="int" resultType="file">
+		select * from file_board where boards_board_num = #{boardNum}
+	</select>
+	
+</mapper>

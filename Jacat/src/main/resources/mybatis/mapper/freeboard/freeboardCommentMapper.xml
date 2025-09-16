@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- mybatis mapper파일 -->
+
+		<mapper namespace="freeboardCommentMapper">
+		<resultMap id="freeboardComment" type="comment">
+		<id property="commentNum" column="comment_num" />
+		<result property="boardNum" column="board_num"/>
+		<result property="usersID" column="users_id"/>
+		<result property="content" column="content"/>
+		<result property="wDate" column="w_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="delyn" column="delyn" />
+		<result property="boardType" column="board_type" />
+
+
+		<association property="user" javaType="user">
+			<id property="id" column="id" />
+			<result property="nick" column="nick"/>
+			<result property="grade" column="grade" />
+		</association>
+	</resultMap>
+	
+	<!--댓글 등록 -->
+	<insert id ="insertComment" parameterType="comment" useGeneratedKeys="true" keyProperty="commentNum">
+		insert into comments(content, users_id, boards_board_num)
+		values(#{content}, #{usersID}, #{boardNum})
+	</insert>
+</mapper>
