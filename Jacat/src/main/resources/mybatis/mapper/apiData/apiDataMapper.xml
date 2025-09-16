@@ -22,15 +22,15 @@
 		<foreach collection="list" item="item" separator=",">
 			(
 			#{item.jmcd},
-			#{item.jmfldnm},
-			#{item.mdobligfldcd},
-			#{item.mdobligfldnm},
-			#{item.obligfldcd},
-			#{item.obligfldnm},
 			#{item.qualgbcd},
 			#{item.qualgbnm},
 			#{item.seriescd},
 			#{item.seriesnm},
+			#{item.jmfldnm},
+			#{item.obligfldcd},
+			#{item.obligfldnm},
+			#{item.mdobligfldcd},
+			#{item.mdobligfldnm},
 			'한국산업인력공단'
 			)
 		</foreach>

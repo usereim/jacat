@@ -2,7 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cscMapper">
-	<insert id="insertBoardsOne" parameterType="csc">
+	<resultMap id="boardFildMap" type="csc">
+		<id property="boardNum" column="board_num"/>
+		<result property="usersId" column="users_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="wDate" column="w_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="delyn" column="delyn"/>
+		<result property="boardType" column="board_type"/>
+		
+		<association property="boardsFile" javaType="boardsFile">
+			<id property="fileNum" column="file_num" />
+			<result property="boardsBoardNum" column="boards_board_num"/>
+			<result property="realFileName" column="real_file_name"/>
+			<result property="fileName" column="file_name"/>
+			<result property="path" column="path"/>
+			<result property="wDate" column="w_date"/>
+			<result property="type" column="type"/>
+		</association>
+	</resultMap>
+	
+	<insert id="insertBoardsOne" parameterType="csc"
+		useGeneratedKeys="true"
+		keyProperty="boardNum">
 		insert into boards(
 			users_id,
 			title,
@@ -16,14 +39,63 @@
 		)
 	</insert>
 	
-	<select id="selectBoardsAllByType" parameterType="String"
+	<select id="selectBoardsAll" parameterType="csc"
 		resultType="csc">
-		select * from boards where board_type = #{type}	
+		select * 
+		from boards 
+		where 
+		board_type = #{boardType} and delyn = 'N'
+		<if test="usersId != null">
+			and users_id = #{usersId}
+		</if>
 	</select>
 	
-	<select id="selectBoardsOne" parameterType="java.util.Map" resultType="csc">
-		select * from boards where board_type = #{type} and board_num = #{boardNum}
+	<select id="selectBoardsOne" parameterType="csc" resultMap="boardFildMap">
+		select * from boards 
+		left join file_board
+		on boards.board_num = file_board.boards_board_num
+		where board_type = #{boardType} and board_num = #{boardNum} and delyn = 'N'
 	</select>
+	
+	<update id="updateBoards" parameterType="csc">
+		update boards 
+		set title = #{title},
+			content = #{content}
+		where board_num = #{boardNum} and board_type = #{boardType}
+	</update>
+	
+	<update id="deleteBoards" parameterType="csc">
+		update boards
+		set boards.delyn = 'Y'
+		where board_num = #{boardNum} and board_type = #{boardType}
+	</update>
+	
+	<insert id="insertComments" parameterType="cscComments"
+		useGeneratedKeys="true"
+		keyProperty="commentNum">
+		insert comments(users_id, boards_board_num, content)
+		values(#{usersId}, #{boardsBoardNum}, #{content})
+	</insert>
+	
+	<select id="selectCommentsAll" parameterType="int"
+		resultType="cscComments">
+		select * 
+		from comments 
+		where boards_board_num = #{boardsBoardNum} and comments.delyn = 'N' 
+		order by w_date DESC
+	</select>
+	
+	<update id="deleteComments" parameterType="int">
+		update comments
+		set comments.delyn = 'Y'
+		where comment_num = #{commentNum}
+	</update>
+	
+	<update id="updateComments" parameterType="csc">
+		update comments
+		set comments.content = #{content}
+		where comment_num = #{commentNum}
+	</update>
 </mapper>
 
 

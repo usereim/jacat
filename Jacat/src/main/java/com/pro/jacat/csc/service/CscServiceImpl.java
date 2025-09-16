@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.pro.jacat.csc.repository.CscRepository;
+import com.pro.jacat.csc.vo.CscCommentsVO;
 import com.pro.jacat.csc.vo.CscVO;
 
 @Service
@@ -19,18 +20,52 @@ public class CscServiceImpl implements CscService {
 	}
 
 	@Override
-	public void insertBoardsOne(CscVO csc) {
-		cscRepository.insertBoardsOne(csc);
+	public int insertBoardsOne(CscVO csc) {
+		return cscRepository.insertBoardsOne(csc);
 	}
 
 	@Override
-	public List<CscVO> selectBoardsAllByType(String type) {
-		return cscRepository.selectBoardsAllByType(type);
+	public List<CscVO> selectBoardsAll(CscVO csc) {
+		return cscRepository.selectBoardsAll(csc);
 	}
 
 	@Override
-	public CscVO selectBoardsOne(Map<String, Object> map) {
-		return cscRepository.selectBoardsOne(map);
+	public CscVO selectBoardsOne(CscVO csc) {
+		return cscRepository.selectBoardsOne(csc);
+	}
+
+	@Override
+	public void updateBoards(CscVO csc) {
+		cscRepository.updateBoards(csc);
+		
+	}
+
+	@Override
+	public void deleteBoards(CscVO csc) {
+		cscRepository.deleteBoards(csc);
+		
+	}
+
+	@Override
+	public int insertComments(CscCommentsVO cscCommentsVO) {
+		return cscRepository.insertComments(cscCommentsVO);
+	}
+	
+	@Override
+	public List<CscCommentsVO> selectCommentsAll(int boardsBoardNum) {
+		return cscRepository.selectCommentsAll(boardsBoardNum);
+	}
+
+	@Override
+	public void deleteComments(int commentNum) {
+		cscRepository.deleteComments(commentNum);
+		
+	}
+
+	@Override
+	public void updateComments(CscCommentsVO cscCommentsVO) {
+		cscRepository.updateComments(cscCommentsVO);
+		
 	}
 
 }

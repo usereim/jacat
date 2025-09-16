@@ -1,7 +1,5 @@
 package com.pro.jacat.file.repository;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,10 +16,12 @@ public class FileRepository {
 		this.template = template;
 	}
 
+	public void insertFileBoardList(BoardsFileVO file) {
+		template.insert("fileBoardsMapper.insertFileBoard", file);
+	}
 
-
-	public void insertFileBoardList(List<BoardsFileVO> fileList) {
-		template.insert("fileBoardsMapper.insertFileBoardList", fileList);
+	public void deleteFile(int boardNum) {
+		template.delete("fileBoardsMapper.deleteFile", boardNum);
 	}
 
 }

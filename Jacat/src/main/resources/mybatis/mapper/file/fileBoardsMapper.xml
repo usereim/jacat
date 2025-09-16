@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fileBoardsMapper">
+	<insert id="insertFileBoard" parameterType="boardsFile">
+		insert into file_board(
+			boards_board_num,
+			real_file_name,
+			file_name,
+			path,
+			type
+		) values(
+			#{boardsBoardNum},
+			#{realFileName},
+			#{fileName},
+			#{path},
+			#{type}
+		)
+	</insert>
+	
+	<delete id="deleteFile" parameterType="int">
+		delete from file_board where boards_board_num = #{boardNum};
+	</delete>
+</mapper>
