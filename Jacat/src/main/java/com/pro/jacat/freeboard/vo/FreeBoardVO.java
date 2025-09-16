@@ -19,6 +19,7 @@ public class FreeBoardVO {
 	private List<FreeBoardCommentVO> commentList;
 	
 	
+	
 	public List<FreeBoardCommentVO> getCommentList() {
 		return commentList;
 	}
