@@ -6,8 +6,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,15 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.csc.controller.CscController;
 import com.pro.jacat.freeboard.service.FreeBoardService;
+import com.pro.jacat.freeboard.vo.FreeBoardCommentVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 import com.pro.jacat.user.vo.UserVO;
 
 @Controller
 @RequestMapping(value="/freeboard")
 public class FreeBoardController {
-	
+	private static final Logger logger = LoggerFactory.getLogger(FreeBoardController.class);
 	private final FreeBoardService freeboardService;
+	
 	
 	@Autowired
 	public FreeBoardController(FreeBoardService boardService) {
@@ -59,6 +65,7 @@ public class FreeBoardController {
 		
 		model.addAttribute("FreeBoardList", list);
 		
+		
 		return "freeboard/freeboardList";
 	}
 	
@@ -72,6 +79,7 @@ public class FreeBoardController {
 		FreeBoardVO vo = freeboardService.selectBoardByBno(board_num);
 		
 		model.addAttribute("FreeBoard", vo);
+		
 		return "freeboard/freeboardView";
 		
 		
@@ -120,6 +128,18 @@ public class FreeBoardController {
 			//데이터베이스에서 update처리
 			//금방 수정한 게시글로 리다이렉트
 			return "redirect:/freeboard/boards/"+board_num;
+			
 		}
+		
+		//댓글등록
+		@RequestMapping(value="/comment", method=RequestMethod.POST)
+		public String addComment(@ModelAttribute FreeBoardCommentVO vo,
+				@SessionAttribute("user") UserVO user
+			) throws IllegalStateException, IOException {
+			System.out.println("addComment Post ");
+			vo.setUsersID(user.getId());
+			freeboardService.addComment(vo);
+			return "redirect:/freeboard/boards/"+vo.getBoardNum();
+    }
 
 }

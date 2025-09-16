@@ -38,6 +38,20 @@
 				<input type="submit" value="삭제">
 			</form>
 		</c:if>
+		
+		<h3>댓글</h3>
+		<c:forEach var="comment" items="${FreeBoard.commentList}">
+    	<div style="margin-bottom:10px; border-bottom:1px solid #ddd; padding:5px;">
+        <strong>${comment.usersID}</strong> : ${comment.content}
+    	</div>
+		</c:forEach>
+		
+		<!-- 댓글 작성 폼 -->
+   		<form action="<c:url value='/freeboard/comment'/>" method="post">
+        <input type="hidden" name="boardNum" value="${FreeBoard.boardNum}"/>
+        <textarea name="content" placeholder="댓글을 작성하세요" required></textarea>
+        <input type="submit">댓글 작성</input>
+    	</form>
 	</main>
 </body>
 

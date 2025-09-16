@@ -16,6 +16,15 @@ public class FreeBoardVO {
 	private List<FreeBoardFileVO> filelist;
 	private UserVO user;
 	private int visit;
+	private List<FreeBoardCommentVO> commentList;
+	
+	
+	public List<FreeBoardCommentVO> getCommentList() {
+		return commentList;
+	}
+	public void setCommentList(List<FreeBoardCommentVO> commentList) {
+		this.commentList = commentList;
+	}
 	public int getBoardNum() {
 		return boardNum;
 	}

@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.file.repository.FileRepository;
+import com.pro.jacat.freeboard.repository.FreeBoardCommentRepository;
 import com.pro.jacat.freeboard.repository.FreeBoardFileRepository;
 import com.pro.jacat.freeboard.repository.FreeBoardRepository;
+import com.pro.jacat.freeboard.vo.FreeBoardCommentVO;
 import com.pro.jacat.freeboard.vo.FreeBoardFileVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
@@ -25,16 +27,19 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	private final FreeBoardRepository freeboardRepository;
 	private final ServletContext context;
 	private final FreeBoardFileRepository freeboardFileRepository;
+	private final FreeBoardCommentRepository freeboardCommentRepository;
 	
 	@Autowired
 	public FreeBoardServiceImpl(
 				FreeBoardRepository freeboardRepository,
 				ServletContext context,
-				FreeBoardFileRepository freeboardFileRepository
+				FreeBoardFileRepository freeboardFileRepository,
+				FreeBoardCommentRepository freeboardCommentRepository
 			) {
 		this.freeboardRepository = freeboardRepository;
 		this.context = context;
 		this.freeboardFileRepository =freeboardFileRepository;
+		this.freeboardCommentRepository = freeboardCommentRepository;
 	}
 	
 	//게시글 목록 조회
@@ -119,6 +124,13 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		}
 		
 	}
+
+	//댓글 등록
+	public boolean addComment(FreeBoardCommentVO vo) {
+		return freeboardCommentRepository.insertComment(vo) > 0;
+	}
+
+
 	
 }
 

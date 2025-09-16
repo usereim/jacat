@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.freeboard.vo.FreeBoardCommentVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
 public interface FreeBoardService {
@@ -21,4 +22,6 @@ public interface FreeBoardService {
 	
 	boolean updateBoard(FreeBoardVO vo);	//게시글 수정
 	
+	//댓글입력
+	boolean addComment(FreeBoardCommentVO vo);
 }
