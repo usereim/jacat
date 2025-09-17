@@ -11,14 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.HomeController;
 import com.pro.jacat.licenseBoards.service.LicenseBoardsServiceImpl;
+import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 import com.pro.jacat.user.vo.UserVO;
@@ -67,28 +70,47 @@ public class LicenseBoardsController {
 		return "licenseBoards/licenseView";
 	}
 	
+	/*@PostMapping("/license/lists/{jmcd}/add-license")
+	public String addLisense () {
+		
+	}
+	*/
 	//QnA 게시판 목록조회
-	@RequestMapping(value="/QnA",method=RequestMethod.GET)
-	public String qnaBoards(Model model) throws ClassNotFoundException, SQLException {
+	@RequestMapping(value="/lists/{jmcd}/QnA",method=RequestMethod.GET)
+	public String qnaBoards(
+			Model model,
+			@PathVariable("jmcd") String jmcd
+			) throws ClassNotFoundException, SQLException {
 		logger.info("자격증 QnA 게시판 목록 진입");
 		
 		List<LicenseBoardsVO> lists = lboardService.selectQnABoards();
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
 		model.addAttribute("boardList", lists);
+		model.addAttribute("jmcd",jmcd);
+		model.addAttribute("jmfldnm", jmfldnm);
 		
 		return "licenseBoards/qnaBoard/qnaBoards";
 	}
 	
 	//QnA 게시판 상세조회
-	@RequestMapping(value="/QnA/view/{boardNum}", method=RequestMethod.GET)
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}", method=RequestMethod.GET)
 	public String qnaView(
 			@PathVariable("boardNum") int boardNum,
+			@PathVariable("jmcd") String jmcd,
 			Model model
 			) {
-		logger.info("QnA게시판 {}번 게시물 상세조회 진입",boardNum);
 		
+		
+		/*
+		 * LicenseBoardsVO urlVo = new LicenseBoardsVO(); urlVo.setBoardNum(boardNum);
+		 * urlVo.setLicenseListJmcd(jmcd);
+		 */
+		
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
 		
+		logger.info("{} 자격증 QnA게시판 {}번 게시물 상세조회 진입",jmfldnm,boardNum);
 		/*
 		 * logger.info("결과\n 파일수 : {}, 댓글수 : {}",vo.getlFile().size(),vo.getlComment().
 		 * size()); logger.info("댓글1 : {} ",vo.getlComment().get(0).getContent());
@@ -102,32 +124,37 @@ public class LicenseBoardsController {
 		 * logger.info("댓글3 : {} ",vo.getlComment().get(0).getNick());
 		 */
 		
-		logger.info("자격증 이름 : {}",vo.getLicenseName());
+		logger.info("자격증 이름 : {}",jmfldnm);
 		
+		model.addAttribute("jmcd",jmcd);
+		model.addAttribute("jmfldnm",jmfldnm);
 		model.addAttribute("board",vo);
 		
 		return "licenseBoards/qnaBoard/qnaBoardsView";
 	}
 	
 	//QnA 게시판 글 작성
-	@RequestMapping(value="/QnA/write", method=RequestMethod.GET)
+	@RequestMapping(value="/{jmcd}/QnA/write", method=RequestMethod.GET)
 	public String qnaBoardWrite() {
 		logger.info("자격증 QnA 게시글 작성 페이지 진입");
 		
 		return "licenseBoards/qnaBoard/qnaWrite";
 	}
 	//QnA 게시판 글 수정
-	@RequestMapping(value="/QnA/write", method=RequestMethod.POST)
+	@RequestMapping(value="/{jmcd}/QnA/write", method=RequestMethod.POST)
 	public String qnaBoardWritePost(
 			@ModelAttribute LicenseBoardsVO vo, 
-			@RequestParam("file") List<MultipartFile> file,
-			@SessionAttribute("user") UserVO user
+			//@RequestParam("file") List<MultipartFile> file,
+			@SessionAttribute("user") UserVO user,
+			@PathVariable("jmcd") String jmcd
 			) throws IllegalStateException, IOException {
 		
 		vo.setUsersId(user.getId());
-		lboardService.insertQnABoardOne(vo,file);
+		vo.setLicenseListJmcd(jmcd);
+		//lboardService.insertQnABoardOne(vo,file);
+		lboardService.insertQnABoardOne(vo);
 		
-		return "redirect:licenseBoards/qnaBoard/qnaBoardsView"+vo.getBoardNum();
+		return "redirect:licenseBoards/qnaBoard/qnaBoardsView/"+vo.getBoardNum();
 		
 	}
 	
@@ -145,6 +172,32 @@ public class LicenseBoardsController {
 		logger.info("자격증 QnA 게시글 삭제");
 		
 		return "redirect:/licenseBoards/qnaBoard/qnaBoards";
+	}
+	
+	//QnA 게시판 댓글 작성
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/write", method=RequestMethod.POST)
+	@ResponseBody
+	public LicenseBoardsCommentVO qnaBoardCommentWrite(
+			@PathVariable("jmcd") String jmcd,
+			/*
+			 * @PathVariable("boardNum") int boardNum,
+			 * 
+			 * @RequestParam("content") String content,
+			 * 
+			 * @SessionAttribute UserVO uvo,
+			 */
+			LicenseBoardsCommentVO cvo
+			) {
+		/*
+		cvo.setUsersId(uvo.getId());
+		cvo.setLicenseBoardsBoardNum(boardNum);
+		cvo.setContent(content);
+		*/
+		int result = lboardService.insertLicenseCommentOne(cvo);
+		
+		logger.info("댓글 쓰기 결과 : {}",result);
+		
+		return cvo;
 	}
 	
 	//자료실 목록 조회

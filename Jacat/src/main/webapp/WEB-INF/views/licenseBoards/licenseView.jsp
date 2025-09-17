@@ -6,6 +6,29 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${lListOne.jmfldnm } 상세정보</title>
+		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
+		<script>
+			function addLicenseFn(){
+				let id = "${sessionScope.user.id}";
+				let jmcd = "${jmcd}";
+				$.ajax({
+					
+					url : "",
+					type : "post",
+					data : {
+						"usersId" : id,
+						"licenseListJmcd" : jmcd 
+					},
+					success : function(){
+						
+					},
+					error : function(){
+						
+					}
+					
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
@@ -17,14 +40,15 @@
 						<a href="<c:url value='/licenses/lists' />">자격증 목록으로</a>
 					</li>
 					<li>
-						<a href="<c:url value='/licenses/QnA' />">${lListOne.jmfldnm } QnA 게시판</a>
+						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/QnA' />">${lListOne.jmfldnm } QnA 게시판</a>
 					</li>
 					<li>
-						<a href="<c:url value='/licenses/dataroom' />">${lListOne.jmfldnm } 자료실</a>
+						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/dataroom' />">${lListOne.jmfldnm } 자료실</a>
 					</li>
 				</ul>
 			</div>
 			<div id="licenseInfosBox">
+				<button type="button" onclick="addLicenseFn()">관심자격증 추가</button>
 				<div id="licenseGeneralInfo">
 					<h3>${lListOne.jmfldnm} 기본정보</h3>
 					자격증 명 : ${lListOne.jmfldnm }<br>

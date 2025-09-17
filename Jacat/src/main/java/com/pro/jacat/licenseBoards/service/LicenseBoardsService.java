@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
@@ -17,9 +18,11 @@ public interface LicenseBoardsService {
 	public List<LicenseBoardsVO> selectQnABoards();
 	
 	public LicenseBoardsVO selectQnABoardOne(int boardNum);
-	
+	/*
 	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
 			throws IllegalStateException, IOException;
+	*/
+	public void insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException;
 	
 	public int updateQnABoardOne(LicenseBoardsVO vo);
 	
@@ -34,5 +37,9 @@ public interface LicenseBoardsService {
 	public int updateDataroomBoardOne(LicenseBoardsVO vo);
 	
 	public int deleteDataroomBoardOne(LicenseBoardsVO vo);
+	
+	public String selectLicenseNameOne(String jmcd);
+	
+	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo);
 	
 }

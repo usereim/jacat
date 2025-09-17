@@ -159,27 +159,28 @@
          date_format(flb.w_date,'%Y-%m-%d') as f_w_date,
          flb.type,
         
-         (select l.qualgbcd from license_list l where l.jmcd = lb.license_list_jmcd) as lname 
+         (select l.jmfldnm from license_list l where l.jmcd = lb.license_list_jmcd) as lname 
          
 		from license_boards lb 
 		 left join license_comment lc
 		 on lb.board_num = lc.license_boards_board_num
          left join file_license_board flb
          on flb.license_boards_board_num = lb.board_num
-		 where lb.board_num = #{boardNum} and lb.board_type='Q';
+		 where lb.board_num = #{boardNum} and lb.board_type='Q'
+		 order by lc.w_date desc;
 	</select>
 	
 	<!-- QnA 게시글 작성 -->
 	<insert id="insertQnABoardOne" parameterType="lboard">
 		insert into jacat_db.license_boards(
-		users_id,license_list_jmcd,title,content,w_date,board_type)
-		values(#{boardNum},#{licenseListJmcd},#{title},#{content},#{wDate},'Q');
+		users_id,license_list_jmcd,title,content,board_type)
+		values(#{boardNum},#{licenseListJmcd},#{title},#{content},'Q');
 	</insert>
 	
 	<!-- QnA 게시글 수정 -->
 	<update id="updateQnABoardOne" parameterType="lboard">
 		update jacat_db.license_boards set
-		 title = #{title}, content = #{content}, modify_date = #{modify_date}
+		 title = #{title}, content = #{content}, modify_date = now()
 		 where board_num = #{boardNum};
 	</update>
 	
@@ -230,5 +231,18 @@
 		 delyn = 'Y'
 		 where board_num = #{boardNum};
 	</update>
+	
+	<!-- 종목코드로 자격증 이름 조회  -->
+	<select id="selectLicenseNameOne" parameterType="String" resultType="String">
+		select jmfldnm from license_list where jmcd = #{jmcd};
+	</select>
+	
+	<!-- 댓글 하나 삽입 -->
+	<insert id="insertLicenseCommentOne" parameterType="lcomment">
+		insert into license_comment
+		(license_boards_board_num,users_id,parent_comment_num,content)
+		values
+		(#{licenseBoardsBoardNum},#{usersId},#{parentComment},#{content});
+	</insert>
 	
 </mapper>

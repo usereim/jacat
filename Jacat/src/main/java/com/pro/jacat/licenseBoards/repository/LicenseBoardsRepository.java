@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
@@ -68,5 +69,14 @@ public class LicenseBoardsRepository {
 	//자격증 자료실 글 삭제
 	public int deleteDataroomBoardOne(LicenseBoardsVO vo) {
 		return template.update("licenseBoardMapper.deleteDataroomBoardOne",vo);
+	}
+	
+	//종목코드로 자격증 이름 조회하는 메서드 
+	public String selectLicenseNameOne(String jmcd) {
+		return template.selectOne("licenseBoardMapper.selectLicenseNameOne",jmcd);
+	}
+	
+	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo){
+		return template.insert("licenseBoardMapper.insertLicenseCommentOne");
 	}
 }

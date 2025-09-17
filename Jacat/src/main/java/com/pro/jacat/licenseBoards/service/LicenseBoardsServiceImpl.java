@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pro.jacat.licenseBoards.repository.LicenseBoardsFileRepository;
 import com.pro.jacat.licenseBoards.repository.LicenseBoardsRepository;
 import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
+import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
@@ -66,7 +67,7 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
 	@Transactional
 	//QnA 게시판 글 작성
-	@Override
+	/*@Override
 	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
 	throws IllegalStateException, IOException
 	{	
@@ -111,6 +112,12 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 			lFileRepo.insertFiles(list);
 		}
 		
+	}*/
+	@Override
+	public void insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException {
+		//게시글 insert
+		lBoardRepo.insertQnABoardOne(vo);
+		
 	}
 	
 	//QnA 게시판 글 수정
@@ -149,6 +156,20 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	public int deleteDataroomBoardOne(LicenseBoardsVO vo) {
 		return lBoardRepo.deleteDataroomBoardOne(vo);
 	}
+
+	//종목코드로 자격증 이름 조회 메서드 
+	@Override
+	public String selectLicenseNameOne(String jmcd) {
+		return lBoardRepo.selectLicenseNameOne(jmcd);
+	}
+
+	@Override
+	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo) {
+		
+		return lBoardRepo.insertLicenseCommentOne(vo);
+	}
+
+	
 
 	
 }

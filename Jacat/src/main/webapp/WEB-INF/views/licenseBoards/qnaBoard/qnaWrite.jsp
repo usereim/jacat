@@ -26,9 +26,9 @@
 							<label for="content">내용 : </label>
 							<textarea name="content" id="content"></textarea>
 						</p>
-						<p class="writeFileBox">
-							<input type="file" name="file" multiple>
-						</p>
+						<!--p class="writeFileBox">
+							<input type="file" name="file">
+						</p-->
 						<button type="submit">작성</button>
 					</form>
 				</div>

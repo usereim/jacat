@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>자격증 질문 게시판</title>
+		<title>${jmfldnm } QnA 게시판</title>
 		<style>
 			body *{
 				border:1px solid black;
@@ -42,8 +42,10 @@
 		</style>
 		<script src="<c:url value='/resource/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
+			let jmcd = "${jmcd}";
 			function moveWriteFn(){
-				location.href="<c:url value='/licenses/QnA/write'/>";
+				console.log(jmcd);
+				location.href="<c:url value='/licenses/"+jmcd+"/QnA/write'/>";
 			}
 		</script>
 	</head>
@@ -52,7 +54,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
 			<div id="licenseQnASubtitleBox">
-				<h2>자격증 질문 게시판</h2>
+				<h2>${jmfldnm } QnA 게시판</h2>
 				<ul id="licenseQnANavBox">
 					<li>
 						<a href="<c:url value='/licenses/lists' />">자격증 목록</a>
@@ -64,7 +66,6 @@
 						<a href="<c:url value='/licenses/dataroom' />">자격증 자료실</a>
 					</li>
 				</ul>
-				<button type="button">+</button>
 			</div>
 			<hr>
 			<div id="licenseQnAContentBox">
@@ -82,7 +83,7 @@
 						<c:forEach var="board" items="${boardList }">
 							<tr>
 								<td>
-									<a href="<c:url value="/licenses/QnA/view/${board.boardNum}"/>">
+									<a href="<c:url value="/licenses/lists/${board.licenseListJmcd }/QnA/${board.boardNum}"/>">
 										${board.title }
 									</a>
 								</td>
@@ -101,7 +102,14 @@
 				</table>
 			</div>
 			<div id="licenseQnABtnBox">
-				<button type="button" onclick="moveWriteFn()">글쓰기</button>
+				<c:choose>
+					<c:when test="${empty sessionScope.user }">
+					
+					</c:when>
+					<c:otherwise>
+						<button type="button" onclick="moveWriteFn()">글쓰기</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div id="licenseQnAPagenationBox">
 				<ul>

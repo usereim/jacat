@@ -5,13 +5,45 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>QnA 게시판 상세조회</title>
+		<title>${jmfldnm } QnA 게시판 상세조회</title>
+		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
+		<script>
+			function commentWriteFn(){
+				
+				let comment = $("input[name=comment]").val();
+				let url = "<c:url value='licenses/lists/";
+				url += "${jmcd}";
+				url += "/QnA/";
+				url += "${boardNum}";
+				url += "/comment/write'/>";
+				
+				$.ajax({
+					url : "<c:url value='/licenses/lists/${jmcd}/QnA/${boardNum}/comment/write'/>",
+					type : "post",
+					data : {
+						"usersId" : '${sessionScope.user.id}',
+						"licenseBoardsBoardNum" : ${boardNum},
+						"content" : comment
+					},
+					success : function(cvo){
+						console.log(cvo);
+						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
+					},
+					error : function(){
+						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
+						//console.log(comment);
+						console.log(cvo);
+					}
+				});
+				
+			}
+		</script>
 	</head>
 	<body>
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
 			<section id="licenseQnABoardSubtitleBox">
-				<h2>${board.licenseName } QnA 게시판</h2>
+				<h2>${jmfldnm } QnA 게시판</h2>
 				<hr>
 			</section>
 			<section id="licenseQnABoardContentBox">
@@ -35,18 +67,34 @@
 						</p>
 					</c:forEach> 
 				</div>
+				<hr>
 				<div class="commentBox">
 					<h3 class="commentSubtitle">댓글</h3>
-					<c:forEach var="i" items="${board.lComment }">
-						<div class="comments">
-							<ul>
-								<li>${i.parentComment }</li>
-								<li>${i.nick }</li>
-								<li>${i.content }</li>
-								<li>${i.wDate }</li>
-							</ul>
+					<c:choose>
+						<c:when test="${empty sessionScope.user }">
+							
+						</c:when>
+						<c:otherwise>
+							<div class="commentWrite">
+								<label for="commentInput">댓글 작성 : </label>
+								<input type="text" name="comment" id="commentInput">
+								<button type="button" onclick="commentWriteFn()">작성</button>
+							</div>
+							<hr>
+						</c:otherwise>
+					</c:choose>
+					<div class="commentLists">
+						<c:forEach var="i" items="${board.lComment }">
+							<div class="comments">
+								<ul>
+									<li>${i.parentComment }</li>
+									<li>${i.nick }</li>
+									<li>${i.content }</li>
+									<li>${i.wDate }</li>
+								</ul>
+							</div>
+						</c:forEach>
 						</div>
-					</c:forEach>
 				</div>
 			</section>
 		</main>
