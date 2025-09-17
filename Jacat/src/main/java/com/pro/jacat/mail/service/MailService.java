@@ -34,7 +34,9 @@ public class MailService {
 			// 전송할 코드
 			code = Integer.toString(generateAuthNo());
 			
+			// 메일 내용
 			messageHelper.setText(code);
+			// 메일 전송
 			mailSender.send(message);
 
 		} catch (Exception e) {
