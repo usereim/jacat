@@ -43,7 +43,7 @@
 	</insert>
 	
 	<select id="selectUsersOne" parameterType="user" resultType="user">
-		select id, nick, grade from users where id = #{id} and pw = #{pw}
+		select id, nick, grade from users where id = #{id} and pw = #{pw} and grade != 'S'
 	</select>
 	
 	<select id="selectUsersIdByEmail" parameterType="String" resultType="String">

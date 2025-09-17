@@ -52,6 +52,9 @@
 			<c:when test="${type eq 'I' }">
 				<p>1:1문의 등록</p>
 			</c:when>
+			<c:when test="${type eq 'A' }">
+				<p>정지회원 이의신청 등록<p>
+			</c:when>
 		</c:choose>
 		
 		

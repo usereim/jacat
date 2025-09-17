@@ -41,6 +41,13 @@ public class UserController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO user, HttpSession session) {
+		if (session.getAttribute("suspend") != null) {
+			session.removeAttribute("suspend");
+		}
+		if (session.getAttribute("id") != null) {
+			session.removeAttribute("id");
+		}
+		
 		logger.info(user.getId());
 		UserVO userVO = userService.selectUsersOne(user);
 		

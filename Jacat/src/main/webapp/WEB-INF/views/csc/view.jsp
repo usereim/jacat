@@ -32,6 +32,10 @@
 			}
 		});
 	}
+	
+	function modFn(boardNum) {
+		location.href = "<c:url value='/csc/modify/A/"+ boardNum + "' />";
+	}
 </script>
 </head>
 <body>
@@ -44,6 +48,9 @@
 			<c:if test="${board.boardsFile.fileName != null }">
 				<img width="300px"
 					src="<c:url value="/uploads/boards/${board.boardsFile.boardsBoardNum }/${board.boardsFile.fileName }" />">
+			</c:if>
+			<c:if test="${board.boardType == 'A' }">
+				<button type="button" onclick="modFn(${board.boardNum})">수정하기</button>
 			</c:if>
 			<button type="button" onclick="delFn(${board.boardNum })">삭제하기</button>
 		</div>

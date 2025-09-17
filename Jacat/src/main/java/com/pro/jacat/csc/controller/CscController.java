@@ -78,6 +78,22 @@ public class CscController {
 			if (user != null) {
 				return "redirect:/csc/main";
 			}
+			
+			logger.info("{}", session.getAttribute("suspend"));
+			logger.info("{}", session.getAttribute("id"));
+			Object suspend = session.getAttribute("suspend");
+			if (suspend == null) {
+				logger.info("이메일 인증 안됨");
+				return "csc/appeal";
+			} else {
+				logger.info("이메일 인증 됨");
+				CscVO csc = new CscVO();
+				csc.setUsersId((String)session.getAttribute("id"));
+				csc.setBoardType(type);
+				
+				model.addAttribute("cscList", cscService.selectBoardsAll(csc));
+			}
+			
 			return "csc/appeal";
 		}
 
@@ -99,7 +115,10 @@ public class CscController {
 		if (type == null) {
 			return  "redirect:/";
 		}
-		if (session.getAttribute("user") != null) {
+		if (session.getAttribute("suspend") != null) {
+			user = new UserVO();
+			user.setId((String)session.getAttribute("id"));
+		} else if (session.getAttribute("user") != null) {
 			user = (UserVO) session.getAttribute("user");
 			if (type.equals("Q") && user.getGrade().equals("G")) {
 				return "redirect:/";
@@ -249,6 +268,15 @@ public class CscController {
 		cscService.updateComments(cscCommentsVO);
 		
 		return cscService.selectCommentsAll(cscCommentsVO.getBoardsBoardNum());
+	}
+	
+	@PostMapping("/session-suspend")
+	@ResponseBody
+	public String sessionSuspend(HttpSession session,
+			@RequestParam("id") String id) {
+		session.setAttribute("suspend", "suspend");
+		session.setAttribute("id", id);
+		return "success";
 	}
 }
 

@@ -52,7 +52,7 @@ public class MailController {
 		logger.info(code);
 		
 		if (code.equals(sessionCode)) {
-			session.invalidate();
+			session.removeAttribute("code");
 			return "success";
 		} else {
 			return "fail";
