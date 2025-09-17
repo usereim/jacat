@@ -78,7 +78,11 @@ public class FreeBoardController {
 		
 		FreeBoardVO vo = freeboardService.selectBoardByBno(board_num);
 		
+		//대댓글 목록 조회 데이터 가져오기
+		List<FreeBoardCommentVO> ccomentList = freeboardService.selectCComment(board_num);
+		
 		model.addAttribute("FreeBoard", vo);
+		model.addAttribute("ccomentList", ccomentList);
 		
 		return "freeboard/freeboardView";
 		

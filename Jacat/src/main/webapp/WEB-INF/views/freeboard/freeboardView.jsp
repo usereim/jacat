@@ -2,11 +2,28 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
+<script>
+function ccommentFn(commentNum){
+	document.getElementsByName("parentCommentNum")[0].value = commentNum;
+}
+
+function clickFn(){
+	let value = document.getElementsByName("parentCommentNum")[0].value;
+	if(value == ""){
+		alert("댓글을 선택해주세요")
+	}else{
+		$("input[name=parentCommentNum]").val(value);
+		document.ccommentFrm.submit();
+	}
+}
+</script>
 </head>
 <body>
 	<main>
@@ -39,12 +56,23 @@
 			</form>
 		</c:if>
 		
-		<h3>댓글</h3>
-		<c:forEach var="comment" items="${FreeBoard.commentList}">
+	<h3>댓글</h3>
+	<c:forEach var="comment" items="${FreeBoard.commentList}">
     	<div style="margin-bottom:10px; border-bottom:1px solid #ddd; padding:5px;">
-        <strong>${comment.usersID}</strong> : ${comment.content}
+        <strong>${comment.usersID}</strong> : <a href="javascript:ccommentFn(${comment.commentNum})">${comment.content}</a>
     	</div>
-		</c:forEach>
+    	<!-- 대댓글 영역 
+    	대댓글 목록(ccomentList) forEach 비교 댓글번호와 부모댓글번호 비교 후 같으면 출력 
+    	-->
+    	<c:forEach var="ccomment" items="${ccomentList}">
+                <c:if test="${ccomment.parentCommentNum == comment.commentNum}">
+                    <div style="margin-left:40px; margin-top:5px; padding:5px; border-left:2px solid #ddd;">
+                        <strong>${ccomment.usersID}</strong> : ${ccomment.content}
+                    </div>
+                </c:if>
+        </c:forEach>
+    </c:forEach>
+    	
 		
 		<!-- 댓글 작성 폼 -->
    		<form action="<c:url value='/freeboard/comment'/>" method="post">
@@ -52,6 +80,16 @@
         <textarea name="content" placeholder="댓글을 작성하세요" required></textarea>
         <input type="submit">댓글 작성</input>
     	</form>
+    	
+    	<!-- 대댓글 작성 폼 -->	
+   		<form name="ccommentFrm" action="<c:url value='/freeboard/comment'/>" method="post">
+        <input type="hidden" name="parentCommentNum" value=""/>
+        <input type="hidden" name="boardNum" value="${FreeBoard.boardNum}"/>
+        <textarea name="content" placeholder="대댓글을 작성하세요" required></textarea>
+        <input type="button" onclick="clickFn()" value='댓글 작성'>
+    	</form>
+    	
+    	
 	</main>
 </body>
 

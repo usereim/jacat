@@ -6,7 +6,7 @@
 
 <!-- mybatis mapper파일 -->
 
-		<mapper namespace="freeboardCommentMapper">
+<mapper namespace="freeboardCommentMapper">
 		<resultMap id="freeboardComment" type="comment">
 		<id property="commentNum" column="comment_num" />
 		<result property="boardNum" column="board_num"/>
@@ -27,7 +27,27 @@
 	
 	<!--댓글 등록 -->
 	<insert id ="insertComment" parameterType="comment" useGeneratedKeys="true" keyProperty="commentNum">
-		insert into comments(content, users_id, boards_board_num)
-		values(#{content}, #{usersID}, #{boardNum})
+		insert into comments(content, users_id, boards_board_num
+		<choose>
+		<when test="parentCommentNum != null">
+			,parent_comment_num)
+		</when>
+		<otherwise>)</otherwise>
+		</choose>
+		
+		values(#{content}, #{usersID}, #{boardNum}
+		<choose>
+		<when test="parentCommentNum != null">
+			,#{parentCommentNum})
+		</when>
+		<otherwise>)</otherwise>
+		</choose>
+		
 	</insert>
+	
+	<!-- 대댓글 목록 조회 -->
+	<select id="selectCComment" parameterType="int" resultType="comment">
+	select * from comments where boards_board_num = #{board_num} and parent_comment_num > 0;
+	</select>
+	
 </mapper>

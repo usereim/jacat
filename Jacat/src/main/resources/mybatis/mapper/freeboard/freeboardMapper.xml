@@ -37,7 +37,7 @@
 		<collection property="commentList" ofType="comment">
 			<id property="commentNum" column="comment_num"/>
 			<result property="boardNum" column="boards_board_num"/>
-			<result property="usersID" column="users_id"/>
+			<result property="usersID" column="comment_id"/>
 			<result property="content" column="comment_content"/>
 			
 		</collection>
@@ -48,19 +48,21 @@
 	</select>
 
 
-	<!-- 게시글 단건 조회 -->
+	<!-- 게시글, 댓글 단건 조회 -->
 	<select id="selectBoardByBno" 
 		parameterType="int" 
 		resultMap="freeboardFileMap">
-		select boards.*, file_board.*, comments.*, comments.content as comment_content
+		select boards.*, file_board.*, comments.*, comments.content as comment_content , comments.users_id as comment_id
 		  from boards 
-		 left outer join users
-		   on boards.users_id = users.id
+		 left outer join users 
+		   on boards.users_id = users.id 
 		 left outer join file_board
 		  on boards.board_num = file_board.boards_board_num
 		 left outer join comments
 		  on boards.board_num = comments.boards_board_num
-		 where boards.board_num = #{boardNum}
+		 left outer join comments as parent_comment
+		 on comments.comment_num = parent_comment.parent_comment_num
+		 where boards.board_num = #{boardNum} and comments.parent_comment_num = 0
 	</select>
 	
 	<!-- 게시글 삭제 -->

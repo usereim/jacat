@@ -14,7 +14,15 @@ public class FreeBoardCommentVO {
 	private Date modifyDate;
 	private boolean delyn;
 	private UserVO users;
+	private int parentCommentNum;
 	
+	
+	public int getParentCommentNum() {
+		return parentCommentNum;
+	}
+	public void setParentCommentNum(int parentCommentNum) {
+		this.parentCommentNum = parentCommentNum;
+	}
 	public int getCommentNum() {
 		return commentNum;
 	}

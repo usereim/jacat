@@ -15,6 +15,8 @@ public interface FreeBoardService {
 
 	FreeBoardVO selectBoardByBno(int board_num);	//게시글 단건 조회
 	
+	List<FreeBoardCommentVO> selectCComment(int board_num);
+	
 	void insertBoard(FreeBoardVO vo, List<MultipartFile> file)	//파일첨부
 		throws IllegalArgumentException, IOException;
 	

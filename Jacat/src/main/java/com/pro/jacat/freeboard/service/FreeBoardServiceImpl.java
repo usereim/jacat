@@ -129,8 +129,11 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	public boolean addComment(FreeBoardCommentVO vo) {
 		return freeboardCommentRepository.insertComment(vo) > 0;
 	}
-
-
+	
+	//´ë´ñ±Û Á¶È¸
+	public List<FreeBoardCommentVO> selectCComment(int board_num){
+		return freeboardCommentRepository.selectCComment(board_num);
+	}
 	
 }
 
