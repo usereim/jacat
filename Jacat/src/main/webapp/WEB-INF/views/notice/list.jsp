@@ -18,6 +18,7 @@
 	<main>
 		<table>
 		<tr>
+			<th>게시글 번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
@@ -25,10 +26,12 @@
 		<c:forEach var="noticeboard" items="${boardList}">
 			<tr>
 				<td>
+						<!-- 리스트에서 게시글 클릭시 넘어가는 url  -->
 					<a href="<c:url value="/notice/boards/${noticeboard.boardNum}" />">
-						${noticeboard.title}
+						${noticeboard.boardNum}
 					</a>
 				</td> 
+				<td>${noticeboard.title}</td>
 				<td>${noticeboard.usersId}</td>
 				<td>${noticeboard.wDate}</td> 
 			</tr>

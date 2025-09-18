@@ -19,12 +19,12 @@ public class NoticeBoardRepository {
 	}
 	
 	public List<NoticeBoardVO> selectAllBoard(){
-		return template.selectList("noticeMapper.selectAllBoard");
+		return template.selectList("noticeboardMapper.selectAllBoard");
 	}
 	
 	//3. 게시글 단건조회
 	public NoticeBoardVO selectBoardByBno(int bno){
-		return template.selectOne("NoticeboardMapper.selectBoardByBno", bno);
+		return template.selectOne("noticeboardMapper.selectBoardByBno", bno);
 	}
 	
 	//2. 게시글 입력

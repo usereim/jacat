@@ -65,13 +65,13 @@ public class NoticeBoardController {
 			return "notice/list";
 		}
 		
-		@RequestMapping(value="/list/{board_num}", method=RequestMethod.GET)
+		@RequestMapping(value="/boards/{boardNum}", method=RequestMethod.GET)
 		public String view(
-				@PathVariable("board_num") int board_num,
+				@PathVariable("boardNum") int boardNum,
 					Model model
 				) {
-			logger.info("bno : {}", board_num);
-			NoticeBoardVO vo = noticeBoardService.selectnoticeBoardBybno(board_num);
+			logger.info("bno : {}", boardNum);
+			NoticeBoardVO vo = noticeBoardService.selectnoticeBoardBybno(boardNum);
 			
 			model.addAttribute("noticeboard", vo);
 			return "notice/view";

@@ -4,16 +4,21 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 	<!-- mybatis Mapper -->
-<mapper namespace="noticeMapper">
-	<resultMap id="noticeBoardFileVO" type="noticeboard">
-			<id property="board_num" column="board_num" />
-			<result property="users_id" column="users_id"/>
+<mapper namespace="noticeboardMapper">
+	<resultMap id="noticeBoardVO" type="noticeboard">
+			<id property="boardNum" column="board_num" />
+			<result property="usersId" column="users_id"/>
 			<result property="title" column="title"/>
 			<result property="content" column="content"/>
-			<result property="w_date" column="w_date" />
-			<result property="modify_date" column="modify_date" />
+			<result property="wDate" column="w_date" />
+			<result property="modifyDate" column="modify_date" />
 			<result property="delyn" column="delyn" />
-			<result property="board_type" column="board_type" />
+			<result property="boardType" column="board_type" />
+			
+			<association property="user" javaType="user">
+			<id property="id" column="id" />
+			<result property="nick" column="nick"/>
+			</association>
  </resultMap>
  	
  	<select id="selectAllBoard" resultType="noticeboard">
@@ -24,6 +29,10 @@
 	</select>
  	
  	
+ 	<select id="selectBoardByBno" parameterType="int" resultMap="noticeBoardVO">
+ 			select * from boards left join users
+		on boards.users_id = users.id where board_num = #{bno} ;
+	</select>
  </mapper>	
  	
  	
