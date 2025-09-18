@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
 @Repository
@@ -28,6 +29,10 @@ public class LicenseBoardsRepository {
 	//자격증 상세조회
 	public LicenseListVO selectLicenseOne(String jmcd) {
 		return template.selectOne("licenseBoardMapper.selectLicenseOne",jmcd);
+	}
+	//관심자격증 추가
+	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo) {
+		return template.insert("licenseBoardMapper.insertFavoriteLicenseOne",vo);
 	}
 	
 	//QnA 게시판 목록조회

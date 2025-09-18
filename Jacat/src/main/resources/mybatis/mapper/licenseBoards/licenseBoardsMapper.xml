@@ -115,6 +115,17 @@
 		 order by ltd.impl_seq ASC, ltd.doc_reg_start_dt ASC;
 	</select>
 	
+	<!-- 관심자격증 추가 -->
+	<insert id="insertFavoriteLicenseOne" parameterType="favolicense">
+		insert into users_favorites_license(
+			users_id,license_list_jmcd
+		)
+		values(
+			#{usersId},#{licenseListJmcd}
+		);
+		
+	</insert>
+	
 	<!-- QnA 게시글 목록 조회 -->
 	<select id="selectQnABoards" resultType="lboard">
 		select lb.board_num, lb.users_id, lb.license_list_jmcd, 

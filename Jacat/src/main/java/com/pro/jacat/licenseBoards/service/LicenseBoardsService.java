@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
 public interface LicenseBoardsService {
@@ -14,6 +15,8 @@ public interface LicenseBoardsService {
 	public List<LicenseListVO> selectLicenseLists();
 	
 	public LicenseListVO selectLicenseOne(String jmcd);
+	
+	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo);
 	
 	public List<LicenseBoardsVO> selectQnABoards();
 	

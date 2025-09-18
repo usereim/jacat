@@ -20,6 +20,7 @@ import com.pro.jacat.licenseBoards.repository.LicenseBoardsRepository;
 import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
 @Service
@@ -52,6 +53,13 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	@Override
 	public LicenseListVO selectLicenseOne(String jmcd) {
 		return lBoardRepo.selectLicenseOne(jmcd);
+	}
+	
+	//관심자격증 추가
+	@Override
+	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo) {
+		
+		return lBoardRepo.insertFavoriteLicenseOne(vo);
 	}
 	
 	//QnA 게시판 목록조회

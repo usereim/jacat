@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import com.pro.jacat.HomeController;
 import com.pro.jacat.licenseBoards.service.LicenseBoardsServiceImpl;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
+import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 import com.pro.jacat.user.vo.UserVO;
 
@@ -70,11 +72,25 @@ public class LicenseBoardsController {
 		return "licenseBoards/licenseView";
 	}
 	
-	/*@PostMapping("/license/lists/{jmcd}/add-license")
-	public String addLisense () {
+	@PostMapping("/lists/add-license")
+	@ResponseBody
+	public int addLisense (
+			@RequestParam ("usersId") String id,
+			@RequestParam ("licenseListJmcd") String jmcd
+			) {
 		
+		logger.info("{} 사용자 {} 자격증 추가",id,jmcd);
+		
+		UsersFavoritesLicenseVO vo = new UsersFavoritesLicenseVO();
+		vo.setUsersId(id);
+		vo.setLicenseListJmcd(jmcd);
+		logger.info("{} 사용자 {} 자격증 추가",vo.getUsersId(),vo.getLicenseListJmcd());
+		
+		int addResult = lboardService.insertFavoriteLicenseOne(vo);
+		
+		return addResult;
 	}
-	*/
+	
 	//QnA 게시판 목록조회
 	@RequestMapping(value="/lists/{jmcd}/QnA",method=RequestMethod.GET)
 	public String qnaBoards(
@@ -179,20 +195,9 @@ public class LicenseBoardsController {
 	@ResponseBody
 	public LicenseBoardsCommentVO qnaBoardCommentWrite(
 			@PathVariable("jmcd") String jmcd,
-			/*
-			 * @PathVariable("boardNum") int boardNum,
-			 * 
-			 * @RequestParam("content") String content,
-			 * 
-			 * @SessionAttribute UserVO uvo,
-			 */
-			LicenseBoardsCommentVO cvo
-			) {
-		/*
-		cvo.setUsersId(uvo.getId());
-		cvo.setLicenseBoardsBoardNum(boardNum);
-		cvo.setContent(content);
-		*/
+			@RequestBody LicenseBoardsCommentVO cvo
+			) throws Exception{
+		logger.info("댓글 내용 : {}, 아이디 : {}",cvo.getContent(),cvo.getUsersId());
 		int result = lboardService.insertLicenseCommentOne(cvo);
 		
 		logger.info("댓글 쓰기 결과 : {}",result);

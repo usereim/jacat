@@ -11,28 +11,36 @@
 			function commentWriteFn(){
 				
 				let comment = $("input[name=comment]").val();
+				let jmcd = "${jmcd}";
+				let boardNum = "${boardNum}";
+				
 				let url = "<c:url value='licenses/lists/";
-				url += "${jmcd}";
+				url += jmcd;
 				url += "/QnA/";
-				url += "${boardNum}";
+				url += boardNum;
 				url += "/comment/write'/>";
 				
+				alert(url);
+				
 				$.ajax({
-					url : "<c:url value='/licenses/lists/${jmcd}/QnA/${boardNum}/comment/write'/>",
+					url : url,
 					type : "post",
 					data : {
 						"usersId" : '${sessionScope.user.id}',
-						"licenseBoardsBoardNum" : ${boardNum},
+						"licenseBoardsBoardNum" : boardNum,
 						"content" : comment
 					},
 					success : function(cvo){
 						console.log(cvo);
+						console.log(url);
 						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
 					},
-					error : function(){
-						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
-						//console.log(comment);
+					error : function(cvo){
+						
+						console.log(comment);
 						console.log(cvo);
+						console.log(url);
+						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
 					}
 				});
 				
