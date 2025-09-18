@@ -23,4 +23,17 @@ public class CalendarRepository {
 		return template.selectList("calendarMapper.selectCalendarAll", id);
 	}
 
+	public List<CalendarVO> selectCalendarAllByUsersId(CalendarVO calendar) {
+		return template.selectList("calendarMapper.selectCalendarAllByUsersId", calendar);
+	}
+
+	public void deleteCalendar(int dateNum) {
+		template.delete("calendarMapper.deleteCalendar", dateNum);
+		
+	}
+
+	public void updateCalendar(CalendarVO calendar) {
+		template.update("calendarMapper.updateCalendar", calendar);
+		
+	}
 }

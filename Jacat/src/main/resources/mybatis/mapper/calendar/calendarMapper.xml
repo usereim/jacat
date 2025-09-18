@@ -32,4 +32,39 @@
 			content 
 		from calendar where users_id = #{id}
 	</select>
+	
+	<select id="selectCalendarAllByUsersId" parameterType="calendar" resultType="calendar">
+		select 
+			date_num,
+			users_id, 
+			date_format(start_date, '%Y-%m-%d') as start_date, 
+			date_format(end_date, '%Y-%m-%d') as end_date, 
+			title, 
+			content
+		from calendar
+		where users_id = #{usersId}
+		and date_format(start_date, '%Y-%m-%d') <![CDATA[<=]]> #{startDate}
+		and date_format(end_date, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+	</select>
+	
+	<delete id="deleteCalendar" parameterType="int">
+		delete from calendar
+		where date_num = #{dateNum}
+	</delete>
+	
+	<update id="updateCalendar" parameterType="calendar">
+		update calendar
+		set start_date = #{startDate},
+			end_date = #{endDate},
+			title = #{title},
+			content = #{content}
+		where date_num = #{dateNum}
+	</update>
 </mapper>
+
+
+
+
+
+
+
