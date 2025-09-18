@@ -194,13 +194,43 @@ public class LicenseBoardsController {
 	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/write", method=RequestMethod.POST)
 	@ResponseBody
 	public LicenseBoardsCommentVO qnaBoardCommentWrite(
+			/*@RequestParam("usersId") String id,
+			@RequestParam("licenseBoardsBoardNum") int boardNum,
+			@RequestParam("content") String content,
+			@RequestParam("parentComment") int parentCommentNum*/
 			@PathVariable("jmcd") String jmcd,
-			@RequestBody LicenseBoardsCommentVO cvo
+			@PathVariable("boardNum") int boardNum,
+			LicenseBoardsCommentVO cvo
 			) throws Exception{
+		
+		//int intBoardNum = Integer.parseInt(boardNum);
+		
+		//LicenseBoardsCommentVO cvo = new LicenseBoardsCommentVO();
+		/*cvo.setUsersId(id);
+		cvo.setLicenseBoardsBoardNum(boardNum);
+		cvo.setContent(content);
+		cvo.setParentCommentNum(parentCommentNum);*/
+		
 		logger.info("댓글 내용 : {}, 아이디 : {}",cvo.getContent(),cvo.getUsersId());
+		logger.info("작성자 아이디 : {} \n게시물 번호 : {}",cvo.getUsersId(),cvo.getLicenseBoardsBoardNum());
+		logger.info("부모댓글 번호 : {} \n댓글 내용 : {}",cvo.getParentCommentNum(),cvo.getContent());
+		
 		int result = lboardService.insertLicenseCommentOne(cvo);
 		
-		logger.info("댓글 쓰기 결과 : {}",result);
+		logger.info("작성자 아이디 : {} \n게시물 번호 : {}",cvo.getUsersId(),cvo.getLicenseBoardsBoardNum());
+		logger.info("부모댓글 번호 : {} \n댓글 내용 : {}",cvo.getParentCommentNum(),cvo.getContent());
+		
+		String resultStr;
+		if(result >= 1) {
+			resultStr = "success";
+		}
+		else {
+			resultStr = "fail";
+		}
+		
+		logger.info("댓글 쓰기 결과 : {}",resultStr);
+		
+		cvo = lboardService.selectLicenseCommentOne(cvo.getCommentNum());
 		
 		return cvo;
 	}

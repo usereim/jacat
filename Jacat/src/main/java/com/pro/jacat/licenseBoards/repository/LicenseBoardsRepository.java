@@ -81,7 +81,13 @@ public class LicenseBoardsRepository {
 		return template.selectOne("licenseBoardMapper.selectLicenseNameOne",jmcd);
 	}
 	
+	//QnA 게시판 댓글 작성
 	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo){
-		return template.insert("licenseBoardMapper.insertLicenseCommentOne");
+		return template.insert("licenseBoardMapper.insertLicenseCommentOne",vo);
+	}
+	
+	//QnA 게시판 댓글 단건 조회
+	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum) {
+		return template.selectOne("licenseBoardMapper.selectLicenseCommentOne",commentNum);
 	}
 }

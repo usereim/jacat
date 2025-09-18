@@ -170,11 +170,18 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	public String selectLicenseNameOne(String jmcd) {
 		return lBoardRepo.selectLicenseNameOne(jmcd);
 	}
-
+	
+	//QnA 게시판 댓글 작성
 	@Override
 	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo) {
 		
 		return lBoardRepo.insertLicenseCommentOne(vo);
+	}
+
+	@Override
+	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum) {
+		
+		return lBoardRepo.selectLicenseCommentOne(commentNum);
 	}
 
 	

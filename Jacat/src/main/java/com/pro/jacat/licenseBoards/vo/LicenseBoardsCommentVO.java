@@ -4,7 +4,7 @@ public class LicenseBoardsCommentVO {
 	private int commentNum;
 	private int licenseBoardsBoardNum;
 	private String usersId;
-	private int parentComment;
+	private int parentCommentNum;
 	private String content;
 	private String wDate;
 	private String modifyDate;
@@ -29,11 +29,11 @@ public class LicenseBoardsCommentVO {
 	public void setUsersId(String usersId) {
 		this.usersId = usersId;
 	}
-	public int getParentComment() {
-		return parentComment;
+	public int getParentCommentNum() {
+		return parentCommentNum;
 	}
-	public void setParentComment(int parentComment) {
-		this.parentComment = parentComment;
+	public void setParentCommentNum(int parentCommentNum) {
+		this.parentCommentNum = parentCommentNum;
 	}
 	public String getContent() {
 		return content;

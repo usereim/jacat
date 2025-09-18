@@ -8,42 +8,99 @@
 		<title>${jmfldnm } QnA 게시판 상세조회</title>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
-			function commentWriteFn(){
+			function commentWriteFn(parentCommentNum){
 				
 				let comment = $("input[name=comment]").val();
 				let jmcd = "${jmcd}";
 				let boardNum = "${boardNum}";
 				
-				let url = "<c:url value='licenses/lists/";
+				let url = "<c:url value='/licenses/lists/";
 				url += jmcd;
 				url += "/QnA/";
 				url += boardNum;
 				url += "/comment/write'/>";
-				
-				alert(url);
-				
+				//console.log(url);
 				$.ajax({
 					url : url,
 					type : "post",
 					data : {
 						"usersId" : '${sessionScope.user.id}',
 						"licenseBoardsBoardNum" : boardNum,
-						"content" : comment
+						"content" : comment,
+						"parentCommentNum" : parentCommentNum
 					},
 					success : function(cvo){
-						console.log(cvo);
-						console.log(url);
-						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
+						//console.log(cvo);
+						//console.log(cvo.usersId);
+						console.log($("commentBox"+cvo.parentCommentNum));
+						alert("댓글 작성이 완료되었습니다.");
+						
+						let addCommentBox = "";
+						addCommentBox += "<div id='commentBox"+cvo.commentNum+"' class='comments'>";
+						addCommentBox += "	<ul>";
+						addCommentBox += "		<li>"+cvo.parentCommentNum+"</li>";
+						addCommentBox += "		<li>"+cvo.nick+"</li>";
+						addCommentBox += "		<li>"+cvo.content+"</li>";
+						addCommentBox += "		<li>"+cvo.wDate+"</li>";
+						addCommentBox += "		<li id='commentBtnBox"+cvo.commentNum+"'>";
+						
+						let loginYn = "${sessionScope.user}";
+						if(loginYn != null && cvo.parentCommentNum == 0){
+							addCommentBox += "<button type='button' onclick='childCommentWriteFn("+cvo.commentNum+")'>대댓글 작성</button>";
+						}
+						//console.log(loginYn);
+						
+						let loginId = "${sessionScope.user.id}";
+						if(loginId == cvo.usersId){
+							addCommentBox += "<button type='button' onclick='commentUpdateFn("+cvo.commentNum+")'>댓글 수정</button>";
+							addCommentBox += "<button type='button' onclick='commentDeleteFn("+cvo.commentNum+")'>댓글 삭제</button>";
+						}
+						
+						addCommentBox += "		</li>";
+						addCommentBox += "	</ul>";
+						addCommentBox += "</div>";
+						
+						if(cvo.parentCommentNum == 0){
+							
+							
+								
+							$("#commentListsId").prepend(addCommentBox);
+							
+						}
+						else{
+							
+							let addChildCommentBox = $("commentBox"+cvo.parentCommentNum);
+							
+							addChildCommentBox.append(addCommentBox);
+							
+						}
+						
+						
 					},
 					error : function(cvo){
 						
-						console.log(comment);
-						console.log(cvo);
-						console.log(url);
-						console.log("<c:url value='licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/write'/>");
+						//console.log(comment);
+						//console.log(cvo);
+						//console.log(cvo.id);
+						alert("댓글 작성이 실패하였습니다.");
 					}
 				});
 				
+			}
+			
+			function childCommentWriteFn(commentNum){
+				let parentCommentBox = $("#commentBox"+commentNum);
+				
+				let childCommentBox = "";
+				childCommentBox += "<div class='childCommentInputBox'>";
+				childCommentBox += "<label for='childCommentInput"+commentNum+"'>대댓글 작성</label>";
+				childCommentBox += "<input type='text' name='childComment' id='childCommentInput"+commentNum+"'>";
+				childCommentBox += "<button type='button' onclick='commentWriteFn("+commentNum+")'>작성</button>";
+				childCommentBox += "</div>";
+				
+				$(".childCommentInputBox").remove();
+				
+				parentCommentBox.after(childCommentBox);
 			}
 		</script>
 	</head>
@@ -86,19 +143,30 @@
 							<div class="commentWrite">
 								<label for="commentInput">댓글 작성 : </label>
 								<input type="text" name="comment" id="commentInput">
-								<button type="button" onclick="commentWriteFn()">작성</button>
+								<button type="button" onclick="commentWriteFn(0)">작성</button>
 							</div>
 							<hr>
 						</c:otherwise>
 					</c:choose>
-					<div class="commentLists">
+					<div id="commentListsId" class="commentLists">
 						<c:forEach var="i" items="${board.lComment }">
-							<div class="comments">
+							<div id="commentBox${i.commentNum }" class="comments">
 								<ul>
-									<li>${i.parentComment }</li>
+									<li>${i.parentCommentNum }</li>
 									<li>${i.nick }</li>
 									<li>${i.content }</li>
 									<li>${i.wDate }</li>
+									<li id="commentBtnBox${i.commentNum }">
+										<c:if test="${not empty sessionScope && i.parentCommentNum == 0 }">
+											<button type="button" onclick="childCommentWriteFn(${i.commentNum})">대댓글 작성</button>
+										</c:if>
+										
+										<c:if test="${sessionScope.user.id == i.usersId}">
+												<button type="button" onclick="commentUpdateFn(${i.commentNum})">댓글 수정</button>
+												<button type="button" onclick="commentDeleteFn(${i.commentNum})">댓글 삭제</button>
+										</c:if>
+										
+									</li>
 								</ul>
 							</div>
 						</c:forEach>

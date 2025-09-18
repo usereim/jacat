@@ -45,4 +45,6 @@ public interface LicenseBoardsService {
 	
 	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo);
 	
+	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum);
+	
 }
