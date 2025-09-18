@@ -1,6 +1,6 @@
 package com.pro.jacat.licenseBoards.vo;
 
-public class UsersFavoriteLicenseVO {
+public class UsersFavoritesLicenseVO {
 	private String usersId;
 	private String licenseListJmcd;
 	private String wDate;
