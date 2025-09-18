@@ -89,11 +89,16 @@ function clickFn(){
         <input type="button" onclick="clickFn()" value='댓글 작성'>
     	</form>
     	
+    	<!-- 신고하기 버튼 -->
+   		<button type="button" onclick="openReportPopup(${FreeBoard.boardNum})">신고하기</button>
+</form>
+    	
+    	
     	
 	</main>
 </body>
-
 <script>
+
 	let boardNum = ${FreeBoard.boardNum};
 	console.log(boardNum);
 	
@@ -102,6 +107,19 @@ function clickFn(){
 	
 	function moveModifyPage(boardNum){
 		location.href="${pageContext.request.contextPath}/freeboard/freeboardModify/"+boardNum;
+	}
+	
+	function openReportPopup(boardNum) {
+	   let reportWin =  window.open(
+	        '/jacat/freeboard/report/'+boardNum, // JSP 경로 (서버에서 바로 열기)
+	        'reportPopup',
+	        'width=500,height=400'
+	    );
+	   reportWin.onload =  function(){
+		   
+		   reportWin.document.getElementById("boardNum").value = boardNum;
+	   }
+	  
 	}
 </script>
 

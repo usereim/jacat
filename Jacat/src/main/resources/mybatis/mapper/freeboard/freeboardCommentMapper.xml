@@ -6,7 +6,7 @@
 
 <!-- mybatis mapper파일 -->
 
-<mapper namespace="freeboardCommentMapper">
+		<mapper namespace="freeboardCommentMapper">
 		<resultMap id="freeboardComment" type="comment">
 		<id property="commentNum" column="comment_num" />
 		<result property="boardNum" column="board_num"/>
@@ -42,7 +42,6 @@
 		</when>
 		<otherwise>)</otherwise>
 		</choose>
-		
 	</insert>
 	
 	<!-- 대댓글 목록 조회 -->

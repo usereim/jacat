@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pro.jacat.csc.controller.CscController;
 import com.pro.jacat.freeboard.service.FreeBoardService;
 import com.pro.jacat.freeboard.vo.FreeBoardCommentVO;
+import com.pro.jacat.freeboard.vo.FreeBoardReportVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 import com.pro.jacat.user.vo.UserVO;
 
@@ -69,14 +73,15 @@ public class FreeBoardController {
 		return "freeboard/freeboardList";
 	}
 	
-	//게시글 단건 조회
-	@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
-	public String freeboardView(
+		//게시글 단건 조회
+		@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
+		public String freeboardView(
 		@PathVariable("board_num") int board_num,
 		Model model
 		) {
 		
 		FreeBoardVO vo = freeboardService.selectBoardByBno(board_num);
+		
 		
 		//대댓글 목록 조회 데이터 가져오기
 		List<FreeBoardCommentVO> ccomentList = freeboardService.selectCComment(board_num);
@@ -145,5 +150,34 @@ public class FreeBoardController {
 			freeboardService.addComment(vo);
 			return "redirect:/freeboard/boards/"+vo.getBoardNum();
     }
-
+		
+		//신고insert
+		@RequestMapping(value="/report", method=RequestMethod.POST)
+		public void insertReport(@ModelAttribute FreeBoardReportVO vo,
+				@SessionAttribute("user") UserVO user,
+				HttpServletResponse response
+			) throws IllegalStateException, IOException {
+			System.out.println(vo.getBoardNum());
+			vo.setUsersID(user.getId());
+			freeboardService.insertReport(vo);
+			
+			response.setContentType("text/html");
+			response.getWriter().append("<script>window.close();</script>").flush();
+			
+		
+		}
+		
+		//신고 팝업창
+		@RequestMapping(value="/report/{boardNum}", method=RequestMethod.GET)
+		public String showReportPopup(@PathVariable("boardNum") int boardNum, Model model) {
+		    // 팝업에 보낼 게시글 번호
+		    model.addAttribute("boardNum", boardNum);
+		    return "freeboard/freeboardReport"; // /WEB-INF/views/freeboard/reportPopup.jsp
+		}
+		
 }
+		
+		
+		
+		
+		

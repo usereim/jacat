@@ -15,9 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pro.jacat.file.repository.FileRepository;
 import com.pro.jacat.freeboard.repository.FreeBoardCommentRepository;
 import com.pro.jacat.freeboard.repository.FreeBoardFileRepository;
+import com.pro.jacat.freeboard.repository.FreeBoardReportRepository;
 import com.pro.jacat.freeboard.repository.FreeBoardRepository;
 import com.pro.jacat.freeboard.vo.FreeBoardCommentVO;
 import com.pro.jacat.freeboard.vo.FreeBoardFileVO;
+import com.pro.jacat.freeboard.vo.FreeBoardReportVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
 
@@ -28,20 +30,22 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	private final ServletContext context;
 	private final FreeBoardFileRepository freeboardFileRepository;
 	private final FreeBoardCommentRepository freeboardCommentRepository;
+	private final FreeBoardReportRepository freeboardReportRepository;
 	
 	@Autowired
 	public FreeBoardServiceImpl(
 				FreeBoardRepository freeboardRepository,
 				ServletContext context,
 				FreeBoardFileRepository freeboardFileRepository,
-				FreeBoardCommentRepository freeboardCommentRepository
+				FreeBoardCommentRepository freeboardCommentRepository,
+				FreeBoardReportRepository freeboardReportRepository
 			) {
 		this.freeboardRepository = freeboardRepository;
 		this.context = context;
 		this.freeboardFileRepository =freeboardFileRepository;
 		this.freeboardCommentRepository = freeboardCommentRepository;
+		this.freeboardReportRepository = freeboardReportRepository;
 	}
-	
 	//게시글 목록 조회
 	public List<FreeBoardVO> selectAllBoard(){
 		return freeboardRepository.selectAllBoard();
@@ -135,6 +139,10 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		return freeboardCommentRepository.selectCComment(board_num);
 	}
 	
+	//신고기능 
+	public void insertReport(FreeBoardReportVO vo) {
+		freeboardReportRepository.insertReport(vo);
+	}	
 }
 
 

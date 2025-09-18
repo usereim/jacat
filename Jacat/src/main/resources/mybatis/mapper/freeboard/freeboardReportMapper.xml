@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- mybatis mapper파일 -->
+<mapper namespace="freeboardReportMapper">
+	<insert id="insertReport" parameterType="report">
+		insert into board_report(
+			report_num,
+			users_id,
+			boards_board_num,
+			report_category,
+			report_content
+		)values(
+			#{reportNum},
+			#{usersID},
+			#{boardNum},
+			#{reportCategory},
+			#{reportContent}
+		)
+	</insert>
+</mapper>
+
+
+	
+	
+	
+	
+	
+	

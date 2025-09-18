@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.freeboard.vo.FreeBoardCommentVO;
+import com.pro.jacat.freeboard.vo.FreeBoardReportVO;
 import com.pro.jacat.freeboard.vo.FreeBoardVO;
 
 public interface FreeBoardService {
@@ -14,8 +15,6 @@ public interface FreeBoardService {
 	List<FreeBoardVO> selectAllBoard();	//FreeBoardVO에 있는 리스트들을 조건없이 조회
 
 	FreeBoardVO selectBoardByBno(int board_num);	//게시글 단건 조회
-	
-	List<FreeBoardCommentVO> selectCComment(int board_num);
 	
 	void insertBoard(FreeBoardVO vo, List<MultipartFile> file)	//파일첨부
 		throws IllegalArgumentException, IOException;
@@ -26,4 +25,10 @@ public interface FreeBoardService {
 	
 	//댓글입력
 	boolean addComment(FreeBoardCommentVO vo);
+	
+	//대댓글 조회
+	List<FreeBoardCommentVO> selectCComment(int board_num);
+	
+	//신고기능
+	void insertReport(FreeBoardReportVO vo);
 }

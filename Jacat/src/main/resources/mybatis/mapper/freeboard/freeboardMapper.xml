@@ -39,8 +39,8 @@
 			<result property="boardNum" column="boards_board_num"/>
 			<result property="usersID" column="comment_id"/>
 			<result property="content" column="comment_content"/>
-			
 		</collection>
+		
 	</resultMap>
 
 	<select id="selectAllBoard" resultType="freeboard">
