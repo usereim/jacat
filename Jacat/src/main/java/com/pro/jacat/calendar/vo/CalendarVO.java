@@ -1,18 +1,18 @@
 package com.pro.jacat.calendar.vo;
 
 public class CalendarVO {
-	private int dataNum;
+	private int dateNum;
 	private String usersId;
 	private String startDate;
 	private String endDate;
 	private String title;
 	private String content;
 	
-	public int getDataNum() {
-		return dataNum;
+	public int getDateNum() {
+		return dateNum;
 	}
-	public void setDataNum(int dataNum) {
-		this.dataNum = dataNum;
+	public void setDateNum(int dateNum) {
+		this.dateNum = dateNum;
 	}
 	public String getUsersId() {
 		return usersId;

@@ -11,19 +11,22 @@
 			function addLicenseFn(){
 				let id = "${sessionScope.user.id}";
 				let jmcd = "${jmcd}";
+				//console.log(id);
+				//console.log(jmcd);
+				
 				$.ajax({
 					
-					url : "",
+					url : "<c:url value='/licenses/lists/add-license'/>",
 					type : "post",
 					data : {
 						"usersId" : id,
 						"licenseListJmcd" : jmcd 
 					},
-					success : function(){
-						
+					success : function(result){
+						alert("관심자격증 등록이 완료되었습니다.");
 					},
-					error : function(){
-						
+					error : function(result){
+						alert("관심자격증 등록에 실패하였습니다.");
 					}
 					
 				});

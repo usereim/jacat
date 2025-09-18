@@ -2,6 +2,8 @@ package com.pro.jacat.calendar.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.pro.jacat.calendar.repository.CalendarRepository;
@@ -24,6 +26,23 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public List<CalendarVO> selectCalendarAll(String id) {
 		return calendarRepository.selectCalendarAll(id);
+	}
+	
+	@Override
+	public List<CalendarVO> selectCalendarAllByUsersId(CalendarVO calendar) {
+		return calendarRepository.selectCalendarAllByUsersId(calendar);
+	}
+
+	@Override
+	public void deleteCalendar(int dateNum) {
+		calendarRepository.deleteCalendar(dateNum);
+		
+	}
+
+	@Override
+	public void updateCalendar(CalendarVO calendar) {
+		calendarRepository.updateCalendar(calendar);
+		
 	}
 
 }

@@ -51,5 +51,4 @@ public class MailService {
 		int code = ThreadLocalRandom.current().nextInt(100000, 1000000);
 		return code;
 	}
-
 }
