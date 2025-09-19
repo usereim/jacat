@@ -60,9 +60,11 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.user}">
 						<a href="javascript:alert('로그인후 이용해 주세요.')">마이페이지</a>
+						<a href="javascript:alert('로그인후 이용해 주세요.')">캘린더</a>
 					</c:when>
 					<c:otherwise>
-						<a href="#">마이페이지</a>
+						<a href="<c:url value='/mypage/pw-cert'/>">마이페이지</a>
+						<a href="<c:url value='/calendar/main'/>">캘린더</a>
 					</c:otherwise>
 				</c:choose>
 			</nav>
