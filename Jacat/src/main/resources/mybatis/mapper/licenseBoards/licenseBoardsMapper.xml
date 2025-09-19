@@ -182,10 +182,13 @@
 	</select>
 	
 	<!-- QnA 게시글 작성 -->
-	<insert id="insertQnABoardOne" parameterType="lboard">
+	<insert id="insertQnABoardOne" parameterType="lboard" useGeneratedKeys="true" keyProperty="boardNum">
 		insert into jacat_db.license_boards(
-		users_id,license_list_jmcd,title,content,board_type)
-		values(#{boardNum},#{licenseListJmcd},#{title},#{content},'Q');
+		users_id,license_list_jmcd,title,content,board_type
+		)
+		values(
+		#{usersId},#{licenseListJmcd},#{title},#{content},'Q'
+		);
 	</insert>
 	
 	<!-- QnA 게시글 수정 -->
@@ -196,7 +199,7 @@
 	</update>
 	
 	<!-- QnA 게시글 삭제 -->
-	<update id="deleteQnABoardOne" parameterType="lboard">
+	<update id="deleteQnABoardOne" parameterType="int">
 		update jacat_db.license_boards set
 		 delyn = 'Y'
 		 where board_num = #{boardNum};
@@ -225,8 +228,11 @@
 	<!-- 자료실 게시글 작성 -->
 	<insert id="insertDataroomBoardOne" parameterType="lboard">
 		insert into jacat_db.license_boards(
-		users_id,license_list_jmcd,title,content,w_date,board_type)
-		values(#{boardNum},#{licenseListJmcd},#{title},#{content},#{wDate},'D');
+		users_id, license_list_jmcd, title, content, board_type
+		)
+		values(
+		#{usersId}, #{licenseListJmcd}, #{title}, #{content}, 'D'
+		);
 	</insert>
 	
 	<!-- 자료실 게시글 수정 -->
@@ -267,7 +273,7 @@
 		 where u.id = lc.users_id and comment_num = #{commentNum};
 	</select>
 	
-	<update id="updateLicenseCommentOne" parameterType="lcomment">
+	<update id="updateLicenseCommentOne" parameterType="lcomment" useGeneratedKeys="true" keyProperty="commentNum">
 		update license_comment set content = #{content}, modify_date = now() where comment_num = #{commentNum};
 	</update>
 	

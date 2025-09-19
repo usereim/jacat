@@ -122,9 +122,9 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		
 	}*/
 	@Override
-	public void insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException {
+	public int insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException {
 		//게시글 insert
-		lBoardRepo.insertQnABoardOne(vo);
+		return lBoardRepo.insertQnABoardOne(vo);
 		
 	}
 	
@@ -135,8 +135,8 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	}
 	//QnA 게시판 글 삭제
 	@Override
-	public int deleteQnABoardOne(LicenseBoardsVO vo) {
-		return lBoardRepo.deleteQnABoardOne(vo);
+	public int deleteQnABoardOne(int boardNum) {
+		return lBoardRepo.deleteQnABoardOne(boardNum);
 	}
 	
 	//자격증 자료실 목록조회
@@ -177,11 +177,27 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		
 		return lBoardRepo.insertLicenseCommentOne(vo);
 	}
-
+	
+	//QnA 게시판 댓글 하나 조회
 	@Override
 	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum) {
 		
 		return lBoardRepo.selectLicenseCommentOne(commentNum);
+	}
+	
+	//QnA 게시판 댓글 수정
+	@Override
+	public int updateLicenseCommentOne(LicenseBoardsCommentVO vo) {
+		
+		return lBoardRepo.updateLicenseCommentOne(vo);
+	}
+	
+	//QnA 게시판 댓글 삭제
+	@Override
+	public int deleteLicenseCommentOne(int commentNum) {
+		
+		return lBoardRepo.deleteLicenseCommentOne(commentNum);
+		
 	}
 
 	

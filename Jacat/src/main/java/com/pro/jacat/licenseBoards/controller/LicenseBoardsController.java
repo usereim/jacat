@@ -72,6 +72,7 @@ public class LicenseBoardsController {
 		return "licenseBoards/licenseView";
 	}
 	
+	//관심자격증 추가
 	@PostMapping("/lists/add-license")
 	@ResponseBody
 	public int addLisense (
@@ -90,6 +91,8 @@ public class LicenseBoardsController {
 		
 		return addResult;
 	}
+	
+	/*----------QnA----------*/
 	
 	//QnA 게시판 목록조회
 	@RequestMapping(value="/lists/{jmcd}/QnA",method=RequestMethod.GET)
@@ -150,16 +153,24 @@ public class LicenseBoardsController {
 	}
 	
 	//QnA 게시판 글 작성
-	@RequestMapping(value="/{jmcd}/QnA/write", method=RequestMethod.GET)
-	public String qnaBoardWrite() {
+	@RequestMapping(value="/lists/{jmcd}/QnA/write", method=RequestMethod.GET)
+	public String qnaBoardWrite(
+			@PathVariable("jmcd") String jmcd,
+			Model model
+			) {
 		logger.info("자격증 QnA 게시글 작성 페이지 진입");
+		
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
+		model.addAttribute("jmcd",jmcd);
+		model.addAttribute("jmfldnm",jmfldnm);
 		
 		return "licenseBoards/qnaBoard/qnaWrite";
 	}
-	//QnA 게시판 글 수정
-	@RequestMapping(value="/{jmcd}/QnA/write", method=RequestMethod.POST)
+	//QnA 게시판 글 작성 처리
+	@RequestMapping(value="/lists/{jmcd}/QnA/write", method=RequestMethod.POST)
 	public String qnaBoardWritePost(
-			@ModelAttribute LicenseBoardsVO vo, 
+			LicenseBoardsVO vo, 
 			//@RequestParam("file") List<MultipartFile> file,
 			@SessionAttribute("user") UserVO user,
 			@PathVariable("jmcd") String jmcd
@@ -168,27 +179,65 @@ public class LicenseBoardsController {
 		vo.setUsersId(user.getId());
 		vo.setLicenseListJmcd(jmcd);
 		//lboardService.insertQnABoardOne(vo,file);
-		lboardService.insertQnABoardOne(vo);
 		
-		return "redirect:licenseBoards/qnaBoard/qnaBoardsView/"+vo.getBoardNum();
+		logger.info(vo.getUsersId()+","+vo.getLicenseListJmcd());
+		
+		int result = lboardService.insertQnABoardOne(vo);
+		
+		logger.info("번호 : "+vo.getBoardNum());
+		
+		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
 		
 	}
 	
 	//QnA 게시판 글 수정
-	@RequestMapping(value="/QnA/update/{boardNum}", method=RequestMethod.GET)
-	public String qnaBoardUpdate() {
-		logger.info("자격증 QnA 게시글 수정 페이지 진입");
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/update", method=RequestMethod.GET)
+	public String qnaBoardUpdate(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			Model model,
+			LicenseBoardsVO vo
+			) {
+		logger.info("자격증 QnA {}번 게시글 수정 페이지 진입",boardNum);
+		
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
+		vo = lboardService.selectQnABoardOne(boardNum);
+		
+		model.addAttribute("jmfldnm", jmfldnm);
+		model.addAttribute("board",vo);
 		
 		return "licenseBoards/qnaBoard/qnaUpdate";
 	}
-	
-	//QnA 게시판 글 삭제
-	@RequestMapping(value="/QnA/delete/{boardNum}", method=RequestMethod.GET)
-	public String qnaBoardDelete() {
-		logger.info("자격증 QnA 게시글 삭제");
+	//QnA 게시판 글 수정 처리
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/update", method=RequestMethod.POST)
+	public String qnaBoardUpdate(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			LicenseBoardsVO vo
+			) {
 		
-		return "redirect:/licenseBoards/qnaBoard/qnaBoards";
+		int result = lboardService.updateQnABoardOne(vo);
+		
+		logger.info("자격증 QnA {}번 게시글 수정 처리",boardNum);
+		
+		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
 	}
+	
+	//QnA 게시판 글 삭제 처리
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/delete", method=RequestMethod.POST)
+	public String qnaBoardDelete(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum
+			) {
+		logger.info("자격증 QnA {}번 게시글 삭제",boardNum);
+		
+		int result = lboardService.deleteQnABoardOne(boardNum);
+		
+		return "redirect:/licenses/lists/"+jmcd+"/QnA";
+	}
+	
+	/*----------QnA 댓글----------*/
 	
 	//QnA 게시판 댓글 작성
 	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/write", method=RequestMethod.POST)
@@ -233,6 +282,52 @@ public class LicenseBoardsController {
 		cvo = lboardService.selectLicenseCommentOne(cvo.getCommentNum());
 		
 		return cvo;
+	}
+	
+	//QnA 게시판 댓글 하나 조회
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/read-one", method=RequestMethod.POST)
+	@ResponseBody
+	public LicenseBoardsCommentVO qnaBoardCommentReadOne(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			LicenseBoardsCommentVO cvo
+			) {
+		
+		return lboardService.selectLicenseCommentOne(cvo.getCommentNum());
+		
+	}
+	
+	//QnA 게시판 댓글 수정
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/update", method=RequestMethod.POST)
+	@ResponseBody
+	public LicenseBoardsCommentVO qnaBoardCommentUpdate(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			LicenseBoardsCommentVO uvo
+			) {
+		
+		int result = lboardService.updateLicenseCommentOne(uvo);
+		
+		uvo = lboardService.selectLicenseCommentOne(uvo.getCommentNum());
+		
+		return uvo;
+	}
+	
+	//QnA 게시판 댓글 삭제
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/delete", method=RequestMethod.POST)
+	@ResponseBody
+	public int qnaBoardCommentDelete(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			@RequestParam("commentNum") int commentNum
+			) {
+		
+		//int commentNum = Integer.parseInt(commentNumStr);
+		
+		logger.info(""+commentNum);
+		int result = lboardService.deleteLicenseCommentOne(commentNum);
+		
+		return result;
 	}
 	
 	//자료실 목록 조회

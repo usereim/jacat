@@ -5,14 +5,32 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>${jmfldnm } QnA 게시판 상세조회</title>
+		<title>${jmfldnm } QnA 게시판 상세조회 페이지</title>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
+			
+			const jmcd = "${jmcd}";
+			const boardNum = "${boardNum}";
+		
+			//게시글 수정 이동 함수
+			function moveUpdateBoardFn(){
+				location.href="<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/update'/>";
+				//console.log(jmcd);
+				//console.log(boardNum);
+			}
+			
+			//댓글 작성 함수
 			function commentWriteFn(parentCommentNum){
 				
+				let commentLength = $("input[name=comment]").length;
+				
 				let comment = $("input[name=comment]").val();
-				let jmcd = "${jmcd}";
-				let boardNum = "${boardNum}";
+				
+				if(commentLength > 1){
+				
+					comment = $("input[name=comment]").last().val();
+				
+				}
 				
 				let url = "<c:url value='/licenses/lists/";
 				url += jmcd;
@@ -52,7 +70,7 @@
 						
 						let loginId = "${sessionScope.user.id}";
 						if(loginId == cvo.usersId){
-							addCommentBox += "<button type='button' onclick='commentUpdateFn("+cvo.commentNum+")'>댓글 수정</button>";
+							addCommentBox += "<button type='button' onclick='commentUpdateInputFransformFn("+cvo.commentNum+")'>댓글 수정</button>";
 							addCommentBox += "<button type='button' onclick='commentDeleteFn("+cvo.commentNum+")'>댓글 삭제</button>";
 						}
 						
@@ -62,14 +80,12 @@
 						
 						if(cvo.parentCommentNum == 0){
 							
-							
-								
 							$("#commentListsId").prepend(addCommentBox);
 							
 						}
 						else{
 							
-							let addChildCommentBox = $("commentBox"+cvo.parentCommentNum);
+							let addChildCommentBox = $("#commentBox"+cvo.parentCommentNum);
 							
 							addChildCommentBox.append(addCommentBox);
 							
@@ -88,20 +104,134 @@
 				
 			}
 			
+			//대댓글 작성 입력폼 생성 함수
 			function childCommentWriteFn(commentNum){
 				let parentCommentBox = $("#commentBox"+commentNum);
-				
+				//console.log($("input[name=comment]").length);
 				let childCommentBox = "";
 				childCommentBox += "<div class='childCommentInputBox'>";
-				childCommentBox += "<label for='childCommentInput"+commentNum+"'>대댓글 작성</label>";
-				childCommentBox += "<input type='text' name='childComment' id='childCommentInput"+commentNum+"'>";
+				childCommentBox += "<label for='childCommentInput"+commentNum+"'>대댓글 작성 : </label>";
+				childCommentBox += "<input type='text' name='comment' id='childCommentInput"+commentNum+"'>";
 				childCommentBox += "<button type='button' onclick='commentWriteFn("+commentNum+")'>작성</button>";
+				childCommentBox += "<button type='button' onclick='commentInputRemoveFn()'>X</button>";
 				childCommentBox += "</div>";
 				
-				$(".childCommentInputBox").remove();
+				let childCommentInputBox = $(".childCommentInputBox");
 				
+				//만약 자식댓글박스가 부모댓글박스에 없다면 자식댓글박스 추가
+				//만약 그렇지 않다면 자식댓글박스가 부모댓글박스에 있다면 자식댓글박스 제거
+				
+				//만약 자식댓글박스가 부모댓글박스가 아닌 다른 곳에 있다면 다른 자식댓글박스 제거
+				
+				childCommentInputBox.remove();				
 				parentCommentBox.after(childCommentBox);
+				
 			}
+			
+			//대댓글 입력폼 제거 함수
+			function commentInputRemoveFn(){
+				let childCommentInputBox = $(".childCommentInputBox");
+				childCommentInputBox.remove();
+				
+				//console.log(jmcd+"/"+boardNum);
+				
+			}
+			
+			//댓글 수정 입력폼 변환 함수
+			function commentUpdateInputFransformFn(commentNum){
+				let commentLine = $("#commentLine"+commentNum);
+				let comment = $("#commentLine"+commentNum).val();
+				
+				let readComment;
+				let rurl = "<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/read-one'/>";
+				
+				
+				$.ajax({
+					url : rurl,
+					type : "post",
+					data : {
+						"boardNum" : boardNum,
+						"commentNum" : commentNum
+					},
+					success : function(cvo){
+						readComment = cvo.content;
+						console.log("데이터 읽기 성공!");
+					},
+					error : function(){
+						console.log("데이터 읽기 실패..");
+					}
+				});
+				
+				console.log(commentLine);
+				console.log(comment);
+				
+				let printInputTag = "";
+				printInputTag += "<label for='updateCommentInput"+commentNum+"'>댓글 수정 : </label>";
+				printInputTag += "<input type='text' name='commentUpdate' id='updateCommentInput"+commentNum+"' value='"+readComment+"'>";
+				printInputTag += "<button type='button' onclick='commentUpdateFn("+commentNum+")'>수정완료</button>";
+				printInputTag += "<button type='button' onclick='updateCommentInputRemoveBtnFn()'>X</button>"
+				
+				commentLine.html("");
+				commentLine.html(printInputTag);
+				
+			}
+			
+			//댓글 수정 입력폼 제거 함수
+			function updateCommentInputRemoveBtnFn(){
+				
+			}
+			
+			//댓글 수정 함수
+			function commentUpdateFn(commentNum){
+				
+				let upurl = "<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/update'/>"
+				let commentLine = $("#commentLine"+commentNum);
+				let comment = $("#commentLine"+commentNum).val();
+				console.log(commentLine);
+				console.log(comment);
+				
+				$.ajax({
+					url : upurl,
+					type : "post",
+					data : {
+						"commentNum" : commentNum,
+						"content" : comment
+					},
+					success : function(cvo){
+						alert("댓글 수정에 성공하였습니다.");
+						commentLine.html("");
+						commentLine.html(cvo.content);
+					},
+					error : function(cvo){
+						alert("댓글 수정에 실패하였습니다.");
+					}
+				});
+			}
+			
+			//댓글 삭제 함수
+			function commentDeleteFn(commentNum){
+				let url = "<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/delete'/>";
+				console.log(url);
+				$.ajax({
+					url : url,
+					type : "post",
+					data : {
+						"commentNum" : commentNum
+					},
+					success : function(res){
+						if(res == 1){
+							alert("댓글 삭제에 성공하였습니다.");
+						}
+						else{
+							alert("댓글 삭제에 실패하였습니다.");
+						}
+					},
+					error : function(){
+						alert("댓글 삭제에 실패하였습니다.");
+					}
+				});
+			}
+			
 		</script>
 	</head>
 	<body>
@@ -133,6 +263,15 @@
 					</c:forEach> 
 				</div>
 				<hr>
+				<c:if test="${sessionScope.user.id == board.usersId}">
+					<div class="updateDeleteBtnBox">
+						<button type="button" onclick="moveUpdateBoardFn()">글 수정하기</button>
+						<form action="<c:url value='/licenses/lists/${jmcd }/QnA/${board.boardNum }/delete'/>" method="post">
+							<button type="submit">글 삭제하기</button>
+						</form>
+					</div>
+					<hr>
+				</c:if>
 				<div class="commentBox">
 					<h3 class="commentSubtitle">댓글</h3>
 					<c:choose>
@@ -154,7 +293,7 @@
 								<ul>
 									<li>${i.parentCommentNum }</li>
 									<li>${i.nick }</li>
-									<li>${i.content }</li>
+									<li id="commentLine${i.commentNum }">${i.content }</li>
 									<li>${i.wDate }</li>
 									<li id="commentBtnBox${i.commentNum }">
 										<c:if test="${not empty sessionScope && i.parentCommentNum == 0 }">
@@ -162,7 +301,7 @@
 										</c:if>
 										
 										<c:if test="${sessionScope.user.id == i.usersId}">
-												<button type="button" onclick="commentUpdateFn(${i.commentNum})">댓글 수정</button>
+												<button type="button" onclick="commentUpdateInputFransformFn(${i.commentNum})">댓글 수정</button>
 												<button type="button" onclick="commentDeleteFn(${i.commentNum})">댓글 삭제</button>
 										</c:if>
 										

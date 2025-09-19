@@ -45,15 +45,15 @@ public class LicenseBoardsRepository {
 	}
 	//QnA 게시판 글 작성
 	public int insertQnABoardOne(LicenseBoardsVO vo) {
-		return template.insert("licenseBoardMapper.insertBoardOne",vo);
+		return template.insert("licenseBoardMapper.insertQnABoardOne",vo);
 	}
 	//QnA 게시판 글 수정
 	public int updateQnABoardOne(LicenseBoardsVO vo) {
-		return template.update("licenseBoardMapper.updateBoardOne",vo);
+		return template.update("licenseBoardMapper.updateQnABoardOne",vo);
 	}
 	//QnA 게시판 글 삭제
-	public int deleteQnABoardOne(LicenseBoardsVO vo) {
-		return template.update("licenseBoardMapper.deleteBoardOne",vo);
+	public int deleteQnABoardOne(int boardNum) {
+		return template.update("licenseBoardMapper.deleteQnABoardOne",boardNum);
 	}
 	//자격증 자료실 목록조회
 	public List<LicenseBoardsVO> selectDataroomBoards(){
@@ -89,5 +89,14 @@ public class LicenseBoardsRepository {
 	//QnA 게시판 댓글 단건 조회
 	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum) {
 		return template.selectOne("licenseBoardMapper.selectLicenseCommentOne",commentNum);
+	}
+	
+	//QnA 게시판 댓글 수정
+	public int updateLicenseCommentOne(LicenseBoardsCommentVO vo) {
+		return template.update("licenseBoardMapper.updateLicenseCommentOne",vo);
+	}
+	//QnA 게시판 댓글 삭제
+	public int deleteLicenseCommentOne(int commentNum) {
+		return template.update("licenseBoardMapper.deleteLicenseCommentOne",commentNum);
 	}
 }

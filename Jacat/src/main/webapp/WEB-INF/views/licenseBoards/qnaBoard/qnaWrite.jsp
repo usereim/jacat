@@ -11,20 +11,20 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
 			<section id="licenseQnABoardWriteSubtitleBox">
-				<h2>${board.licenseName } QnA 게시판</h2>
-				<h3>글쓰기</h3>
+				<h2>${jmfldnm } QnA 게시판</h2>
+				<h3>새글작성</h3>
 				<hr>
 			</section>
 			<section id="licenseQnABoardWriteContentBox">
 				<div class="contentBox">
-					<form action="<c:url value='/licenses/QnA/write'/>" method="post">
+					<form action="<c:url value='/licenses/lists/${jmcd }/QnA/write'/>" method="post">
 						<p class="writeTitleBox">
-							<label for="title">제목 : </label>
-							<input type="text" name="title" id="title">
+							<label for="wtitle">제목 : </label>
+							<input type="text" name="title" id="wtitle">
 						</p>
 						<p class="writeContentBox">
-							<label for="content">내용 : </label>
-							<textarea name="content" id="content"></textarea>
+							<label for="wcontent">내용 : </label>
+							<textarea name="content" id="wcontent"></textarea>
 						</p>
 						<!--p class="writeFileBox">
 							<input type="file" name="file">

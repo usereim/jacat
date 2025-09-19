@@ -40,12 +40,14 @@
 				width:8%;
 			}
 		</style>
-		<script src="<c:url value='/resource/js/jquery-3.7.1.min.js'/>"></script>
+		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
 			let jmcd = "${jmcd}";
 			function moveWriteFn(){
-				console.log(jmcd);
-				location.href="<c:url value='/licenses/"+jmcd+"/QnA/write'/>";
+				//console.log(jmcd);
+				location.href="<c:url value='/licenses/lists/"+jmcd+"/QnA/write'/>";
+				//console.log("<c:url value='/resource/js/jquery-3.7.1.min.js'/>");
+				//console.log("<c:url value=''/>");
 			}
 		</script>
 	</head>

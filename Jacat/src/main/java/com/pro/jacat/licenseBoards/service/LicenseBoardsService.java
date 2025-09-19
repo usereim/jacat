@@ -25,11 +25,11 @@ public interface LicenseBoardsService {
 	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
 			throws IllegalStateException, IOException;
 	*/
-	public void insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException;
+	public int insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException;
 	
 	public int updateQnABoardOne(LicenseBoardsVO vo);
 	
-	public int deleteQnABoardOne(LicenseBoardsVO vo);
+	public int deleteQnABoardOne(int boardNum);
 	
 	public List<LicenseBoardsVO> selectDataroomBoards();
 	
@@ -46,5 +46,9 @@ public interface LicenseBoardsService {
 	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo);
 	
 	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum);
+	
+	public int updateLicenseCommentOne(LicenseBoardsCommentVO vo);
+	
+	public int deleteLicenseCommentOne(int commentNum);
 	
 }
