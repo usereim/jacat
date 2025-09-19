@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pro.jacat.calendar.service.CalendarServiceImpl;
 import com.pro.jacat.calendar.vo.CalendarVO;
+import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
 import com.pro.jacat.user.vo.UserVO;
 
 @Controller
@@ -50,6 +51,12 @@ public class CalendarController {
 	@ResponseBody
 	public List<CalendarVO> list(@RequestParam("id") String id) {
 		return calendarService.selectCalendarAll(id);
+	}
+	
+	@PostMapping("/test-date-list")
+	@ResponseBody
+	public List<UsersFavoritesLicenseVO> testDateList(@RequestParam("id") String id) {
+		return calendarService.selectLicenseTestDateAll(id);
 	}
 	
 	@PostMapping("/view")

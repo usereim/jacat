@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.pro.jacat.calendar.repository.CalendarRepository;
 import com.pro.jacat.calendar.vo.CalendarVO;
+import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
@@ -43,6 +44,11 @@ public class CalendarServiceImpl implements CalendarService {
 	public void updateCalendar(CalendarVO calendar) {
 		calendarRepository.updateCalendar(calendar);
 		
+	}
+
+	@Override
+	public List<UsersFavoritesLicenseVO> selectLicenseTestDateAll(String id) {
+		return calendarRepository.selectLicenseTestDateAll(id);
 	}
 
 }

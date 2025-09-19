@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="calendarMapper">
+
+	<resultMap id="licenceDateMap" type="favolicense">
+		<id property="usersId" column="users_id" />
+		<id property="licenseListJmcd" column="jmcd" />
+		<result property="wDate" column="w_date" />
+		<result property="jmfldnm" column="jmfldnm" />
+		<collection property="dateList" ofType="lTestDate">
+			<id property="ltdNum" column="ltd_num" />
+			<result property="implSeq" column="impl_seq" />
+			<result property="licenseListJmcd" column="license_list_jmcd" />
+			<result property="implYy" column="impl_yy" />
+			<result property="description" column="description" />
+			<result property="docRegStartDt" column="doc_reg_start_dt" />
+			<result property="docRegEndDt" column="doc_reg_end_dt" />
+			<result property="docExamStartDt" column="doc_exam_start_dt" />
+			<result property="docExamEndDt" column="doc_exam_end_dt" />
+			<result property="docPassDt" column="doc_pass_dt" />
+			<result property="pracRegStartDt" column="prac_reg_start_dt" />
+			<result property="pracRegEndDt" column="prac_reg_end_dt" />
+			<result property="pracExamStartDt" column="prac_exam_start_dt" />
+			<result property="pracExamEndDt" column="prac_exam_end_dt" />
+			<result property="pracPassDt" column="prac_pass_dt" />
+		</collection>
+		
+	</resultMap>
 	
 	<insert id="insertCalendarOne" parameterType="calendar">
 		insert into calendar(
@@ -60,6 +85,17 @@
 			content = #{content}
 		where date_num = #{dateNum}
 	</update>
+	
+	<select id="selectLicenseTestDateAll" parameterType="String"
+		resultMap="licenceDateMap">
+		select users_favorites_license.users_id, users_favorites_license.license_list_jmcd as jmcd, license_test_date.*, license_list.jmfldnm
+		from users_favorites_license
+		right join license_list
+		on users_favorites_license.license_list_jmcd = license_list.jmcd
+		left join license_test_date
+		on users_favorites_license.license_list_jmcd = license_test_date.license_list_jmcd
+		where users_favorites_license.users_id = #{id};
+	</select>
 </mapper>
 
 

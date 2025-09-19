@@ -107,6 +107,113 @@
 				}
 			}
 			
+			function addLicenseEvent() {
+				if (id != "") {
+					$.ajax({
+						url : "<c:url value='/calendar/test-date-list' />",
+						type : "post",
+						data : {
+							"id" : id
+						}, success : function(response) {
+							for (let i = 0; i < response.length; ++i) {
+								let dateList = response[i].dateList;
+								let jmfldnm = response[i].jmfldnm;
+								for (let j = 0; j < dateList.length; ++j) {
+									let formattedDateString = dateList[j].docRegEndDt.substring(0, 4) + '-' +
+										dateList[j].docRegEndDt.substring(4, 6) + '-' +
+										dateList[j].docRegEndDt.substring(6, 8); 
+									let date = new Date(formattedDateString);
+									date.setDate(date.getDate() + 1);
+									let date2 = date.toISOString().split('T')[0];
+									let event = {
+											title : jmfldnm + " " + dateList[j].description + " 필기시험 원서접수" ,
+											start : dateList[j].docRegStartDt,
+											end : date2,
+											backgroundColor : 'red'
+									};									
+									calendar.addEvent(event);
+									
+									formattedDateString = dateList[j].docExamEndDt.substring(0, 4) + '-' +
+										dateList[j].docExamEndDt.substring(4, 6) + '-' +
+										dateList[j].docExamEndDt.substring(6, 8); 
+									date = new Date(formattedDateString);
+									date.setDate(date.getDate() + 1);
+									date2 = date.toISOString().split('T')[0];
+									event = {
+											title : jmfldnm + " " + dateList[j].description + " 필기시험" ,
+											start : dateList[j].docExamStartDt,
+											end : date2,
+											backgroundColor : 'red'
+									}
+									calendar.addEvent(event);
+									
+									formattedDateString = dateList[j].docPassDt.substring(0, 4) + '-' +
+										dateList[j].docPassDt.substring(4, 6) + '-' +
+										dateList[j].docPassDt.substring(6, 8); 
+									date = new Date(formattedDateString);
+									date.setDate(date.getDate() + 1);
+									date2 = date.toISOString().split('T')[0];
+									event = {
+											title : jmfldnm + " " + dateList[j].description + " 필기시험 합격자 발표일" ,
+											start : dateList[j].docPassDt,
+											end : date2,
+											backgroundColor : 'red'
+									}
+									calendar.addEvent(event);
+									
+									formattedDateString = dateList[j].pracRegEndDt.substring(0, 4) + '-' +
+										dateList[j].pracRegEndDt.substring(4, 6) + '-' +
+										dateList[j].pracRegEndDt.substring(6, 8); 
+									date = new Date(formattedDateString);
+									date.setDate(date.getDate() + 1);
+									date2 = date.toISOString().split('T')[0];
+									event = {
+											title : jmfldnm + " " + dateList[j].description + " 실기시험 원서접수" ,
+											start : dateList[j].pracRegStartDt,
+											end : date2,
+											backgroundColor : 'red'
+									}
+									calendar.addEvent(event);
+									
+									formattedDateString = dateList[j].pracExamEndDt.substring(0, 4) + '-' +
+										dateList[j].pracExamEndDt.substring(4, 6) + '-' +
+										dateList[j].pracExamEndDt.substring(6, 8); 
+									date = new Date(formattedDateString);
+									date.setDate(date.getDate() + 1);
+									date2 = date.toISOString().split('T')[0];
+									event = {
+											title : jmfldnm + " " + dateList[j].description + " 실기시험" ,
+											start : dateList[j].pracExamStartDt,
+											end : date2,
+											backgroundColor : 'red'
+									}
+									calendar.addEvent(event);
+									
+									formattedDateString = dateList[j].pracPassDt.substring(0, 4) + '-' +
+										dateList[j].pracPassDt.substring(4, 6) + '-' +
+										dateList[j].pracPassDt.substring(6, 8); 
+									date = new Date(formattedDateString);
+									date.setDate(date.getDate() + 1);
+									date2 = date.toISOString().split('T')[0];
+									event = {
+											title : jmfldnm + " " + dateList[j].description + " 실기시험 합격자 발표" ,
+											start : dateList[j].pracPassDt,
+											end : date2,
+											backgroundColor : 'red'
+									}
+									calendar.addEvent(event);
+								}
+								
+							}
+						}, error : function() {
+							
+						}
+					});
+				} else {
+					
+				}
+			}
+			
 			function addCalendar() {
 				calendarEl = document.getElementById("calendar");
 				calendar = new FullCalendar.Calendar(calendarEl, {
@@ -127,7 +234,8 @@
 				});
 				calendar.render();
 				addEvent();
-
+				addLicenseEvent();
+				
 				/* $(calendarEl).on('mousedown', '.fc-daygrid-day', function(event) {
 					console.log($(this).data('date'));
 				    $("#start-date").val($(this).data('date'));
