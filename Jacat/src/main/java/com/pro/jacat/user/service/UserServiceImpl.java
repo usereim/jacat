@@ -112,6 +112,20 @@ public class UserServiceImpl implements UserService {
 		return response;
 	}
 
+	@Override
+	public UserResponse selectUsersByPw(UserVO user) {
+		UserResponse response = new UserResponse();
+		int cnt = userRepository.selectUsersByPw(user);
+		
+		response.setCode(cnt);
+		return response;
+	}
+
+	@Override
+	public UserVO selectUsersOneForMypage(UserVO user) {
+		return userRepository.selectUsersOneForMypage(user);
+	}
+
 	
 }
 

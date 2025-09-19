@@ -59,6 +59,19 @@
 		from users
 		where id = #{id} and grade = 'S'
 	</select>
+	
+	<select id="selectUsersByPw" parameterType="user" resultType="int">
+		select count(*) 
+		from users
+		where id = #{id} and pw = #{pw}
+	</select>
+	
+	<select id="selectUsersOneForMypage" parameterType="user"
+		resultType="user">
+		select id, nick, email, real_file_name, file_name, path
+		from users
+		where id = #{id}
+	</select>
 </mapper>
 
 

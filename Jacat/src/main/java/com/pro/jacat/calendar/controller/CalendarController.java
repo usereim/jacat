@@ -31,7 +31,10 @@ public class CalendarController {
 	}
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String calendar() {
+	public String calendar(HttpSession session) {
+		if (session.getAttribute("user") == null) {
+			return "redirect:/";
+		}
 		
 		return "calendar/calendar";
 	}

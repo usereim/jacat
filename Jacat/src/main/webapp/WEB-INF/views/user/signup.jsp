@@ -89,25 +89,7 @@
 						if (!checkNick()) {
 							return false;
 						} else {
-							$.ajax({
-								url : "<c:url value='/user/nick-check' />",
-								type : "post",
-								data : {
-									"nick" : nick
-								},
-								success : function(response) {
-									if (response.code == 1) {
-										$("#nick_message").text("사용중인 닉네임입니다.")
-												.css("color", "red");
-										nick_check = false;
-									} else {
-										nick_check = true;
-									}
-								},
-								error : function() {
-									nick_check = false;
-								}
-							});
+							
 						}
 					});
 

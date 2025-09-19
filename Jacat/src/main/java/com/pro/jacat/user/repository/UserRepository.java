@@ -52,4 +52,12 @@ public class UserRepository {
 	public int selectUsersSuspendById(String id) {
 		return template.selectOne("userMapper.selectUsersSuspendById", id);
 	}
+
+	public int selectUsersByPw(UserVO user) {
+		return template.selectOne("userMapper.selectUsersByPw", user);
+	}
+
+	public UserVO selectUsersOneForMypage(UserVO user) {
+		return template.selectOne("userMapper.selectUsersOneForMypage", user);
+	}
 }

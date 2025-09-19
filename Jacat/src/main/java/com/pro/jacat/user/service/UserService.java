@@ -15,4 +15,6 @@ public interface UserService {
 	public UserResponse selectUsersCntByIdEmail(UserVO user);
 	public UserResponse updateUsersPwByEmail(UserVO user);
 	UserResponse selectUsersSuspendById(String id);
+	UserResponse selectUsersByPw(UserVO user);
+	UserVO selectUsersOneForMypage(UserVO user);
 }
