@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>jacatHeader</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/cerulean/bootstrap.min.css" rel="stylesheet">
 		<style>
 			header{
 				height:10vh;
@@ -33,8 +34,8 @@
 					src="<c:url value="/resources/img/jacat_main_logo.png"/>"
 					id="mainLogo">
 				</a>
-				<form action="#" method="get">
-					<input type="text" id="searchBox" name="search">
+				<form action="${pageContext.request.contextPath}/search/result" method="get">
+					<input type="text" id="searchBox" name="keyword">
 					<button type="submit">🔎</button>
 				</form>
 				
