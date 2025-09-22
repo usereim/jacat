@@ -33,8 +33,8 @@
 					src="<c:url value="/resources/img/jacat_main_logo.png"/>"
 					id="mainLogo">
 				</a>
-				<form action="#" method="get">
-					<input type="text" id="searchBox" name="search">
+				<form action="${pageContext.request.contextPath}/search/result" method="get">
+					<input type="text" id="searchBox" name="keyword">
 					<button type="submit">🔎</button>
 				</form>
 				
