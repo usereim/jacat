@@ -20,6 +20,7 @@
 		<typeAlias type="com.pro.jacat.freeboard.vo.FreeBoardFileVO" alias="file" />
 		<typeAlias type="com.pro.jacat.freeboard.vo.FreeBoardCommentVO" alias="comment" />
 		<typeAlias type="com.pro.jacat.freeboard.vo.FreeBoardReportVO" alias="report" />
+		<typeAlias type="com.pro.jacat.search.vo.SearchResultVO" alias="search" />
 		
 		<typeAlias type="com.pro.jacat.noticeBoard.vo.NoticeBoardVO" alias="noticeboard"/>
 		
