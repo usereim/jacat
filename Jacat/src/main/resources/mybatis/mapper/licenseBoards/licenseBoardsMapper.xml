@@ -205,6 +205,11 @@
 		 where board_num = #{boardNum};
 	</update>
 	
+	<insert id="insertQnABoardReportOne" parameterType="lreport">
+		insert into license_board_report(users_id,license_boards_board_num,report_category,report_content)
+		values(#{usersId},#{licenseBoardsBoardNum},#{reportCategory},"#{reportContent}");
+	</insert>
+	
 	<!-- 자료실 목록조회 -->
 	<select id="selectDataroomBoards" resultType="java.util.List">
 		select lb.board_num, lb.users_id, lb.license_list_jmcd, 

@@ -237,6 +237,31 @@ public class LicenseBoardsController {
 		return "redirect:/licenses/lists/"+jmcd+"/QnA";
 	}
 	
+	/*----------QnA 신고----------*/
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/report", method=RequestMethod.GET)
+	public String qnaReport(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum
+			) {
+		
+		return "licenseBoards/licenseBoardReportPopup";
+	}
+	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/report", method=RequestMethod.POST)
+	@ResponseBody
+	public String qnaReportPost(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			@SessionAttribute("user") UserVO user,
+			@RequestParam("reportCategory") String reportCategory,
+			@RequestParam("etcOrExplanation") String etcOrExplanation
+			) {
+		
+		
+		
+		return "redirect:a";
+	}
+	
+	
 	/*----------QnA 댓글----------*/
 	
 	//QnA 게시판 댓글 작성

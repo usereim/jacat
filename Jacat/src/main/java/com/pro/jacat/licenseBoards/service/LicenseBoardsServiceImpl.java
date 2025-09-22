@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pro.jacat.licenseBoards.repository.LicenseBoardsFileRepository;
 import com.pro.jacat.licenseBoards.repository.LicenseBoardsRepository;
 import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
+import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
@@ -198,6 +199,13 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		
 		return lBoardRepo.deleteLicenseCommentOne(commentNum);
 		
+	}
+	
+	//QnA 게시판 게시글 신고
+	@Override
+	public int insertQnABoardReportOne(LicenseBoardReportVO vo) {
+		
+		return lBoardRepo.insertQnABoardReportOne(vo);
 	}
 
 	

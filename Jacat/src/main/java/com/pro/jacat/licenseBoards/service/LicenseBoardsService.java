@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
@@ -30,6 +31,8 @@ public interface LicenseBoardsService {
 	public int updateQnABoardOne(LicenseBoardsVO vo);
 	
 	public int deleteQnABoardOne(int boardNum);
+	
+	public int insertQnABoardReportOne(LicenseBoardReportVO vo);
 	
 	public List<LicenseBoardsVO> selectDataroomBoards();
 	

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
@@ -54,6 +55,10 @@ public class LicenseBoardsRepository {
 	//QnA 게시판 글 삭제
 	public int deleteQnABoardOne(int boardNum) {
 		return template.update("licenseBoardMapper.deleteQnABoardOne",boardNum);
+	}
+	//QnA 게시판 게시글 신고
+	public int insertQnABoardReportOne(LicenseBoardReportVO vo) {
+		return template.insert("licenseBoardMapper.insertQnABoardReportOne",vo);
 	}
 	//자격증 자료실 목록조회
 	public List<LicenseBoardsVO> selectDataroomBoards(){

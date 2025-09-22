@@ -111,7 +111,7 @@
 				let childCommentBox = "";
 				childCommentBox += "<div class='childCommentInputBox'>";
 				childCommentBox += "<label for='childCommentInput"+commentNum+"'>대댓글 작성 : </label>";
-				childCommentBox += "<input type='text' name='comment' id='childCommentInput"+commentNum+"'>";
+				childCommentBox += "<input type='text' name='comment' id='childCommentInput"+commentNum+"'placeholder='대댓글을 작성하세요.'>";
 				childCommentBox += "<button type='button' onclick='commentWriteFn("+commentNum+")'>작성</button>";
 				childCommentBox += "<button type='button' onclick='commentInputRemoveFn()'>X</button>";
 				childCommentBox += "</div>";
@@ -232,6 +232,10 @@
 				});
 			}
 			
+			function reportPopupFn(){
+				let reportPopupOpen = window.open("<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/report'/>","_blank","width=500,height=400");
+			}
+			
 		</script>
 	</head>
 	<body>
@@ -272,6 +276,12 @@
 					</div>
 					<hr>
 				</c:if>
+				<c:if test="${sessionScope.user.id != board.usersId && not empty sessionScope.user}">
+					<div class="reportBtnBox">
+						<button type="button" onclick="reportPopupFn()">신고하기</button>
+					</div>
+					<hr>
+				</c:if>
 				<div class="commentBox">
 					<h3 class="commentSubtitle">댓글</h3>
 					<c:choose>
@@ -281,7 +291,7 @@
 						<c:otherwise>
 							<div class="commentWrite">
 								<label for="commentInput">댓글 작성 : </label>
-								<input type="text" name="comment" id="commentInput">
+								<input type="text" name="comment" id="commentInput" placeholder="댓글을 작성하세요.">
 								<button type="button" onclick="commentWriteFn(0)">작성</button>
 							</div>
 							<hr>
@@ -309,8 +319,9 @@
 								</ul>
 							</div>
 						</c:forEach>
-						</div>
+					</div>
 				</div>
+				
 			</section>
 		</main>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
