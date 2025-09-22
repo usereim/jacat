@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>jacatHeader</title>
-		<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/cerulean/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 		<style>
 			header{
 				height:10vh;
