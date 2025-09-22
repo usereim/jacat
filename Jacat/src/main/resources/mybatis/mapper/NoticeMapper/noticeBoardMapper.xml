@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 	<!-- mybatis Mapper -->
-<mapper namespace="noticeboardMapper">
+<mapper namespace="NoticeboardMapper">
 	<resultMap id="noticeBoardVO" type="noticeboard">
 			<id property="boardNum" column="board_num" />
 			<result property="usersId" column="users_id"/>
@@ -21,6 +21,7 @@
 			</association>
  </resultMap>
  	
+ 	<!-- 게시글 리스트 -->
  	<select id="selectAllBoard" resultType="noticeboard">
 		<!-- id는 매퍼 내부에서 고유한 id(자바에서 호출하기 위해서) -->
 		<!-- resultType은 쿼리의 실행 결과를 반환해줄 자바 타입 -->
@@ -28,11 +29,44 @@
 		<!-- bno : 1,  title : 제목1, body : 본문1, author : hong... -->
 	</select>
  	
- 	
+ 	<!-- 게시글 상세조회 -->
  	<select id="selectBoardByBno" parameterType="int" resultMap="noticeBoardVO">
  			select * from boards left join users
-		on boards.users_id = users.id where board_num = #{bno} ;
+		on boards.users_id = users.id where board_num = #{bno}
+		 ;
 	</select>
+	
+	<!-- 게시글 수정처리 -->
+	<update id="updateNoticeBoard" parameterType="noticeBoard">
+	update boards
+	<set>
+		<if test="title != null">
+			title = #{title},
+		</if>
+		<if test="body != null">
+			body = #{body},
+		</if>
+		<if test="id != id">
+			id = #{id},
+		</if>
+    </set>
+    where board_num = #{board_num}
+	</update>
+	
+	
+	<!-- 게시글 한건 삭제 -->
+	<delete id="deleteNoticeBoard" parameterType="int">
+		delete from boards where board_num = #{board_num}
+	</delete>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertNoticeBoard" parameterType="noticeBoard">
+	insert into boards(
+	title,
+	content,
+	users_id,
+	board_type
+	)
+	values(#{title},#{content},#{usersId},#{boardType})
+	</insert>
  </mapper>	
- 	
- 	

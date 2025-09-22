@@ -19,22 +19,22 @@ public class NoticeBoardRepository {
 	}
 	
 	public List<NoticeBoardVO> selectAllBoard(){
-		return template.selectList("noticeboardMapper.selectAllBoard");
+		return template.selectList("NoticeboardMapper.selectAllBoard");
 	}
 	
 	//3. 게시글 단건조회
 	public NoticeBoardVO selectBoardByBno(int bno){
-		return template.selectOne("noticeboardMapper.selectBoardByBno", bno);
+		return template.selectOne("NoticeboardMapper.selectBoardByBno", bno);
 	}
 	
 	//2. 게시글 입력
-	public int insertBoard(NoticeBoardVO vo){
-		return template.insert("NoticeboardMapper.insertBoardOne", vo);
+	public int insertNoticeBoard(NoticeBoardVO vo){
+		return template.insert("NoticeboardMapper.insertNoticeBoard", vo);
 	}
 	
 	//4. 게시글 수정
 	public int updateBoard(NoticeBoardVO vo){
-		return template.update("NoticeboardMapper.updateBoardOne", vo);
+		return template.update("NoticeboardMapper.updateBoard", vo);
 	}
 	
 	//5. 게시글 삭제

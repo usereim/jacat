@@ -15,7 +15,7 @@ public interface NoticeService {
 	NoticeBoardVO selectnoticeBoardBybno(int board_num);
 	
 	//게시글 수정 조회
-	boolean updateNoticeBoard(NoticeBoardVO vo);
+	boolean updateNoticeBoard(NoticeBoardVO vo,List<MultipartFile> file);
 	
 	//게시글 삭제
 	int deleteNoticeBoard(int bno, String id);

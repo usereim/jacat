@@ -33,8 +33,8 @@
 					src="<c:url value="/resources/img/jacat_main_logo.png"/>"
 					id="mainLogo">
 				</a>
-				<form action="${pageContext.request.contextPath}/search/result" method="get">
-					<input type="text" id="searchBox" name="keyword">
+				<form action="#" method="get">
+					<input type="text" id="searchBox" name="search">
 					<button type="submit">🔎</button>
 				</form>
 				
@@ -53,7 +53,7 @@
 				
 			</div>
 			<nav id="navigationBar">
-				<a href="<c:url value='/notice'/>">공지사항</a>
+				<a href="<c:url value='/notice/list'/>">공지사항</a>
 				<a href="<c:url value='/csc/main'/>">고객센터</a>
 				<a href="<c:url value='/freeboard/boards'/>">자유게시판</a>
 				<a href="<c:url value='/licenses/lists'/>">자격증 정보</a>

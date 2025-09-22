@@ -50,17 +50,22 @@ public class NoticeServiceImpl implements NoticeService {
 
 	//게시글 수정처리
 	@Override
-	public boolean updateNoticeBoard(NoticeBoardVO vo){
-		if(vo.getTitle() == null || vo.getTitle().equals("")) {
-			return false;
-		}
-		int result = noticeBoardRepository.updateBoard(vo);
-		if(result <= 0) {
-			return false;
-		}else {
-			return true;
-		}
+	public boolean updateNoticeBoard(NoticeBoardVO vo, List<MultipartFile> files) {
+	    if(vo.getTitle() == null || vo.getTitle().equals("")) {
+	        return false;
+	    }
+	    int result = noticeBoardRepository.updateBoard(vo);
+	    if(result <= 0) {
+	        return false;
+	    } else {
+	        // 파일 처리 로직 추가 (files가 비어있으면 처리 안 함)
+	        if(files != null && !files.isEmpty()) {
+	            // 파일 저장 로직
+	        }
+	        return true;
+	    }
 	}
+
 	@Override
 	//게시글 삭제처리
 	public int deleteNoticeBoard(int board_num, String id) {
@@ -74,14 +79,15 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	//게시글 작성 + 파일 업로드 + 파일 insert
-	public void insertNoticeBoard(NoticeBoardVO vo, List<MultipartFile> file)throws IllegalArgumentException, IOException {		
+	public void insertNoticeBoard(NoticeBoardVO vo, List<MultipartFile> file)
+			throws IllegalArgumentException, IOException {		
 		String path = context.getRealPath("/uploads/");
 		File dir = new File(path);
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}		
 		//게시글 insert
-		noticeBoardRepository.insertBoard(vo);
+		noticeBoardRepository.insertNoticeBoard(vo);
 		
 		//첨부파일 업로드
 		List<NoticeBoardFileVO> list = new ArrayList<>();

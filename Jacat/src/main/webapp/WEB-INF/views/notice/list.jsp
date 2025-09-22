@@ -12,8 +12,8 @@
 <body>
  <c:import url="/WEB-INF/views/includes/header.jsp"/>
 <body>
-		<c:if test="${not empty sessionScope.user}">
-		<a href="<c:url value="/notice/noticeBoardWrite" />">글쓰기</a>
+		<c:if test="${sessionScope.user.grade == 'A'}">
+		<a href="<c:url value="/notice/write" />">글작성</a>
 		</c:if>
 	<main>
 		<table>
