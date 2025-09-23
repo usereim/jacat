@@ -11,7 +11,7 @@
 <body>
   	<!-- 신고기능 -->
     	<form action="<c:url value='/freeboard/report' />" id="reportForm" method="post">
-    	<input type="hidden" id="boardNum" name="boardNum"/>
+    	<input type="hidden" id="boardNum" name="boardsBoardNum"/>
 
     	<p>신고 사유 선택:</p>
     	<label><input type="radio" name="reportCategory" value="욕설/비방" required> 욕설/비방</label><br>

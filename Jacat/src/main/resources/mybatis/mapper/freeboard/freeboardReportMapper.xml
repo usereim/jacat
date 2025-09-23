@@ -15,8 +15,8 @@
 			report_content
 		)values(
 			#{reportNum},
-			#{usersID},
-			#{boardNum},
+			#{usersId},
+			#{boardsBoardNum},
 			#{reportCategory},
 			#{reportContent}
 		)
