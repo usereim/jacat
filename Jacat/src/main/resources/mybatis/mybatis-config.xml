@@ -29,7 +29,7 @@
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO" alias="lcomment"/>
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO" alias="lfile"/>
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO" alias="favolicense"/>
-		<typeAlias type="com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO" alias="lreport"/>
+		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO" alias="lreport"/>
 		
 		<!-- API 공공데이터 VO 클래스 Alias -->
 		<typeAlias type="com.pro.jacat.licenses.vo.LicenseListVO" alias="lList"/>
