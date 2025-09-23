@@ -123,8 +123,18 @@
 		values(
 			#{usersId},#{licenseListJmcd}
 		);
-		
 	</insert>
+	<!-- 관심자격증 제거 -->
+	<delete id="deleteFavoriteLicenseOne" parameterType="favolicense">
+		delete from users_favorites_license 
+		where users_id = #{usersId} and license_list_jmcd = #{licenseListJmcd};
+	</delete>
+	<!-- 관심자격증 여부 조회 -->
+	<select id="selectFavoriteLicenseYN" parameterType="favolicense" resultType="int">
+		select count(*) 
+		from users_favorites_license 
+		where users_id = #{usersId} and license_list_jmcd = #{licenseListJmcd};
+	</select>
 	
 	<!-- QnA 게시글 목록 조회 -->
 	<select id="selectQnABoards" resultType="lboard">
@@ -205,9 +215,10 @@
 		 where board_num = #{boardNum};
 	</update>
 	
+	<!-- QnA 게시글 신고 -->
 	<insert id="insertQnABoardReportOne" parameterType="lreport">
 		insert into license_board_report(users_id,license_boards_board_num,report_category,report_content)
-		values(#{usersId},#{licenseBoardsBoardNum},#{reportCategory},"#{reportContent}");
+		values(#{usersId},#{licenseBoardsBoardNum},#{reportCategory},#{reportContent});
 	</insert>
 	
 	<!-- 자료실 목록조회 -->
@@ -267,6 +278,7 @@
 		(#{licenseBoardsBoardNum},#{usersId},#{parentCommentNum},#{content});
 	</insert>
 	
+	<!-- 댓글 하나 조회 -->
 	<select id="selectLicenseCommentOne" parameterType="int" resultType="lcomment">
 		select 
 		 lc.comment_num, lc.license_boards_board_num, lc.users_id,
@@ -278,10 +290,12 @@
 		 where u.id = lc.users_id and comment_num = #{commentNum};
 	</select>
 	
+	<!-- 댓글 하나 수정 -->
 	<update id="updateLicenseCommentOne" parameterType="lcomment" useGeneratedKeys="true" keyProperty="commentNum">
 		update license_comment set content = #{content}, modify_date = now() where comment_num = #{commentNum};
 	</update>
 	
+	<!-- 댓글 하나 삭제 -->
 	<update id="deleteLicenseCommentOne" parameterType="int">
 		update license_comment set delyn = 'Y' where comment_num = #{commentNum};
 	</update>

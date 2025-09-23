@@ -55,12 +55,41 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	public LicenseListVO selectLicenseOne(String jmcd) {
 		return lBoardRepo.selectLicenseOne(jmcd);
 	}
+	//빈자리접수 판별
+	@Override
+	public List<LicenseListVO> vacancyDiscernment(LicenseListVO vo) {
+		
+		return null;
+	}
 	
 	//관심자격증 추가
 	@Override
 	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo) {
 		
 		return lBoardRepo.insertFavoriteLicenseOne(vo);
+	}
+	//관심자격증 제거
+	@Override
+	public int deleteFavoriteLicenseOne(UsersFavoritesLicenseVO vo) {
+		
+		return lBoardRepo.deleteFavoriteLicenseOne(vo);
+	}
+	//관심자격증 여부 조회
+	@Override
+	public String selectFavoriteLicenseYN(UsersFavoritesLicenseVO vo) {
+		
+		int result = lBoardRepo.selectFavoriteLicenseYN(vo);
+		
+		String favoriteLicenseYN;
+		
+		if(result == 1) {
+			favoriteLicenseYN = "Y";
+		}
+		else {
+			favoriteLicenseYN = "N";
+		}
+		
+		return favoriteLicenseYN;
 	}
 	
 	//QnA 게시판 목록조회
@@ -74,55 +103,9 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		return lBoardRepo.selectQnABoardOne(boardNum);
 	}
 	
-	@Transactional
-	//QnA 게시판 글 작성
-	/*@Override
-	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
-	throws IllegalStateException, IOException
-	{	
-		String path = context.getRealPath("/uploads/licenses/boards/files"); 
-		File dir = new File(path);
-		if(!dir.exists()) {
-			dir.mkdir();
-		}
-		
-		//게시글 insert
-		lBoardRepo.insertQnABoardOne(vo);
-		
-		//첨부파일 업로드
-		List<FileLicenseBoardVO> list = new ArrayList<>();
-		
-		for(MultipartFile f : file) {
-			if(f.isEmpty()) {
-				continue;
-			}
-			
-			String realFileName = f.getOriginalFilename();
-			String ext = realFileName.substring(realFileName.lastIndexOf("."));
-			
-			String fileName = UUID.randomUUID().toString() + ext;
-			//long fileSize = f.getSize();
-			String fileType = f.getContentType();
-			
-			f.transferTo(new File(path+fileName));
-			
-			FileLicenseBoardVO flbVO = new FileLicenseBoardVO();
-			flbVO.setLicenseBoardsBoardNum(vo.getBoardNum());
-			flbVO.setRealFileName(realFileName);
-			flbVO.setFileName(fileName);
-			flbVO.setPath(path);
-			flbVO.setType(fileType);
-			
-			list.add(flbVO);
-			
-		}
-		
-		if(!list.isEmpty()) {
-			lFileRepo.insertFiles(list);
-		}
-		
-	}*/
+	
 	@Override
+	@Transactional
 	public int insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException {
 		//게시글 insert
 		return lBoardRepo.insertQnABoardOne(vo);
@@ -205,10 +188,100 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	@Override
 	public int insertQnABoardReportOne(LicenseBoardReportVO vo) {
 		
-		return lBoardRepo.insertQnABoardReportOne(vo);
+		int result = lBoardRepo.insertQnABoardReportOne(vo);
+		
+		if(result != 0) {
+			logger.info("QnA 게시판 신고 완료!");
+		}
+		else {
+			logger.info("QnA 게시판 신고 중 이상 발생!");
+		}
+		
+		return result;
+	}
+	
+	//QnA 게시글 파일 업로드
+	@Override
+	public int insertlBoardFiles(FileLicenseBoardVO vo) {
+		
+		String path = context.getRealPath("/uploads/licenses/boards/files"); 
+		File dir = new File(path);
+		if(!dir.exists()) {
+			dir.mkdir();
+		}
+		
+		FileLicenseBoardVO fvo = new FileLicenseBoardVO(); 
+		
+		String realFileName = fvo.getRealFileName();
+		String ext = realFileName.substring(realFileName.lastIndexOf("."));
+		
+		String fileName = UUID.randomUUID().toString() + ext;
+		
+		String type = vo.getType();
+		
+		//vo.transferTo(new File(path+fileName));
+		
+		FileLicenseBoardVO flbvo = new FileLicenseBoardVO();
+		flbvo.setLicenseBoardsBoardNum(vo.getLicenseBoardsBoardNum());
+		flbvo.setRealFileName(realFileName);
+		flbvo.setFileName(fileName);
+		flbvo.setPath(path);
+		flbvo.setType(type);
+		return lBoardRepo.insertlBoardFiles(flbvo);
+		
 	}
 
 	
+
+	
+
+	
+
+
+	
+	//QnA 게시판 글 작성
+	/*@Override
+	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
+	throws IllegalStateException, IOException
+	{	
+		
+		
+		//게시글 insert
+		lBoardRepo.insertQnABoardOne(vo);
+		
+		//첨부파일 업로드
+		List<FileLicenseBoardVO> list = new ArrayList<>();
+		
+		for(MultipartFile f : file) {
+			if(f.isEmpty()) {
+				continue;
+			}
+			
+			String realFileName = f.getOriginalFilename();
+			String ext = realFileName.substring(realFileName.lastIndexOf("."));
+			
+			String fileName = UUID.randomUUID().toString() + ext;
+			//long fileSize = f.getSize();
+			String fileType = f.getContentType();
+			
+			f.transferTo(new File(path+fileName));
+			
+			FileLicenseBoardVO flbVO = new FileLicenseBoardVO();
+			flbVO.setLicenseBoardsBoardNum(vo.getBoardNum());
+			flbVO.setRealFileName(realFileName);
+			flbVO.setFileName(fileName);
+			flbVO.setPath(path);
+			flbVO.setType(fileType);
+			
+			list.add(flbVO);
+			
+		}
+		
+		if(!list.isEmpty()) {
+			lFileRepo.insertFiles(list);
+		}
+		
+	}*/
 
 	
 }

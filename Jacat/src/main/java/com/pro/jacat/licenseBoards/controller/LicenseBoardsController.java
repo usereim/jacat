@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.HomeController;
 import com.pro.jacat.licenseBoards.service.LicenseBoardsServiceImpl;
+import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
+import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
@@ -56,15 +60,28 @@ public class LicenseBoardsController {
 	
 	//자격증 상세조회
 	@RequestMapping(value="/lists/{jmcd}",method=RequestMethod.GET)
-	public String licenseView(@PathVariable("jmcd") String jmcd, Model model) {
+	public String licenseView(
+			@PathVariable("jmcd") String jmcd, 
+			@SessionAttribute(name="user", required=false) UserVO user,
+			Model model) {
 		logger.info("자격증 상세정보 진입(jmcd : {})",jmcd);
 		
 		LicenseListVO vo = lboardService.selectLicenseOne(jmcd);
+		
+		if(user != null) {
+			UsersFavoritesLicenseVO uvo = new UsersFavoritesLicenseVO();
+			uvo.setUsersId(user.getId());
+			uvo.setLicenseListJmcd(jmcd);
+			
+			String favoriteLicenseYN = lboardService.selectFavoriteLicenseYN(uvo);
+			model.addAttribute("favoLi", favoriteLicenseYN);
+		}
 		
 		logger.info("{} 상세정보 진입",vo.getJmfldnm());
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("lListOne",vo);
+		
 		
 		logger.info("lTest : {}, lTestDate : {}" , 1/*vo.getlTest()*/, vo.getlTestDate());
 		logger.info("lTest : {}, lTestDate : {}" , 1/*vo.getlTest()*/, vo.getlTestDate().get(0).getDocExamEndDt());
@@ -90,6 +107,17 @@ public class LicenseBoardsController {
 		int addResult = lboardService.insertFavoriteLicenseOne(vo);
 		
 		return addResult;
+	}
+	//관심자격증 제거
+	@PostMapping("/lists/del-license")
+	@ResponseBody
+	public int delLicense(
+			UsersFavoritesLicenseVO vo
+			) {
+		int delResult = lboardService.deleteFavoriteLicenseOne(vo);
+		
+		return delResult;
+		
 	}
 	
 	/*----------QnA----------*/
@@ -171,7 +199,7 @@ public class LicenseBoardsController {
 	@RequestMapping(value="/lists/{jmcd}/QnA/write", method=RequestMethod.POST)
 	public String qnaBoardWritePost(
 			LicenseBoardsVO vo, 
-			//@RequestParam("file") List<MultipartFile> file,
+			@RequestParam("file") FileLicenseBoardVO fvo,
 			@SessionAttribute("user") UserVO user,
 			@PathVariable("jmcd") String jmcd
 			) throws IllegalStateException, IOException {
@@ -182,7 +210,8 @@ public class LicenseBoardsController {
 		
 		logger.info(vo.getUsersId()+","+vo.getLicenseListJmcd());
 		
-		int result = lboardService.insertQnABoardOne(vo);
+		lboardService.insertQnABoardOne(vo);
+		//lboardService.insertlBoardFiles(fvo);
 		
 		logger.info("번호 : "+vo.getBoardNum());
 		
@@ -238,6 +267,7 @@ public class LicenseBoardsController {
 	}
 	
 	/*----------QnA 신고----------*/
+	//QnA 신고 화면
 	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/report", method=RequestMethod.GET)
 	public String qnaReport(
 			@PathVariable("jmcd") String jmcd,
@@ -246,19 +276,28 @@ public class LicenseBoardsController {
 		
 		return "licenseBoards/licenseBoardReportPopup";
 	}
+	//QnA 신고 처리
 	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/report", method=RequestMethod.POST)
-	@ResponseBody
-	public String qnaReportPost(
+	
+	public void qnaReportPost(
 			@PathVariable("jmcd") String jmcd,
 			@PathVariable("boardNum") int boardNum,
 			@SessionAttribute("user") UserVO user,
-			@RequestParam("reportCategory") String reportCategory,
-			@RequestParam("etcOrExplanation") String etcOrExplanation
-			) {
+			@RequestParam("etcOrExplanation") String etcOrExplanation,
+			LicenseBoardReportVO vo,
+			HttpServletResponse response
+			) throws IOException  {
+		vo.setUsersId(user.getId());
+		vo.setLicenseBoardsBoardNum(boardNum);
+		vo.setReportContent(etcOrExplanation);
 		
+		logger.info("QnA 게시판 신고 처리중!");
 		
+		lboardService.insertQnABoardReportOne(vo);
 		
-		return "redirect:a";
+		response.setContentType("text/html");
+		response.getWriter().append("<script>window.close();</script>");
+		
 	}
 	
 	

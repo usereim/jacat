@@ -41,6 +41,16 @@
 				<h2>자격증 목록</h2>
 			</div>
 			<hr>
+			<div id="lListNavBox">
+				<ul>
+					<li>
+						<a href="<c:url value='/licenses/lists'/>">자격증 목록</a>
+					</li>
+					<li>
+						<a href="<c:url value='/licenses/center/list'/>">시험장 정보</a>
+					</li>
+				</ul>
+			</div>
 			<div id="lListContentBox">
 				<ul>
 					<c:forEach var="lList" items="${lList}">

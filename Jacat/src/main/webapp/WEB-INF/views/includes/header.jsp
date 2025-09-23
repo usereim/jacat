@@ -64,7 +64,15 @@
 						<a href="javascript:alert('로그인후 이용해 주세요.')">캘린더</a>
 					</c:when>
 					<c:otherwise>
-						<a href="<c:url value='/mypage/pw-cert'/>">마이페이지</a>
+						<c:choose>
+							<c:when test="${sessionScope.user.grade == 'A' }">
+								<a href="<c:url value='/adminPage/main'/>">관리자페이지</a>
+							</c:when>
+							<c:otherwise>
+								<a href="<c:url value='/mypage/pw-cert'/>">마이페이지</a>
+							</c:otherwise>
+						</c:choose>
+						
 						<a href="<c:url value='/calendar/main'/>">캘린더</a>
 					</c:otherwise>
 				</c:choose>

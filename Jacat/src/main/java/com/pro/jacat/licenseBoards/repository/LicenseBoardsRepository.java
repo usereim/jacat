@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
@@ -34,6 +35,14 @@ public class LicenseBoardsRepository {
 	//관심자격증 추가
 	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo) {
 		return template.insert("licenseBoardMapper.insertFavoriteLicenseOne",vo);
+	}
+	//관심자격증 제거
+	public int deleteFavoriteLicenseOne(UsersFavoritesLicenseVO vo) {
+		return template.delete("licenseBoardMapper.deleteFavoriteLicenseOne", vo);
+	}
+	//관심자격증 여부 조회
+	public int selectFavoriteLicenseYN(UsersFavoritesLicenseVO vo) {
+		return template.selectOne("licenseBoardMapper.selectFavoriteLicenseYN",vo);
 	}
 	
 	//QnA 게시판 목록조회
@@ -103,5 +112,9 @@ public class LicenseBoardsRepository {
 	//QnA 게시판 댓글 삭제
 	public int deleteLicenseCommentOne(int commentNum) {
 		return template.update("licenseBoardMapper.deleteLicenseCommentOne",commentNum);
+	}
+	
+	public int insertlBoardFiles(FileLicenseBoardVO vo) {
+		return template.insert("licenseBoardsFilesMapper.insertlBoardFiles",vo);
 	}
 }

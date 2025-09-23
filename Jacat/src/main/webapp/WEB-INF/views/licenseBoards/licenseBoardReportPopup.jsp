@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<section>
-			<form action = "/licenses/lists/${jmcd}/QnA/${boardNum}/report" method="post">
+			<form action = "<c:url value='/licenses/lists/${jmcd}/QnA/${boardNum}/report'/>" method="post">
 				<p>신고 사유 선택</p>
 				<label for="Profanity">욕설/비방</label>
 				<input type="radio" name="reportCategory" value="욕설/비방" id="Profanity" required>

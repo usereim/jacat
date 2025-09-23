@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
@@ -17,7 +18,13 @@ public interface LicenseBoardsService {
 	
 	public LicenseListVO selectLicenseOne(String jmcd);
 	
+	public List<LicenseListVO> vacancyDiscernment(LicenseListVO vo);
+	
 	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo);
+	
+	public int deleteFavoriteLicenseOne(UsersFavoritesLicenseVO vo);
+	
+	public String selectFavoriteLicenseYN(UsersFavoritesLicenseVO vo);
 	
 	public List<LicenseBoardsVO> selectQnABoards();
 	
@@ -53,5 +60,7 @@ public interface LicenseBoardsService {
 	public int updateLicenseCommentOne(LicenseBoardsCommentVO vo);
 	
 	public int deleteLicenseCommentOne(int commentNum);
+	
+	public int insertlBoardFiles(FileLicenseBoardVO vo);
 	
 }

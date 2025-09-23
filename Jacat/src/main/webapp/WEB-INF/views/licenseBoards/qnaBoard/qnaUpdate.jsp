@@ -6,6 +6,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${jmfldnm } QnA 게시판 글 수정 페이지</title>
+		<style>
+			.imgPreview{
+				width:300px;
+				
+			}
+		</style>
 	</head>
 	<body>
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
@@ -26,9 +32,15 @@
 							<label for="ucontent">내용 : </label>
 							<textarea name="content" id="ucontent">${board.content }</textarea>
 						</p>
-						<!--p class="writeFileBox">
+						<p class="writeFileBox">
 							<input type="file" name="file">
-						</p-->
+							<c:if test="${board.lFile.type == 'image' }">
+								<img class="imgPreview"
+								alt="${board.lFile.realFileName }" 
+								src="<c:url value='/uploads/licenses/boards/files/${board.lFile.realFileName }'/>"
+								>
+							</c:if>
+						</p>
 						<button type="submit">수정</button>
 					</form>
 				</div>

@@ -26,9 +26,9 @@
 							<label for="wcontent">내용 : </label>
 							<textarea name="content" id="wcontent"></textarea>
 						</p>
-						<!--p class="writeFileBox">
+						<p class="writeFileBox">
 							<input type="file" name="file">
-						</p-->
+						</p>
 						<button type="submit">작성</button>
 					</form>
 				</div>

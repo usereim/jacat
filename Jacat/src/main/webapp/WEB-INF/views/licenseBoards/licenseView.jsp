@@ -8,11 +8,10 @@
 		<title>${lListOne.jmfldnm } 상세정보</title>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
+			const id = "${sessionScope.user.id}";
+			const jmcd = "${jmcd}";
+			
 			function addLicenseFn(){
-				let id = "${sessionScope.user.id}";
-				let jmcd = "${jmcd}";
-				//console.log(id);
-				//console.log(jmcd);
 				
 				$.ajax({
 					
@@ -24,6 +23,13 @@
 					},
 					success : function(result){
 						alert("관심자격증 등록이 완료되었습니다.");
+						
+						let delBtn = "<button type='button' onclick='delLicenseFn()'>관심자격증 제거</button>";
+						let favoBtnBox = $("#licenseFavoBtnBox");
+						
+						favoBtnBox.html("");
+						favoBtnBox.html(delBtn);
+						
 					},
 					error : function(result){
 						alert("관심자격증 등록에 실패하였습니다.");
@@ -31,12 +37,37 @@
 					
 				});
 			}
+			
+			function delLicenseFn(){
+				$.ajax({
+					
+					url : "<c:url value='/licenses/lists/del-license'/>",
+					type : "post",
+					data : {
+						"usersId" : id,
+						"licenseListJmcd" : jmcd 
+					},
+					success : function(result){
+						alert("관심자격증 해제가 완료되었습니다.");
+						
+						let addBtn = "<button type='button' onclick='addLicenseFn()'>관심자격증 추가</button>";
+						let favoBtnBox = $("#licenseFavoBtnBox");
+						
+						favoBtnBox.html("");
+						favoBtnBox.html(addBtn);
+						
+					},
+					error : function(result){
+						alert("관심자격증 해제에 실패하였습니다.");
+					}
+				});
+			}
 		</script>
 	</head>
 	<body>
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
-			<div id="licenseSubtitleBox">
+			<section id="licenseSubtitleBox">
 				<h2>${lListOne.jmfldnm } 상세정보</h2>
 				<ul id="licenseNavBox">
 					<li>
@@ -49,9 +80,21 @@
 						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/dataroom' />">${lListOne.jmfldnm } 자료실</a>
 					</li>
 				</ul>
-			</div>
-			<div id="licenseInfosBox">
-				<button type="button" onclick="addLicenseFn()">관심자격증 추가</button>
+			</section>
+			<section id="licenseInfosBox">
+				<div id="licenseFavoBtnBox">
+					<c:choose>
+						<c:when test="${empty sessionScope }">
+						
+						</c:when>
+						<c:when test="${favoLi == 'N' }">
+							<button type="button" onclick="addLicenseFn()">관심자격증 추가</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" onclick="delLicenseFn()">관심자격증 제거</button>
+						</c:otherwise>
+					</c:choose>
+				</div>
 				<div id="licenseGeneralInfo">
 					<h3>${lListOne.jmfldnm} 기본정보</h3>
 					자격증 명 : ${lListOne.jmfldnm }<br>
@@ -61,6 +104,7 @@
 					중직무분야 : ${lListOne.mdobligfldnm }<br>
 					시행 기관 : ${lListOne.licensingAutority }<br>
 				</div>
+				<!-- 
 				<div id="licenseTestInfo">
 					<h3>${lListOne.jmfldnm } 출제 과목</h3>
 					<c:forEach var="lt" items="${lListOne.lTest }">
@@ -78,6 +122,7 @@
 						</c:choose>
 					</c:forEach>
 				</div>
+				 -->
 				<div id="licenseTestDateInfo">
 					<h3>${lListOne.jmfldnm } 시험 일정</h3>
 					<c:forEach var="ltdi" items="${lListOne.lTestDate }">
@@ -102,7 +147,7 @@
 					
 					</c:forEach>
 				</div>
-			</div>
+			</section>
 		</main>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	</body>

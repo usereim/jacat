@@ -23,7 +23,9 @@ public class LicenseBoardsVO {
 	
 	private List<LicenseBoardsCommentVO> lComment;
 	
-	private List<FileLicenseBoardVO> lFile;
+	private List<FileLicenseBoardVO> lFiles;
+	
+	private FileLicenseBoardVO lFile;
 
 	public int getBoardNum() {
 		return boardNum;
@@ -119,13 +121,22 @@ public class LicenseBoardsVO {
 	public void setlComment(List<LicenseBoardsCommentVO> lComment) {
 		this.lComment = lComment;
 	}
-
 	
-	public List<FileLicenseBoardVO> getlFile() {
+	
+	public FileLicenseBoardVO getlFile() {
 		return lFile;
 	}
-	public void setlFile(List<FileLicenseBoardVO> lFile) {
+	public void setlFile(FileLicenseBoardVO lFile) {
 		this.lFile = lFile;
 	}
+
+	
+	public List<FileLicenseBoardVO> getlFiles() {
+		return lFiles;
+	}
+	public void setlFile(List<FileLicenseBoardVO> lFiles) {
+		this.lFiles = lFiles;
+	}
+	
 	
 }

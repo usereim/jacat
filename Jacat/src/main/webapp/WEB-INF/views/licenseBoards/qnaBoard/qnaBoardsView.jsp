@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -233,7 +234,11 @@
 			}
 			
 			function reportPopupFn(){
-				let reportPopupOpen = window.open("<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/report'/>","_blank","width=500,height=400");
+				let reportPopupOpen = 
+					window.open("<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/report'/>"
+							,"lboardReport"
+							,"width=500,height=400");
+				
 			}
 			
 		</script>
@@ -259,11 +264,15 @@
 				</div>
 				<div class="fileBox">
 					<h3 class="fileSubtitle">파일</h3>
-					<c:forEach var="i" items="${board.lFile }">
+					<c:forEach var="lfile" items="${board.lFile }">
 						<p class="files">
-							<span>${i.fileName }</span>
-							<button>다운로드</button>
+							<a download="${lfile.realFileName }" href="<c:url value='/uploads/licenses/boards/files'/>">
+								${lfile.realFileName }
+							</a><br>
 						</p>
+						<c:if test="${fn:contains(lfile.type, 'image')}">
+							<img width="80%" src="<c:url value='/uploads/licenses/boards/files'/>">
+						</c:if>
 					</c:forEach> 
 				</div>
 				<hr>

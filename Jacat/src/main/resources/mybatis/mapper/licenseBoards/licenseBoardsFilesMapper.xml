@@ -10,23 +10,21 @@
 		(#{licenseBoardsBoardNum},#{realFileName},#{fileName},#{path},#{type});
 	</insert> -->
 	
-	<insert id="insertFiles" parameterType="lfile">
+	<insert id="insertlBoardFiles" parameterType="lfile">
 		insert into file_license_board
 		(license_boards_board_num,real_file_name,file_name,path,type)
 		values
-		<!-- <foreach collection="list" item="lfile" separator=","> -->
 			(
-			#{lfile.licenseBoardsBoardNum},
-			#{lfile.realFileName},
-			#{lfile.fileName},
-			#{lfile.path},
-			#{lfile.type}
+			#{licenseBoardsBoardNum},
+			#{realFileName},
+			#{fileName},
+			#{path},
+			#{type}
 			);
-		<!-- </foreach> -->
 	</insert>
 	
-	<!-- <delete id="deleteFiles" parameterType="int">
-		delete from file_license_board where file_num = #{licenseBoardsBoardNum};
-	</delete> -->
+	<delete id="deletelBoardFiles" parameterType="int">
+		delete from file_license_board where file_num = #{fileNum};
+	</delete>
 	
 </mapper>
