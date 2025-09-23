@@ -158,7 +158,7 @@ public class FreeBoardController {
 				HttpServletResponse response
 			) throws IllegalStateException, IOException {
 			System.out.println(vo.getBoardNum());
-			vo.setUsersID(user.getId());
+			vo.setUsersId(user.getId());
 			freeboardService.insertReport(vo);
 			
 			response.setContentType("text/html");

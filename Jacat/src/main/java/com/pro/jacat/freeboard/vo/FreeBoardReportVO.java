@@ -6,7 +6,7 @@ import com.pro.jacat.user.vo.UserVO;
 
 public class FreeBoardReportVO {
 	private int reportNum;
-	private String usersID;
+	private String usersId;
 	private int boardNum;
 	private Date reportDate;
 	private String reportCategory;
@@ -19,11 +19,11 @@ public class FreeBoardReportVO {
 	public void setReportNum(int reportNum) {
 		this.reportNum = reportNum;
 	}
-	public String getUsersID() {
-		return usersID;
+	public String getUsersId() {
+		return usersId;
 	}
-	public void setUsersID(String usersID) {
-		this.usersID = usersID;
+	public void setUsersId(String usersId) {
+		this.usersId = usersId;
 	}
 	public int getBoardNum() {
 		return boardNum;
