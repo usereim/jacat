@@ -157,7 +157,7 @@ public class FreeBoardController {
 				@SessionAttribute("user") UserVO user,
 				HttpServletResponse response
 			) throws IllegalStateException, IOException {
-			System.out.println(vo.getBoardNum());
+			System.out.println(vo.getBoardsBoardNum());
 			vo.setUsersId(user.getId());
 			freeboardService.insertReport(vo);
 			

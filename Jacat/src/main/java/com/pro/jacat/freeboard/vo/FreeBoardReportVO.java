@@ -7,7 +7,7 @@ import com.pro.jacat.user.vo.UserVO;
 public class FreeBoardReportVO {
 	private int reportNum;
 	private String usersId;
-	private int boardNum;
+	private int boardsBoardNum;
 	private Date reportDate;
 	private String reportCategory;
 	private String reportContent;
@@ -25,11 +25,11 @@ public class FreeBoardReportVO {
 	public void setUsersId(String usersId) {
 		this.usersId = usersId;
 	}
-	public int getBoardNum() {
-		return boardNum;
+	public int getBoardsBoardNum() {
+		return boardsBoardNum;
 	}
-	public void setBoardNum(int boardNum) {
-		this.boardNum = boardNum;
+	public void setBoardsBoardNum(int boardsBoardNum) {
+		this.boardsBoardNum = boardsBoardNum;
 	}
 	public Date getReportDate() {
 		return reportDate;
