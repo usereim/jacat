@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -102,6 +103,21 @@ public class UserController {
 			@RequestParam("profile") MultipartFile profile) {
 		userService.insertUsersOne(user, profile);
 		return "redirect:/user/login";
+	}
+	
+	@PostMapping("/modify")
+	public String modify(UserVO user,
+			@RequestParam("profile") MultipartFile profile,
+			HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			UserVO _user = (UserVO)session.getAttribute("user");
+			user.setId(_user.getId());
+		} else {
+			return "redirect:/";
+		}
+	
+		userService.updateUsers(user, profile);
+		return "redirect:/mypage/view-user";
 	}
 	
 	@RequestMapping(value = "/id-search", method = RequestMethod.GET)

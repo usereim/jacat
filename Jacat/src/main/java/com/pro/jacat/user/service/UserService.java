@@ -17,4 +17,5 @@ public interface UserService {
 	UserResponse selectUsersSuspendById(String id);
 	UserResponse selectUsersByPw(UserVO user);
 	UserVO selectUsersOneForMypage(UserVO user);
+	void updateUsers(UserVO user, MultipartFile profile);
 }

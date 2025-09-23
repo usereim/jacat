@@ -246,8 +246,6 @@
 							"color", "red");
 					pw_check = false;
 				}
-
-				reCheckPw();
 			}
 			
 			

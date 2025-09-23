@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypageMapper">
+	<select id="selectFreeBoardById" parameterType="String" resultType="freeboard">
+		select *, (select count(*) from visit_board where boards_board_num = boards.board_num) as visit
+		from boards
+		where boards.delyn = 'N' and board_type = 'F' and users_id = #{id} 
+	</select>
+	
+	<select id="selectLicenseBoards" parameterType="lboard"
+		resultType="lboard">
+		select *, (select count(*) from visit_license_board where license_board_num = license_boards.board_num) as visit_count,
+		(select jmfldnm from license_list where jmcd = license_boards.license_list_jmcd) as license_name
+		from license_boards
+		where license_boards.delyn = 'N' and board_type = #{boardType} and users_id = #{usersId}	
+	</select>
+	
+	<select id="selectBoards" parameterType="csc" resultType="csc">
+		select *
+		from boards
+		where boards.delyn = 'N' and board_type = 'I' and users_id = #{usersId}
+	</select>
+	
+	<select id="selectBoardReport" parameterType="String"
+		resultType="report">
+		select *
+		from board_report
+		where users_id = #{id}	
+	</select>
+	
+	<select id="selectLicenseBoardReport" parameterType="String"
+		resultType="lreport">
+		select *
+		from license_board_report
+		where users_id = #{id}	
+	</select>
+	
+	<select id="selectFavoritesLicense" parameterType="String"
+		resultType="favolicense">
+		select *, (select jmfldnm from license_list where jmcd = users_favorites_license.license_list_jmcd) as jmfldnm
+		from users_favorites_license	
+		where users_id = #{id}
+	</select>
+	
+	<delete id="deleteUserFavoritesLicense" parameterType="favolicense">
+		delete 
+		from users_favorites_license
+		where users_id = #{usersId} and license_list_jmcd = #{licenseListJmcd}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

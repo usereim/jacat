@@ -44,7 +44,7 @@
 				</c:forEach>
 			</ul>
 
-			<c:if test="${sessionScope.user.id != null }">
+			<c:if test="${sessionScope.user.id != null and sessionScope.user.grade == 'G'}">
 				<button type="button" id="addBtn">문의 작성하기</button>
 			</c:if>
 		</div>

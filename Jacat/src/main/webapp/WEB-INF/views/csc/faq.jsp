@@ -18,7 +18,7 @@
 					"boardNum" : boardNum,
 					"type" : "Q"
 				}, success : function(response) {
-					let file = response.file;
+					let file = response.boardsFile;
 					
 					p = $("<p>");
 					p.text(response.content);

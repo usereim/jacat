@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.pro.jacat.user.response.UserResponse;
 import com.pro.jacat.user.vo.UserVO;
 
 @Repository
@@ -31,6 +30,10 @@ public class UserRepository {
 
 	public int insertUsersOne(UserVO user) {
 		return template.insert("userMapper.insertUsersOne", user);
+	}
+	
+	public void updateUsers(UserVO user) {
+		template.update("userMapper.updateUsers", user);
 	}
 
 	public UserVO selectUsersOne(UserVO user) {

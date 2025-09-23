@@ -14,23 +14,22 @@
 	<main>
 		<p>회원 정보 수정</p>
 		<p>아이디 : ${userVO.id }</p>
-		<form action="" method="post" enctype="multipart/form-data">
+		<form action="<c:url value='/user/modify' />" method="post" enctype="multipart/form-data">
 			닉네임 : <input type="text" name="nick" value="${userVO.nick }"> <br>
 			<div id="nick_message"></div>
 			이메일 : <input type="text" name="email" value="${userVO.email }"> <br>
 			<div id="email_message"></div>
 			프로필 이미지 : <br>
 			<c:if test="${not empty userVO.realFileName }">
-				<img width="300px" alt="프로필 이미지" src=""> <br>
-				<button type="button">프로필 이미지 삭제</button>
+				<img id="profile_img" width="300px" alt="프로필 이미지" src="<c:url value='/uploads/profile/${userVO.id }/${userVO.fileName }'/>"> <br>
+				<button type="button" id="profile_delete_btn">프로필 이미지 삭제</button>
 			</c:if>
 			<c:if test="${empty userVO.realFileName }">
-				프로필 이미지 등록 :
-				<input type="file"> <br>
+				<input type="file" name="profile"> <br>
 			</c:if>
-			<input type="submit" value="수정하기"> <br>
+			<input type="submit" id="submit" value="수정하기"> <br>
 		</form>
-		<button type="button" id="">수정 취소</button>
+		<button type="button" id="cancle_btn">수정 취소</button>
 	</main>
 	
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
@@ -40,8 +39,8 @@
 			let nick = $("input[name=nick]").val();
 			let email = $("input[name=email]").val();
 			
-			let nick_check = false;
-			let email_check = false;
+			let nick_check = true;
+			let email_check = true;
 			
 			$("input[name=nick]").keyup(function() {
 				nick_check = false;
@@ -100,15 +99,16 @@
 								if (response.code == 1) {
 									$("#email_message").text("사용중인 이메일입니다.").css("color", "red");
 									email_check = false;		
-								} else {
+								} else {									
 									email_check = true;
+									certEmail();
 								}
 							},
 							error : function() {
 								email_check = false;
 							}
 						});
-					}	
+					}
 				}
 			});
 			
@@ -139,6 +139,77 @@
 					return false;
 				}
 			}
+			
+			function certEmail() {
+				if ($("#email_btn").attr("id") === undefined) {
+					let target = $("#email_message");
+					
+					let button = $("<button>").attr("type", "button").attr("id", "email_btn").text("인증 번호 전송")
+					.on("click", function() {
+						email = $("input[name=email]").val();
+						
+						$.ajax({
+							url : "<c:url value='/mail/send-mail' />",
+							type : "post",
+							data : {
+								"email" : email
+							}, success : function(response) {
+								if (response == 'success') {
+									let target = $("#email_btn");
+									
+									let input = $("<input>").attr("type", "text").attr("name", "code").attr("placeholder", "인증 번호 입력");
+									target.after(input);
+									
+									target = $("input[name=code]");
+									let button = $("<button>").attr("type", "button").attr("id", "code_btn").text("인증")
+									.on("click", function() {
+										let code = $("input[name=code]").val();
+										
+										$.ajax({
+											url : "<c:url value='/mail/code-check' />",
+											type : "post",
+											data : {
+												"code" : code
+											}, success : function(response) {
+												if (response == 'success') {
+													email_check = true;
+													$("#code_btn").prop("disabled", true);
+												} else if (response == 'fail') {
+													email_check = false;
+												}
+											}, error : function() {
+												
+											}
+										});
+									});
+									target.after(button);
+								}
+							}, error : function() {
+								
+							}
+						});
+					});
+					target.before(button);
+					
+					
+				} else {
+					
+				}
+			}
+			
+			$("#profile_delete_btn").click(function() {
+				let target = $("#submit");
+				
+				$("#profile_img").remove();
+				$("#profile_delete_btn").remove();
+				
+				let input = $("<input>").attr("type", "file").attr("name", "profile");
+				target.before(input);
+			});
+			
+			$("#cancle_btn").click(function() {
+				location.href = "<c:url value='/mypage/view-user' />";
+			});
 			
 			$("form").submit(function() {
 				if (!nick_check) {

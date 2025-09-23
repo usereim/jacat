@@ -14,7 +14,7 @@ import com.pro.jacat.user.vo.UserVO;
 
 @Service
 public class UserServiceImpl implements UserService {
-	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	
 	private final UserRepository userRepository;
@@ -73,15 +73,22 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		
-		if (file == null) {
-			logger.info("file null");
-		} else {
-			logger.info("file not null");
+		user.transferFileToUser(file);
+		return userRepository.insertUsersOne(user);
+	}
+	
+	@Override
+	public void updateUsers(UserVO user, MultipartFile profile) {
+		UserFileVO file = null;
+		
+		try {
+			file = fileService.uploadFile(profile, "profile/" + user.getId() + "/");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		user.transferFileToUser(file);
-		
-		return userRepository.insertUsersOne(user);
+		userRepository.updateUsers(user);
 	}
 
 	@Override
@@ -125,7 +132,6 @@ public class UserServiceImpl implements UserService {
 	public UserVO selectUsersOneForMypage(UserVO user) {
 		return userRepository.selectUsersOneForMypage(user);
 	}
-
 	
 }
 
