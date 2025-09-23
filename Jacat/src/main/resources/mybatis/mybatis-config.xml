@@ -31,10 +31,12 @@
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO" alias="favolicense"/>
 		<typeAlias type="com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO" alias="lreport"/>
 		
+		
 		<!-- API 공공데이터 VO 클래스 Alias -->
 		<typeAlias type="com.pro.jacat.licenses.vo.LicenseListVO" alias="lList"/>
 		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestVO" alias="lTest"/>
 		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestDateVO" alias="lTestDate"/>
+		<typeAlias type="com.pro.jacat.licenses.vo.LicenseTestCenterVO" alias="center"/>
 		
 		<!-- 사용자 일정 VO -->
 		<typeAlias type="com.pro.jacat.calendar.vo.CalendarVO" alias="calendar"/>
