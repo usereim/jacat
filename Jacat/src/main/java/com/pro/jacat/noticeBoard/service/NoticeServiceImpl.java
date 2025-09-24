@@ -97,9 +97,13 @@ public class NoticeServiceImpl implements NoticeService {
 						e.printStackTrace();
 						return false;
 					}
+					
+					
 				}
-				
-				noticeFileRepository.insertFiles(list);		
+			}
+			
+			if(!list.isEmpty()) {
+				noticeFileRepository.insertFiles(list);	
 			}
 		}
 	    

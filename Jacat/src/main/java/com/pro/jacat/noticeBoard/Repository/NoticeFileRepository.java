@@ -19,9 +19,9 @@ public class NoticeFileRepository {
 			this.template = template;
 		}
 
+		//
 		public void insertFiles(List<FreeBoardFileVO> list) {
-			System.out.println("파일 레포지토리 실행");
-			template.insert("NoticefileMapper.insertFiles", list);
+			template.insert("freeboardFileMapper.insertFiles", list);
 		}	
 
 		
