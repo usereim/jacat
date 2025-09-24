@@ -26,7 +26,7 @@ public class NoticeFileRepository {
 
 		
 		public List<NoticeBoardFileVO> selectFileByBno(int bno){
-			return template.selectList("NoticefileMapper.selectFileByBno", bno);
+			return template.selectList("freeboardFileMapper.selectFileByBno", bno);
 		}
 
 		// 파일 삭제
