@@ -34,4 +34,7 @@ public interface FreeBoardService {
 	
 	//댓글 수정
 	boolean updateComment(FreeBoardCommentVO vo);
+	
+	//조회수 증가
+	void visit(FreeBoardVO visit);
 }

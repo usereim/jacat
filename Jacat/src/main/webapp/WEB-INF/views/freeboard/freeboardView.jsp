@@ -9,74 +9,7 @@
 <meta charset="UTF-8">
 <title>게시글 상세</title>
 <script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
-<script>
-    // 대댓글 작성 선택
-    function ccommentFn(commentNum){
-        document.getElementsByName("parentCommentNum")[0].value = commentNum;
-    }
 
-    function clickFn(){
-        let value = document.getElementsByName("parentCommentNum")[0].value;
-        if(value == ""){
-            alert("댓글을 선택해주세요");
-        } else {
-            $("input[name=parentCommentNum]").val(value);
-            document.ccommentFrm.submit();
-        }
-    }
-
-    // 게시글 수정 페이지 이동
-    function moveModifyPage(boardNum){
-        location.href="${pageContext.request.contextPath}/freeboard/freeboardModify/"+boardNum;
-    }
-
-    // 신고 팝업
-    function openReportPopup(boardNum) {
-       let reportWin =  window.open(
-            '/jacat/freeboard/report/'+boardNum,
-            'reportPopup',
-            'width=500,height=400'
-        );
-       reportWin.onload =  function(){
-           reportWin.document.getElementById("boardNum").value = boardNum;
-       }
-    }
-
-    // 댓글 수정
-    function editComment(commentNum) {
-        const contentEl = document.getElementById("commentContent_" + commentNum);
-        if(!contentEl) return; // 안전 체크
-
-        const content = contentEl.innerText;
-        document.getElementById("editCommentForm").style.display = "block";
-        document.getElementById("editCommentNum").value = commentNum;
-        document.getElementById("editCommentContent").value = content;
-        document.getElementById("editCommentForm").scrollIntoView({behavior:"smooth"});
-    }
-
-    function cancelEdit() {
-        document.getElementById("editCommentForm").style.display = "none";
-    }
-
-    function submitEditComment() {
-        const commentNum = document.getElementById("editCommentNum").value;
-        const content = document.getElementById("editCommentContent").value;
-
-        $.ajax({
-            url: '${pageContext.request.contextPath}/freeboard/comment/modify',
-            method: 'POST',
-            data: { commentNum: commentNum, content: content },
-            success: function(response){
-                // 화면 댓글 업데이트
-                document.getElementById("commentContent_" + commentNum).innerText = content;
-                cancelEdit(); // 폼 닫기
-            },
-            error: function(){
-                alert("댓글 수정 실패");
-            }
-        });
-    }
-</script>
 </head>
 <body>
 <main>
@@ -163,4 +96,72 @@
     <button type="button" onclick="openReportPopup(${FreeBoard.boardNum})">신고하기</button>
 </main>
 </body>
+<script>
+    // 대댓글 작성 선택
+    function ccommentFn(commentNum){
+        document.getElementsByName("parentCommentNum")[0].value = commentNum;
+    }
+
+    function clickFn(){
+        let value = document.getElementsByName("parentCommentNum")[0].value;
+        if(value == ""){
+            alert("댓글을 선택해주세요");
+        } else {
+            $("input[name=parentCommentNum]").val(value);
+            document.ccommentFrm.submit();
+        }
+    }
+
+    // 게시글 수정 페이지 이동
+    function moveModifyPage(boardNum){
+        location.href="${pageContext.request.contextPath}/freeboard/freeboardModify/"+boardNum;
+    }
+
+    // 신고 팝업
+    function openReportPopup(boardNum) {
+       let reportWin =  window.open(
+            '/jacat/freeboard/report/'+boardNum,
+            'reportPopup',
+            'width=500,height=400'
+        );
+       reportWin.onload =  function(){
+           reportWin.document.getElementById("boardNum").value = boardNum;
+       }
+    }
+
+    // 댓글 수정
+    function editComment(commentNum) {
+        const contentEl = document.getElementById("commentContent_" + commentNum);
+        if(!contentEl) return; // 안전 체크
+
+        const content = contentEl.innerText;
+        document.getElementById("editCommentForm").style.display = "block";
+        document.getElementById("editCommentNum").value = commentNum;
+        document.getElementById("editCommentContent").value = content;
+        document.getElementById("editCommentForm").scrollIntoView({behavior:"smooth"});
+    }
+
+    function cancelEdit() {
+        document.getElementById("editCommentForm").style.display = "none";
+    }
+
+    function submitEditComment() {
+        const commentNum = document.getElementById("editCommentNum").value;
+        const content = document.getElementById("editCommentContent").value;
+
+        $.ajax({
+            url: '${pageContext.request.contextPath}/freeboard/comment/modify',
+            method: 'POST',
+            data: { commentNum: commentNum, content: content },
+            success: function(response){
+                // 화면 댓글 업데이트
+                document.getElementById("commentContent_" + commentNum).innerText = content;
+                cancelEdit(); // 폼 닫기
+            },
+            error: function(){
+                alert("댓글 수정 실패");
+            }
+        });
+    }
+</script>
 </html>

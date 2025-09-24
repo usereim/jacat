@@ -178,4 +178,11 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	public void insertReport(FreeBoardReportVO vo) {
 		freeboardReportRepository.insertReport(vo);
 	}
+	
+	// 조회수 증가
+	public void visit(FreeBoardVO visit) {
+		freeboardRepository.visit(visit);
+	}
+	
+	
 }

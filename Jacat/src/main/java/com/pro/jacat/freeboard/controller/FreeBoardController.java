@@ -76,9 +76,23 @@ public class FreeBoardController {
 		//게시글 단건 조회
 		@RequestMapping(value="/boards/{board_num}", method=RequestMethod.GET)
 		public String freeboardView(
+		HttpSession session,
 		@PathVariable("board_num") int board_num,
 		Model model
 		) {
+			
+		UserVO user = (UserVO)session.getAttribute("user");
+		if (user != null) {
+			FreeBoardVO visit = new FreeBoardVO();
+			visit.setBoardNum(board_num);
+			visit.setUsersId(user.getId());
+			
+			//조회수 증가
+			freeboardService.visit(visit);
+		} else {
+			
+		}
+		
 		
 		FreeBoardVO vo = freeboardService.selectBoardByBno(board_num);
 		

@@ -42,5 +42,11 @@ public class FreeBoardRepository {
 	public int insertBoard(FreeBoardVO vo){
 		return template.insert("freeboardMapper.insertBoard", vo);
 	}
+	
+	//조회수 증가
+	public void visit(FreeBoardVO visit) {
+		 template.insert("freeboardMapper.visit", visit);
+	}
+	
 
 }

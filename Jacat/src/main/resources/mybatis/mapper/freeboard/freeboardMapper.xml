@@ -93,6 +93,12 @@
 		insert into boards(title, content, users_id, board_type )
 		values(#{title}, #{content}, #{usersId} , 'F' )	
 	</insert>
+	
+	<!-- 조회수 증가 -->
+	<insert id="visit" parameterType="freeboard">
+		insert into visit_board(boards_board_num, users_id)
+		values(#{boardNum}, #{usersId})
+	</insert>
 		
 
 </mapper>
