@@ -123,13 +123,14 @@ public class FreeBoardController {
 			///WEB-INF/views/board/modify.jsp로 포워딩
 		}
 		
-		@RequestMapping(value="/freeboardModify/{board_num}", method=RequestMethod.POST)
+		@RequestMapping(value="/modify/{board_num}", method=RequestMethod.POST)
 		public String modifyPost(
 				@PathVariable("board_num") int board_num,
-				FreeBoardVO vo
+				FreeBoardVO vo,
+				@RequestParam("file") List<MultipartFile> files
 			) {
 			vo.setBoardNum(board_num);
-			boolean result = freeboardService.updateBoard(vo);
+			boolean result = freeboardService.updateBoard(vo,files);
 			if(!result) {
 				return "redirect:/freeboard/boards/";
 			}
@@ -162,7 +163,12 @@ public class FreeBoardController {
 			freeboardService.insertReport(vo);
 			
 			response.setContentType("text/html");
-			response.getWriter().append("<script>window.close();</script>").flush();
+			response.getWriter()
+					.append("<script>")
+					.append("alert('신고가 완료되었습니다.');")
+		            .append("window.close();")
+		            .append("</script>")
+		            .flush();
 			
 		
 		}

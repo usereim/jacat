@@ -93,6 +93,6 @@
 		insert into boards(title, content, users_id, board_type )
 		values(#{title}, #{content}, #{usersId} , 'F' )	
 	</insert>
-	
+		
 
 </mapper>

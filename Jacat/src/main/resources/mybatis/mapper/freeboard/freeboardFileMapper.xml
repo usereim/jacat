@@ -26,7 +26,6 @@
 	
 	<insert id="insertFiles" parameterType="java.util.List">
 		insert into file_board(
-			file_num,
 			boards_board_num,
 			real_file_name,
 			file_name,
@@ -35,7 +34,6 @@
 		)values
 		<foreach collection="list" item="file" separator=",">
 		(
-			#{file.fileNum},
 			#{file.boardNum},
 			#{file.realFileName},
 			#{file.fileName},
@@ -49,5 +47,11 @@
 	<select id="selectFileByBno" parameterType="int" resultType="file">
 		select * from file_board where boards_board_num = #{boardNum}
 	</select>
+	
+	<!-- 첨부파일삭제 -->
+	<delete id="deleteFile" parameterType="int">
+		delete from file_board
+		where boards_board_num = #{boardNum}
+	</delete>
 	
 </mapper>

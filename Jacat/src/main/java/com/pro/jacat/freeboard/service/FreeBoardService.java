@@ -21,7 +21,7 @@ public interface FreeBoardService {
 	
 	int deleteBoard(int boardNum, String usersId);	//게시글 삭제 
 	
-	boolean updateBoard(FreeBoardVO vo);	//게시글 수정
+	boolean updateBoard(FreeBoardVO vo,List<MultipartFile> files);	//게시글 수정
 	
 	//댓글입력
 	boolean addComment(FreeBoardCommentVO vo);
