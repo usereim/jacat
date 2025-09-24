@@ -123,6 +123,12 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
+		<dependency>
+	        <groupId>org.apache.httpcomponents</groupId>
+	        <artifactId>httpclient</artifactId>
+	        <version>4.3.4</version>
+	    </dependency>
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

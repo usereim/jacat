@@ -39,4 +39,12 @@ public class ApiDataRepository {
 		return template.insert("apiDataMapper.insertLicenceEligibility", itemList);
 	}
 
+	public void deleteLicenseTestDate() {
+		template.delete("apiDataMapper.deleteLicenseTestDate");
+	}
+
+	public void deleteLicenseTestCenter() {
+		template.delete("apiDataMapper.deleteLicenseTestCenter");
+	}
+
 }

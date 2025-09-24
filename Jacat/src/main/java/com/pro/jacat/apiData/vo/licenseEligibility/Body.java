@@ -6,6 +6,10 @@ public class Body {
 	private int pageNo;
 	private int totalCount;
 	
+	public Body() {
+		
+	}
+	
 	public Items getItems() {
 		return items;
 	}

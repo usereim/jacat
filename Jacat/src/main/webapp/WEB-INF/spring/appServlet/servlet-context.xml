@@ -51,10 +51,15 @@
 		</interceptor>
 	</interceptors>
 
+	<beans:bean id="RestTemplateFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+		<beans:property name="connectTimeout" value="300000" />
+		<beans:property name="readTimeout" value="300000" />
+	</beans:bean>
 
 	<!-- spring 4.x버전에서 사용하는 restTemplate -->
 	<!-- http요청 객체 bean으로 생성 -->
 	<beans:bean id="restTemplate"
 		class="org.springframework.web.client.RestTemplate" >
+		<beans:constructor-arg name="requestFactory" ref="RestTemplateFactory" />
 	</beans:bean>
 </beans:beans>

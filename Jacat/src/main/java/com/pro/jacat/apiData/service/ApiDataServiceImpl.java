@@ -92,30 +92,37 @@ public class ApiDataServiceImpl implements ApiDataService {
 	
 	@Override
 	public String insertLicenseTestCenter() {
-		String[] brchCds = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
-				"11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
+		
+		 String[] brchCds = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", 
+				 "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
+		 
 		
 		URI uri = null;
 		
 		for (String brchCd : brchCds) {
-			uri = UriComponentsBuilder
-					.fromHttpUrl("http://openapi.q-net.or.kr/api/service/rest/InquiryExamAreaSVC/getList")
-					.queryParam("ServiceKey", "17qav45bH5sOXG2U95qmEH%2Bsli2ekdvd6slwKOyuwfdmZdROK%2FhFPhZPwlpDF31V0xZu3Wrr0kbOqfnLp6XKtA%3D%3D")
-					.queryParam("brchCd", brchCd)
-					.queryParam("numOfRows", "10")
-					.queryParam("pageNo", "1")
-					.build(true)
-					.toUri();
-			logger.info(uri.toString());
-			
-			LicenseTestCenterResponse data = restTemplate.getForObject(uri, LicenseTestCenterResponse.class);
-			List<com.pro.jacat.apiData.vo.licenseTestCenter.Item> itemList = data.getResponse().getBody().getItems().getItem(); 
-			
-			if (itemList.size() <= 0) {
-				continue;
+			try {
+				uri = UriComponentsBuilder
+						.fromHttpUrl("http://openapi.q-net.or.kr/api/service/rest/InquiryExamAreaSVC/getList")
+						.queryParam("ServiceKey", "17qav45bH5sOXG2U95qmEH%2Bsli2ekdvd6slwKOyuwfdmZdROK%2FhFPhZPwlpDF31V0xZu3Wrr0kbOqfnLp6XKtA%3D%3D")
+						.queryParam("brchCd", brchCd)
+						.queryParam("numOfRows", "10")
+						.queryParam("pageNo", "1")
+						.build(true)
+						.toUri();
+				logger.info(uri.toString());
+				
+				LicenseTestCenterResponse data = restTemplate.getForObject(uri, LicenseTestCenterResponse.class);
+				List<com.pro.jacat.apiData.vo.licenseTestCenter.Item> itemList = data.getResponse().getBody().getItems().getItem(); 
+				
+				if (itemList.size() <= 0) {
+					continue;
+				}
+				
+				apiDataRepository.insertLicenseTestCenter(itemList);
+			}catch (Exception e) {
+				System.out.println(brchCd);
+				e.printStackTrace();
 			}
-			
-			apiDataRepository.insertLicenseTestCenter(itemList);
 		}
 		
 		return null;
@@ -137,6 +144,16 @@ public class ApiDataServiceImpl implements ApiDataService {
 		apiDataRepository.insertLicenceEligibility(itemList);
 		
 		return null;
+	}
+
+	@Override
+	public void deleteLicenseTestDate() {
+		apiDataRepository.deleteLicenseTestDate();
+	}
+
+	@Override
+	public void deleteLicenseTestCenter() {
+		apiDataRepository.deleteLicenseTestCenter();
 	}	
 }
 

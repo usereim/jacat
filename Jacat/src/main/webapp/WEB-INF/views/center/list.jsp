@@ -13,10 +13,8 @@
 
 	<main>
 		<section id="search_area">
-			<form action="" method="post">
-				검색어 입력 : <input type="text" name="keyword" id="keyword"> <br>
-				<button type="button" id="search_btn">시험장 검색</button>
-			</form>
+			검색어 입력 : <input type="text" name="keyword" id="keyword"> <br>
+			<button type="button" id="search_btn">시험장 검색</button>
 		</section>
 		
 		<section id="content_area">

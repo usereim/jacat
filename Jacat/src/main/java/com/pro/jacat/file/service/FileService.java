@@ -29,6 +29,7 @@ public class FileService {
 		this.fileRepository = fileRepository;
 	}
 
+	// 게시판 이미지 업로드
 	public void uploadFile(MultipartFile file, String subPath, int bno) throws IllegalStateException, IOException {
 		if (file.isEmpty()) {
 			throw new IllegalStateException();
@@ -61,6 +62,7 @@ public class FileService {
 		fileRepository.insertFileBoardList(_file);
 	}
 
+	// 회원 프로필 업로드
 	public UserFileVO uploadFile(MultipartFile file, String subPath) throws IllegalStateException, IOException {
 
 		if (file.isEmpty()) {

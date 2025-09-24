@@ -2,6 +2,10 @@ package com.pro.jacat.apiData.vo.licenseTestCenter;
 
 public class Body {
 	private Items items;
+	
+	public Body() {
+		
+	}
 
 	public Items getItems() {
 		return items;

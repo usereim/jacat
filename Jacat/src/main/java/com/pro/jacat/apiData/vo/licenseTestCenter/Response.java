@@ -4,6 +4,10 @@ public class Response {
 	private Header header;
 	private Body body;
 	
+	public Response() {
+		
+	}
+	
 	public Header getHeader() {
 		return header;
 	}

@@ -9,6 +9,8 @@
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
+	<c:import url="/WEB-INF/views/includes/header.jsp"/>
+
 	<main>
 		<h2>회원가입</h2>
 
@@ -26,18 +28,20 @@
 			<br>
 			<div id="re_pw_message" class="message"></div>
 			이메일 : <input type="text" name="email">
-			<button type="button" id="emailBtn" disabled>인증하기</button>
+			<button type="button" id="emailBtn" class="btn btn-primary" disabled>인증하기</button>
 			<br>
 			<div id="email_message" class="message"></div>
 			이메일 인증번호 : <input type="text" name="code">
-			<button type="button" id="codeBtn" disabled>인증하기</button> <br>
+			<button type="button" id="codeBtn" class="btn btn-primary" disabled>인증하기</button> <br>
 			프로필 이미지 : <input type="file" name="profile">
 			<br>
 			<div id="profile_message" class="message"></div>
 			<br>
-			<input type="submit" value="회원가입">
+			<input type="submit" class="btn btn-primary" value="회원가입">
 		</form>
 	</main>
+	
+	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 
 	<script>
 		$(function() {

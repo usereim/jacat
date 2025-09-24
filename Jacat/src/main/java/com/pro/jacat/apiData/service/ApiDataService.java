@@ -6,4 +6,6 @@ public interface ApiDataService {
 	public String insertLicenseTestDate();
 	public String insertLicenseTestCenter();
 	public String insertLicenceEligibility();
+	void deleteLicenseTestDate();
+	void deleteLicenseTestCenter();
 }
