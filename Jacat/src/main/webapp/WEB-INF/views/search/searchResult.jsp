@@ -12,8 +12,8 @@
 <h2>검색 결과</h2>
 
 <!-- 검색창 -->
-<form action="${pageContext.request.contextPath}/search/result" method="get">
-    <input type="text" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
+<form action="${pageContext.request.contextPath}/search/result" onsubmit="return validateSearch();" method="get">
+    <input type="text" id="searchBox" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
     <button type="submit">검색</button>
 </form>
 
@@ -43,6 +43,15 @@
     </div>
     <hr>
 </c:forEach>
-
 </body>
+	<script>
+	function validateSearch() {
+    const keyword = document.getElementById("searchBox").value.trim();
+    if (keyword === "") {
+        alert("검색어를 입력해주세요.");
+        return false; // submit 중단
+    	}
+    return true; // 정상 제출
+	}
+	</script>
 </html>
