@@ -16,9 +16,9 @@ public interface NoticeService {
 	
 	//게시글 수정 조회
 	boolean updateNoticeBoard(NoticeBoardVO vo,List<MultipartFile> file);
-	
+
 	//게시글 삭제
-	int deleteNoticeBoard(int bno, String id);
+	int deleteNoticeBoard(int bno);
 	
 	//게시글 작성
 	void insertNoticeBoard(NoticeBoardVO vo, List<MultipartFile> file)

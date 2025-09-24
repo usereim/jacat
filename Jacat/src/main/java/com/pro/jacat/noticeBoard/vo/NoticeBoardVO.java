@@ -1,10 +1,6 @@
 package com.pro.jacat.noticeBoard.vo;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.pro.jacat.user.vo.UserVO;
 
 public class NoticeBoardVO {
@@ -17,7 +13,6 @@ public class NoticeBoardVO {
 	private String delyn;
 	private String boardType;
 	private List<NoticeBoardFileVO> fileList;
-	private List<MultipartFile> files = new ArrayList<>();
 	private UserVO user;
 	
 	public NoticeBoardVO(int boardNum,String usersId,String title,String content,String wDate,

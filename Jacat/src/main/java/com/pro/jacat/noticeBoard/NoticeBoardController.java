@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.noticeBoard.service.NoticeService;
+import com.pro.jacat.noticeBoard.vo.NoticeBoardFileVO;
 import com.pro.jacat.noticeBoard.vo.NoticeBoardVO;
 import com.pro.jacat.user.vo.UserVO;
 
@@ -53,14 +54,15 @@ public class NoticeBoardController {
 		public String modifyPost(
 				@PathVariable("bno") int bno,
 				NoticeBoardVO vo
-				, List<MultipartFile> files
+				, @RequestParam("files") List<MultipartFile> files
 			) {
+			System.out.println(vo.getContent());
 			vo.setBoardNum(bno);
 			boolean result = noticeBoardService.updateNoticeBoard(vo,files);
 			if(!result) {
-				return "redirect:/board/boards/";
+				return "redirect:/notice/boards/"+bno;
 			}
-			return "redirect:/board/boards/"+bno;
+			return "redirect:/notice/boards/"+bno;
 		}
 	
 //3. 게시글 목록화면 컨트롤러
@@ -92,6 +94,7 @@ public class NoticeBoardController {
 				) {
 			logger.info("bno : {}", boardNum);
 			NoticeBoardVO vo = noticeBoardService.selectnoticeBoardBybno(boardNum);
+		
 			
 			model.addAttribute("noticeboard", vo);
 			return "notice/view";
@@ -124,14 +127,12 @@ public class NoticeBoardController {
 				@SessionAttribute("user") UserVO user
 		) {
 			//delete from board where bno = ?
-			int result = noticeBoardService.deleteNoticeBoard(board_num, user.getId());
+			int result = noticeBoardService.deleteNoticeBoard(board_num);
 			//삭제 성공시 notice화면 출력
-			if(result <= 0) {
-				return "redirect:/notice";
+			if(result == 1) {
+				return "redirect:/notice/list";
 			}
 			//삭제 실패시  
 			return "redirect:/notice/list/" + board_num;
 		}
-			
-
 }

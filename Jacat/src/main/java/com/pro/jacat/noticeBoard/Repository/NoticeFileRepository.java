@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.pro.jacat.freeboard.vo.FreeBoardFileVO;
 import com.pro.jacat.noticeBoard.vo.NoticeBoardFileVO;
 
 @Repository
@@ -18,11 +19,18 @@ public class NoticeFileRepository {
 			this.template = template;
 		}
 
-		public int insertFiles(List<NoticeBoardFileVO> list) {
-			return template.insert("fileMapper.insertFiles", list);
-		}
+		public void insertFiles(List<FreeBoardFileVO> list) {
+			System.out.println("파일 레포지토리 실행");
+			template.insert("NoticefileMapper.insertFiles", list);
+		}	
+
 		
 		public List<NoticeBoardFileVO> selectFileByBno(int bno){
-			return template.selectList("fileMapper.selectFileByBno", bno);
+			return template.selectList("NoticefileMapper.selectFileByBno", bno);
 		}
-	}
+
+		// 파일 삭제
+	    public int deleteFile(int fileNum) {
+	        return template.delete("freeboardFileMapper.deleteFile", fileNum);
+	    }
+}

@@ -1,36 +1,37 @@
 package com.pro.jacat.noticeBoard.vo;
 
 public class NoticeBoardFileVO {
-	private int file_num;
-	private int boards_board_num;
-	private String real_file_name;
-	private String file_name;
+	private int fileNum;
+	private int boardsBoardNum;
+	private String realFileName;
+	private String fileName;
 	private String path;
-	private String w_date;
+	private String wDate;
 	private	String type;
-	public int getFile_num() {
-		return file_num;
+    
+	public int getFileNum() {
+		return fileNum;
 	}
-	public void setFile_num(int file_num) {
-		this.file_num = file_num;
+	public void setFileNum(int fileNum) {
+		this.fileNum = fileNum;
 	}
-	public int getBoards_board_num() {
-		return boards_board_num;
+	public int getBoardsBoardNum() {
+		return boardsBoardNum;
 	}
-	public void setBoards_board_num(int boards_board_num) {
-		this.boards_board_num = boards_board_num;
+	public void setBoardsBoardNum(int boardsBoardNum) {
+		this.boardsBoardNum = boardsBoardNum;
 	}
-	public String getReal_file_name() {
-		return real_file_name;
+	public String getRealFileName() {
+		return realFileName;
 	}
-	public void setReal_file_name(String real_file_name) {
-		this.real_file_name = real_file_name;
+	public void setRealFileName(String realFileName) {
+		this.realFileName = realFileName;
 	}
-	public String getFile_name() {
-		return file_name;
+	public String getFileName() {
+		return fileName;
 	}
-	public void setFile_name(String file_name) {
-		this.file_name = file_name;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	public String getPath() {
 		return path;
@@ -38,11 +39,11 @@ public class NoticeBoardFileVO {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public String getW_date() {
-		return w_date;
+	public String getwDate() {
+		return wDate;
 	}
-	public void setW_date(String w_date) {
-		this.w_date = w_date;
+	public void setwDate(String wDate) {
+		this.wDate = wDate;
 	}
 	public String getType() {
 		return type;
@@ -50,5 +51,6 @@ public class NoticeBoardFileVO {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 	
 }

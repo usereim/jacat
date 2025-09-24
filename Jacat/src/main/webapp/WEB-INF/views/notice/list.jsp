@@ -33,7 +33,7 @@
 				</td> 
 				<td>${noticeboard.title}</td>
 				<td>${noticeboard.usersId}</td>
-				<td>${noticeboard.wDate}</td> 
+				<td>${noticeboard.wDate}</td>
 			</tr>
 		
 		</c:forEach>

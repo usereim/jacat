@@ -22,23 +22,24 @@ public class NoticeBoardRepository {
 		return template.selectList("NoticeboardMapper.selectAllBoard");
 	}
 	
-	//3. 게시글 단건조회
+	//1. 게시글 단건조회
 	public NoticeBoardVO selectBoardByBno(int bno){
 		return template.selectOne("NoticeboardMapper.selectBoardByBno", bno);
 	}
 	
+
 	//2. 게시글 입력
 	public int insertNoticeBoard(NoticeBoardVO vo){
 		return template.insert("NoticeboardMapper.insertNoticeBoard", vo);
 	}
 	
 	//4. 게시글 수정
-	public int updateBoard(NoticeBoardVO vo){
-		return template.update("NoticeboardMapper.updateBoard", vo);
+	public int updateNoticeBoard(NoticeBoardVO vo){
+		return template.update("NoticeboardMapper.updateNoticeBoard", vo);
 	}
 	
 	//5. 게시글 삭제
 	public int deleteBoard(int bno){
-		return template.delete("NoticeboardMapper.deleteBoardOne", bno);
+		return template.update("NoticeboardMapper.deleteNoticeBoard", bno);
 	}
 }

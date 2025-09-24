@@ -25,7 +25,7 @@
  	<select id="selectAllBoard" resultType="noticeboard">
 		<!-- id는 매퍼 내부에서 고유한 id(자바에서 호출하기 위해서) -->
 		<!-- resultType은 쿼리의 실행 결과를 반환해줄 자바 타입 -->
-		select * from boards where board_type='N';
+		select * from boards where board_type='N' and delyn = 'N';
 		<!-- bno : 1,  title : 제목1, body : 본문1, author : hong... -->
 	</select>
  	
@@ -43,30 +43,32 @@
 		<if test="title != null">
 			title = #{title},
 		</if>
-		<if test="body != null">
-			body = #{body},
+		<if test="content != null">
+			content = #{content},
 		</if>
-		<if test="id != id">
-			id = #{id},
+		<if test="usersId != usersId">
+			users_id = #{usersId},
 		</if>
     </set>
-    where board_num = #{board_num}
+    where board_num = #{boardNum}
 	</update>
 	
 	
 	<!-- 게시글 한건 삭제 -->
-	<delete id="deleteNoticeBoard" parameterType="int">
-		delete from boards where board_num = #{board_num}
-	</delete>
+	<update id="deleteNoticeBoard" parameterType="int">
+		update boards set delyn = 'Y' where board_num = #{bno}
+	</update>
 	
 	<!-- 게시글 등록 -->
-	<insert id="insertNoticeBoard" parameterType="noticeBoard">
+	<insert id="insertNoticeBoard" parameterType="noticeBoard"
+		useGeneratedKeys="true"
+			keyProperty="boardNum">
 	insert into boards(
 	title,
 	content,
 	users_id,
 	board_type
 	)
-	values(#{title},#{content},#{usersId},#{boardType})
+	values(#{title},#{content},#{usersId},'N')
 	</insert>
  </mapper>	
