@@ -34,7 +34,7 @@
 					src="<c:url value="/resources/img/jacat_main_logo.png"/>"
 					id="mainLogo">
 				</a>
-				<form action="${pageContext.request.contextPath}/search/result" method="get">
+				<form action="${pageContext.request.contextPath}/search/result"  onsubmit="return validateSearch();" method="get">
 					<input type="text" id="searchBox" name="keyword">
 					<button type="submit">🔎</button>
 				</form>
@@ -79,4 +79,16 @@
 			</nav>
 		</header>
 	</body>
+	<script>
+	function validateSearch() {
+    const keyword = document.getElementById("searchBox").value.trim();
+    if (keyword === "") {
+        alert("검색어를 입력해주세요.");
+        return false; // submit 중단
+    	}
+    return true; // 정상 제출
+	}
+	</script>
+	
+
 </html>
