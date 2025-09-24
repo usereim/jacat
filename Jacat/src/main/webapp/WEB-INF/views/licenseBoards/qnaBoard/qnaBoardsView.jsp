@@ -264,16 +264,21 @@
 				</div>
 				<div class="fileBox">
 					<h3 class="fileSubtitle">파일</h3>
-					<c:forEach var="lfile" items="${board.lFile }">
+					<%--<c:forEach var="lfile" items="${board.lFile }">--%>
 						<p class="files">
-							<a download="${lfile.realFileName }" href="<c:url value='/uploads/licenses/boards/files'/>">
-								${lfile.realFileName }
+							<a download="${board.lFile.realFileName }" 
+								href="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>">
+								${board.lFile.realFileName }
 							</a><br>
 						</p>
-						<c:if test="${fn:contains(lfile.type, 'image')}">
-							<img width="80%" src="<c:url value='/uploads/licenses/boards/files'/>">
+						<c:if test="${fn:contains(board.lFile.type, 'image')}">
+							<img 
+							class="imgPreview"
+							width="80%" 
+							alt="${board.lFile.realFileName }" 
+							src="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>">
 						</c:if>
-					</c:forEach> 
+					<%--</c:forEach>--%> 
 				</div>
 				<hr>
 				<c:if test="${sessionScope.user.id == board.usersId}">
@@ -308,8 +313,17 @@
 					</c:choose>
 					<div id="commentListsId" class="commentLists">
 						<c:forEach var="i" items="${board.lComment }">
+						<c:choose>
+							<c:when test="${i.parentCommentNum != 0 }">
+								
+							</c:when>
+							<c:otherwise>
+								
+							</c:otherwise>
+						</c:choose>
 							<div id="commentBox${i.commentNum }" class="comments">
 								<ul>
+									<li>${i.commentNum }</li>
 									<li>${i.parentCommentNum }</li>
 									<li>${i.nick }</li>
 									<li id="commentLine${i.commentNum }">${i.content }</li>

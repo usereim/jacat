@@ -38,6 +38,7 @@
 			<result property="wDate" column="c_w_date"/>
 			<result property="modifyDate" column="c_modify_date"/>
 			<result property="nick" column="comment_author"/>
+			<result property="delyn" column="c_delyn"/>
 		</collection>
 		<!-- 컬럼명 겹칠 때 테이블별로 다르게 출력하는 방법?(*쓰면 안되나?) -->
 		
@@ -66,7 +67,7 @@
 		<result property="mdobligfldcd" column="mdobligfldcd"/>
 		<result property="mdobligfldnm" column="mdobligfldnm"/>
 		<result property="licensingAutority" column="licensing_authority"/>
-		
+		<!-- 
 		<collection property="lTest" ofType="ltest">
 			<id property="licenseNum" column="license_num"/>
 			<result property="jmcd" column="license_list_jmcd"/>
@@ -76,22 +77,22 @@
 			<result property="testVersion" column="test_version"/>
 			<result property="testTime" column="test_time"/>
 		</collection>
-		
+		 -->
 		<collection property="lTestDate" ofType="ltestdate">
 			<id property="ltdNum" column="ltd_num"/>
 			<result property="implSeq" column="impl_seq"/>
 			<result property="licenseListJmcd" column="license_list_jmcd"/>
 			<result property="implYy" column="impl_yy"/>
 			<result property="description" column="description"/>
-			<result property="docRegStartDt" column="doc_reg_start_dt"/>
-			<result property="docRegEndDt" column="doc_reg_end_dt"/>
-			<result property="docExamStartDt" column="doc_exam_start_dt"/>
-			<result property="docExamEndDt" column="doc_exam_end_dt"/>
+			<result property="docRegStartDt" column="doc_reg_start_dt_list"/>
+			<result property="docRegEndDt" column="doc_reg_end_dt_list"/>
+			<result property="docExamStartDt" column="doc_exam_start_dt_list"/>
+			<result property="docExamEndDt" column="doc_exam_end_dt_list"/>
 			<result property="docPassDt" column="doc_pass_dt"/>
-			<result property="pracRegStartDt" column="prac_reg_start_dt"/>
-			<result property="pracRegEndDt" column="prac_reg_end_dt"/>
-			<result property="pracExamStartDt" column="prac_exam_start_dt"/>
-			<result property="pracExamEndDt" column="prac_exam_end_dt"/>
+			<result property="pracRegStartDt" column="prac_reg_start_dt_list"/>
+			<result property="pracRegEndDt" column="prac_reg_end_dt_list"/>
+			<result property="pracExamStartDt" column="prac_exam_start_dt_list"/>
+			<result property="pracExamEndDt" column="prac_exam_end_dt_list"/>
 			<result property="pracPassDt" column="prac_pass_dt"/>
 		</collection>
 		
@@ -106,13 +107,37 @@
 	
 	<!-- 자격증별 상세조회 -->
 	<select id="selectLicenseOne" parameterType="String" resultMap="licenseListSubInfoMap">
-		select ll.*, lt.*, ltd.* from license_list ll 
-		 left join license_test lt 
-		 on ll.jmcd = lt.license_list_jmcd
-		 left join license_test_date ltd
+		select ll.*, ltd.* from license_list ll 
+		 left join (
+			SELECT 
+				impl_seq, 
+				license_list_jmcd, 
+                impl_yy,
+                description,
+                group_concat(doc_reg_start_dt order by doc_reg_start_dt asc) as doc_reg_start_dt_list, 
+                group_concat(doc_reg_end_dt  order by doc_reg_end_dt asc) as doc_reg_end_dt_list,
+                group_concat(doc_exam_start_dt order by doc_exam_start_dt asc) as doc_exam_start_dt_list,
+                group_concat(doc_exam_end_dt order by doc_exam_end_dt asc) as doc_exam_end_dt_list,
+                doc_pass_dt,
+                group_concat(prac_reg_start_dt order by prac_reg_start_dt asc) as prac_reg_start_dt_list,
+                group_concat(prac_reg_end_dt order by prac_reg_end_dt asc) as prac_reg_end_dt_list,
+                group_concat(prac_exam_start_dt order by prac_exam_start_dt asc) as prac_exam_start_dt_list,
+                group_concat(prac_exam_end_dt order by prac_exam_end_dt asc) as prac_exam_end_dt_list,
+                prac_pass_dt
+			FROM jacat_db.license_test_date
+				where impl_seq != 0
+			group by 
+				impl_seq,
+				license_list_jmcd,
+                impl_yy,
+                description, 
+                doc_pass_dt,
+                prac_pass_dt
+				having license_list_jmcd = #{jmcd}
+		) ltd
 		 on ll.jmcd = ltd.license_list_jmcd
 		 where ll.jmcd = #{jmcd}
-		 order by ltd.impl_seq ASC, ltd.doc_reg_start_dt ASC;
+		 order by ltd.impl_seq ASC;
 	</select>
 	
 	<!-- 관심자격증 추가 -->
@@ -146,12 +171,13 @@
 		  where lb.board_num = vlb.license_board_num
 		 ) as visit_count
  		 FROM jacat_db.license_boards lb , jacat_db.users u
- 		 where lb.board_type = 'Q' and u.id = lb.users_id;
+ 		 where lb.board_type = 'Q' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
 	</select>
 	
 	<!-- QnA 게시글 상세조회 -->
 	<select id="selectQnABoardOne" parameterType="int" resultMap="licenseBoardCommentAndFileMap">
-		select lb.board_num,
+		select * from( select
+		lb.board_num,
 		 lb.users_id,
 		 (select u.nick from users u where u.id = lb.users_id) as board_author,
 		 lb.license_list_jmcd,
@@ -171,6 +197,7 @@
          lc.content as c_content,
          date_format(lc.w_date,'%Y-%m-%d') as c_w_date,
          date_format(lc.modify_date,'%Y-%m-%d') as c_modify_date,
+         ifnull(lc.delyn,'N') as c_delyn,
         
          flb.file_num,
          flb.license_boards_board_num as f_lbb_num,
@@ -186,9 +213,10 @@
 		 left join license_comment lc
 		 on lb.board_num = lc.license_boards_board_num
          left join file_license_board flb
-         on flb.license_boards_board_num = lb.board_num
-		 where lb.board_num = #{boardNum} and lb.board_type='Q'
-		 order by lc.w_date desc;
+         on flb.license_boards_board_num = lb.board_num) tb
+         
+          where tb.board_num = #{boardNum} and tb.board_type='Q' and tb.c_delyn = 'N'
+		 order by tb.w_date desc;
 	</select>
 	
 	<!-- QnA 게시글 작성 -->
@@ -299,5 +327,10 @@
 	<update id="deleteLicenseCommentOne" parameterType="int">
 		update license_comment set delyn = 'Y' where comment_num = #{commentNum};
 	</update>
+	
+	<insert id="insertQnABoardVisit" parameterType="com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO">
+		insert into visit_license_board(users_id,license_board_num)
+		values(#{usersId},#{licenseBoardNum});
+	</insert>
 	
 </mapper>

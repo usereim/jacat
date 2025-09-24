@@ -10,6 +10,7 @@ import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
+import com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
 public interface LicenseBoardsService {
@@ -18,7 +19,7 @@ public interface LicenseBoardsService {
 	
 	public LicenseListVO selectLicenseOne(String jmcd);
 	
-	public List<LicenseListVO> vacancyDiscernment(LicenseListVO vo);
+	public LicenseListVO vacancyDiscernment(LicenseListVO vo);
 	
 	public int insertFavoriteLicenseOne(UsersFavoritesLicenseVO vo);
 	
@@ -26,7 +27,7 @@ public interface LicenseBoardsService {
 	
 	public String selectFavoriteLicenseYN(UsersFavoritesLicenseVO vo);
 	
-	public List<LicenseBoardsVO> selectQnABoards();
+	public List<LicenseBoardsVO> selectQnABoards(String jmcd);
 	
 	public LicenseBoardsVO selectQnABoardOne(int boardNum);
 	/*
@@ -61,6 +62,9 @@ public interface LicenseBoardsService {
 	
 	public int deleteLicenseCommentOne(int commentNum);
 	
-	public int insertlBoardFiles(FileLicenseBoardVO vo);
+	public int insertlBoardFiles(MultipartFile file, int boardNum) throws IllegalStateException, IOException;
 	
+	public int deletelBoardFileOne(int fileNum);
+	
+	public int insertQnABoardVisit(VisitLicenseBoardVO vvo);
 }

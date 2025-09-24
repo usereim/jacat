@@ -23,7 +23,7 @@
 			);
 	</insert>
 	
-	<delete id="deletelBoardFiles" parameterType="int">
+	<delete id="deletelBoardFileOne" parameterType="int">
 		delete from file_license_board where file_num = #{fileNum};
 	</delete>
 	

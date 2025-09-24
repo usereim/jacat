@@ -136,9 +136,15 @@
 								회차 : ${ltdi.implSeq }<br>
 								설명 : ${ltdi.description }<br>
 								필기 원서접수일 : ${ltdi.docRegStartDt } ~ ${ltdi.docRegEndDt }<br>
+								<c:if test="${ltdi.docRegStartDt != ltdi.docRegStartVacancyDt && ltdi.docRegEndDt != ltdi.docRegEndVacancyDt}">
+									필기 빈자리접수일 : ${ltdi.docRegStartVacancyDt} ~ ${ltdi.docRegEndVacancyDt}<br>
+								</c:if>
 								필기 시험일 : ${ltdi.docExamStartDt } ~ ${ltdi.docExamEndDt }<br>
 								필기 합격자 발표일 : ${ltdi.docPassDt }<br>
 								실기 원서접수일 : ${ltdi.pracRegStartDt } ~ ${ltdi.pracRegEndDt }<br>
+								<c:if test="${ltdi.pracRegStartDt != ltdi.pracRegStartVacancyDt && ltdi.pracRegEndDt != ltdi.pracRegVacancyEndDt }">
+									실기 빈자리접수일 : ${ltdi.pracRegStartVacancyDt } ~ ${ltdi.pracRegVacancyEndDt }<br>
+								</c:if>
 								실기 시험일 : ${ltdi.pracExamStartDt } ~ ${ltdi.pracExamEndDt }<br>
 								합격자 발표일 : ${ltdi.pracPassDt }<br>
 								</p>

@@ -17,6 +17,16 @@ public class LicenseTestDateVO {
 	private String pracExamStartDt;	//실기(작업) 시험 시작일
 	private String pracExamEndDt;	//실기(작업) 시험 종료일
 	private String pracPassDt;		//실기(작업) 합격자 발표일
+	
+	private String docRegStartVacancyDt;
+	private String docRegEndVacancyDt;
+	private String docExamStartVacancyDt;
+	private String docExamEndVacancyDt;
+	private String pracRegStartVacancyDt;
+	private String pracRegEndVacancyDt;
+	private String pracExamStartVacancyDt;
+	private String pracExamEndVacancyDt;
+	
 	public int getLtdNum() {
 		return ltdNum;
 	}
@@ -106,6 +116,56 @@ public class LicenseTestDateVO {
 	}
 	public void setPracPassDt(String pracPassDt) {
 		this.pracPassDt = pracPassDt;
+	}
+	public String getDocRegStartVacancyDt() {
+		return docRegStartVacancyDt;
+	}
+	public void setDocRegStartVacancyDt(String docRegStartVacancyDt) {
+		this.docRegStartVacancyDt = docRegStartVacancyDt;
+	}
+	public String getDocRegEndVacancyDt() {
+		return docRegEndVacancyDt;
+	}
+	public void setDocRegEndVacancyDt(String docRegEndVacancyDt) {
+		this.docRegEndVacancyDt = docRegEndVacancyDt;
+	}
+	
+	
+	public String getDocExamStartVacancyDt() {
+		return docExamStartVacancyDt;
+	}
+	public void setDocExamStartVacancyDt(String docExamStartVacancyDt) {
+		this.docExamStartVacancyDt = docExamStartVacancyDt;
+	}
+	public String getDocExamEndVacancyDt() {
+		return docExamEndVacancyDt;
+	}
+	public void setDocExamEndVacancyDt(String docExamEndVacancyDt) {
+		this.docExamEndVacancyDt = docExamEndVacancyDt;
+	}
+	public String getPracRegStartVacancyDt() {
+		return pracRegStartVacancyDt;
+	}
+	public void setPracRegStartVacancyDt(String pracRegStartVacancyDt) {
+		this.pracRegStartVacancyDt = pracRegStartVacancyDt;
+	}
+	public String getPracRegEndVacancyDt() {
+		return pracRegEndVacancyDt;
+	}
+	public void setPracRegEndVacancyDt(String pracRegEndVacancyDt) {
+		this.pracRegEndVacancyDt = pracRegEndVacancyDt;
+	}
+	public String getPracExamStartVacancyDt() {
+		return pracExamStartVacancyDt;
+	}
+	public void setPracExamStartVacancyDt(String pracExamStartVacancyDt) {
+		this.pracExamStartVacancyDt = pracExamStartVacancyDt;
+	}
+	public String getPracExamEndVacancyDt() {
+		return pracExamEndVacancyDt;
+	}
+	public void setPracExamEndVacancyDt(String pracExamEndVacancyDt) {
+		this.pracExamEndVacancyDt = pracExamEndVacancyDt;
 	}
 	
 	

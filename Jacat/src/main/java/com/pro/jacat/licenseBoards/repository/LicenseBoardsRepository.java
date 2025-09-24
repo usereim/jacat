@@ -1,9 +1,11 @@
 package com.pro.jacat.licenseBoards.repository;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 
 import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
@@ -11,6 +13,7 @@ import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
+import com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 
 @Repository
@@ -46,8 +49,8 @@ public class LicenseBoardsRepository {
 	}
 	
 	//QnA 게시판 목록조회
-	public List<LicenseBoardsVO> selectQnABoards(){
-		return template.selectList("licenseBoardMapper.selectQnABoards");
+	public List<LicenseBoardsVO> selectQnABoards(String jmcd){
+		return template.selectList("licenseBoardMapper.selectQnABoards", jmcd);
 	}
 	//QnA 게시판 상세조회
 	public LicenseBoardsVO selectQnABoardOne(int boardNum) {
@@ -116,5 +119,20 @@ public class LicenseBoardsRepository {
 	
 	public int insertlBoardFiles(FileLicenseBoardVO vo) {
 		return template.insert("licenseBoardsFilesMapper.insertlBoardFiles",vo);
+	}
+	
+	public int deletelBoardFileOne(int fileNum) {
+		return template.delete("licenseBoardsFilesMapper.deletelBoardFileOne", fileNum);
+	}
+	
+	//게시글 조회수 
+	public int insertQnABoardVisit(VisitLicenseBoardVO vvo) {
+		try {
+			return template.insert("licenseBoardMapper.insertQnABoardVisit", vvo);
+		}catch(DuplicateKeyException e) {
+			//e.printStackTrace();
+			return 0;
+		}
+		
 	}
 }

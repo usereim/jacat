@@ -29,21 +29,21 @@
 		<div>
 			<h2>2025년 인기 자격증</h2>
 			<ol>
-				<li>정보처리기사</li>
-				<li>SQLD</li>
-				<li>리눅스 마스터</li>
-				<li>정보통신기사</li>
-				<li>정보관리기술사</li>
+				<c:forEach var="lList" items="${lList}" end="9">
+					<li>
+						<a href="<c:url value='/licenses/lists/${lList.jmcd}'/>">${lList.jmfldnm }</a>
+					</li>
+				</c:forEach>
 			</ol>
 		</div>
 		<div>
-			<h2><a href="#">공지사항</a></h2>
+			<h2><a href="<c:url value='/notice/list'/>">공지사항</a></h2>
 			<ol>
-				<li>공지사항 1</li>
-				<li>공지사항 2</li>
-				<li>공지사항 3</li>
-				<li>공지사항 4</li>
-				<li>공지사항 5</li>
+				<c:forEach var="nList" items="${nList }" end="9">
+					<li>
+						<a href="<c:url value='/notice/boards/${nList.boardNum}'/>">${nList.title }</a>
+					</li>
+				</c:forEach>
 			</ol>
 		</div>
 	</main>

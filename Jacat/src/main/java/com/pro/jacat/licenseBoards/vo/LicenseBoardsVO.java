@@ -129,7 +129,7 @@ public class LicenseBoardsVO {
 	public void setlFile(FileLicenseBoardVO lFile) {
 		this.lFile = lFile;
 	}
-
+	
 	
 	public List<FileLicenseBoardVO> getlFiles() {
 		return lFiles;

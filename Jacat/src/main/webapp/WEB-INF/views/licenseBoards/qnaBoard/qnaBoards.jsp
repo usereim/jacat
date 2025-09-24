@@ -90,7 +90,7 @@
 									</a>
 								</td>
 								<td>
-									${board.usersId }
+									${board.nick }
 								</td>
 								<td>
 									${board.wDate }
@@ -113,6 +113,7 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
+			<%-- 
 			<div id="licenseQnAPagenationBox">
 				<ul>
 					<li><a href="#">&lt;&lt;</a></li>
@@ -131,6 +132,7 @@
 					<li><a href="#">&gt;&gt;</a></li>
 				</ul>
 			</div>
+			--%>
 		</main>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	</body>

@@ -8,6 +8,7 @@ public class LicenseBoardsCommentVO {
 	private String content;
 	private String wDate;
 	private String modifyDate;
+	private String delyn;
 	
 	private String nick;
 	
@@ -52,6 +53,12 @@ public class LicenseBoardsCommentVO {
 	}
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	public String getDelyn() {
+		return delyn;
+	}
+	public void setDelyn(String delyn) {
+		this.delyn = delyn;
 	}
 	
 	public String getNick() {

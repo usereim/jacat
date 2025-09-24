@@ -29,6 +29,7 @@ import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
+import com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
 import com.pro.jacat.user.vo.UserVO;
 
@@ -67,6 +68,8 @@ public class LicenseBoardsController {
 		logger.info("자격증 상세정보 진입(jmcd : {})",jmcd);
 		
 		LicenseListVO vo = lboardService.selectLicenseOne(jmcd);
+		
+		vo = lboardService.vacancyDiscernment(vo);
 		
 		if(user != null) {
 			UsersFavoritesLicenseVO uvo = new UsersFavoritesLicenseVO();
@@ -130,7 +133,8 @@ public class LicenseBoardsController {
 			) throws ClassNotFoundException, SQLException {
 		logger.info("자격증 QnA 게시판 목록 진입");
 		
-		List<LicenseBoardsVO> lists = lboardService.selectQnABoards();
+		List<LicenseBoardsVO> lists = lboardService.selectQnABoards(jmcd);
+		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
 		model.addAttribute("boardList", lists);
@@ -145,17 +149,31 @@ public class LicenseBoardsController {
 	public String qnaView(
 			@PathVariable("boardNum") int boardNum,
 			@PathVariable("jmcd") String jmcd,
+			@SessionAttribute(name="user", required=false) UserVO user,
 			Model model
 			) {
 		
-		
-		/*
-		 * LicenseBoardsVO urlVo = new LicenseBoardsVO(); urlVo.setBoardNum(boardNum);
-		 * urlVo.setLicenseListJmcd(jmcd);
-		 */
-		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
 		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
+		//logger.info(vo.getlFiles().get(0).getRealFileName());
+		//logger.info(vo.getlFile().getRealFileName());
+		
+		//logger.info("0");
+		if(user != null) {
+			if(!(user.getId().equals(vo.getUsersId()))) {
+				//logger.info("1");
+				//logger.info(user.getId());
+				VisitLicenseBoardVO vvo = new VisitLicenseBoardVO();
+				vvo.setUsersId(user.getId());
+				vvo.setLicenseBoardNum(boardNum);
+				lboardService.insertQnABoardVisit(vvo);
+			}
+			
+		}
+		//logger.info("2");
+		//logger.info(vo.getUsersId());
+		
 		
 		logger.info("{} 자격증 QnA게시판 {}번 게시물 상세조회 진입",jmfldnm,boardNum);
 		/*
@@ -199,7 +217,7 @@ public class LicenseBoardsController {
 	@RequestMapping(value="/lists/{jmcd}/QnA/write", method=RequestMethod.POST)
 	public String qnaBoardWritePost(
 			LicenseBoardsVO vo, 
-			@RequestParam("file") FileLicenseBoardVO fvo,
+			@RequestParam("file") MultipartFile file,
 			@SessionAttribute("user") UserVO user,
 			@PathVariable("jmcd") String jmcd
 			) throws IllegalStateException, IOException {
@@ -211,7 +229,7 @@ public class LicenseBoardsController {
 		logger.info(vo.getUsersId()+","+vo.getLicenseListJmcd());
 		
 		lboardService.insertQnABoardOne(vo);
-		//lboardService.insertlBoardFiles(fvo);
+		lboardService.insertlBoardFiles(file,vo.getBoardNum());
 		
 		logger.info("번호 : "+vo.getBoardNum());
 		
@@ -243,14 +261,35 @@ public class LicenseBoardsController {
 	public String qnaBoardUpdate(
 			@PathVariable("jmcd") String jmcd,
 			@PathVariable("boardNum") int boardNum,
+			@RequestParam("file") MultipartFile file,
 			LicenseBoardsVO vo
 			) {
 		
 		int result = lboardService.updateQnABoardOne(vo);
 		
+		try {
+			lboardService.insertlBoardFiles(file, boardNum);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		logger.info("자격증 QnA {}번 게시글 수정 처리",boardNum);
 		
 		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
+	}
+	
+	@PostMapping("/lists/{jmcd}/QnA/{boardNum}/file-update/{fileNum}")
+	@ResponseBody
+	public void qnaBoardBoardUpdateFileDelete(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			@PathVariable("fileNum") int fileNum
+			) {
+		lboardService.deletelBoardFileOne(fileNum);
 	}
 	
 	//QnA 게시판 글 삭제 처리

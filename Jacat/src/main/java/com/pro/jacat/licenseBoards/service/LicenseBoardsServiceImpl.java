@@ -2,6 +2,7 @@ package com.pro.jacat.licenseBoards.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,9 @@ import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsCommentVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardsVO;
 import com.pro.jacat.licenseBoards.vo.UsersFavoritesLicenseVO;
+import com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO;
 import com.pro.jacat.licenses.vo.LicenseListVO;
+import com.pro.jacat.licenses.vo.LicenseTestDateVO;
 
 @Service
 public class LicenseBoardsServiceImpl implements LicenseBoardsService {
@@ -57,9 +60,142 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	}
 	//빈자리접수 판별
 	@Override
-	public List<LicenseListVO> vacancyDiscernment(LicenseListVO vo) {
+	public LicenseListVO vacancyDiscernment(LicenseListVO vo) {
 		
-		return null;
+		List<LicenseTestDateVO> dvo = vo.getlTestDate();
+		
+		// 종목코드가 같다면
+		// 회차가 같다면
+		// doc_reg_start_dt가 더 작은게 본접수
+		// 아니면 빈자리 접수
+		
+		for(int i=0;i<dvo.size();i++) {
+			String[] docRegStartDtArr = dvo.get(i).getDocRegStartDt().split(",");
+			String[] docRegEndDtArr = dvo.get(i).getDocRegEndDt().split(",");
+			String[] docExamStartDtArr = dvo.get(i).getDocExamStartDt().split(",");
+			String[] docExamEndDtArr = dvo.get(i).getDocExamEndDt().split(",");
+			
+			String[] pracRegStartDtArr = dvo.get(i).getPracRegStartDt().split(",");
+			String[] pracRegEndDtArr = dvo.get(i).getPracRegEndDt().split(",");
+			String[] pracExamStartDtArr = dvo.get(i).getPracExamStartDt().split(",");
+			String[] pracExamEndDtArr = dvo.get(i).getPracExamEndDt().split(",");
+			
+			//logger.info("리스트 길이 : {}",dvo.size());
+			//logger.info("0번 인덱스 : {}",docRegStartDtArr[0]);
+			//logger.info("1번 인덱스 : {}",docRegStartDtArr[1]);
+			
+			int[] intDocRegStartDtArr = new int[docRegStartDtArr.length];
+			int[] intDocRegEndDtArr = new int[docRegEndDtArr.length];
+			int[] intDocExamStartDtArr = new int[docExamStartDtArr.length];
+			int[] intDocExamEndDtArr = new int[docExamEndDtArr.length];
+			
+			int[] intPracRegStartDtArr = new int[pracRegStartDtArr.length];
+			int[] intPracRegEndDtArr = new int[pracRegEndDtArr.length];
+			int[] intPracExamStartDtArr = new int[pracExamStartDtArr.length];
+			int[] intPracExamEndDtArr = new int[pracExamEndDtArr.length];
+			
+			//doc transform
+			for(int j=0;j<intDocRegStartDtArr.length;j++) {
+				intDocRegStartDtArr[j] = Integer.parseInt(docRegStartDtArr[j]);
+			}
+			for(int j=0;j<intDocRegEndDtArr.length;j++) {
+				intDocRegEndDtArr[j] = Integer.parseInt(docRegEndDtArr[j]);
+			}
+			for(int j=0;j<intDocExamStartDtArr.length;j++) {
+				intDocExamStartDtArr[j] = Integer.parseInt(docExamStartDtArr[j]);
+			}
+			for(int j=0;j<intDocExamEndDtArr.length;j++) {
+				intDocExamEndDtArr[j] = Integer.parseInt(docExamEndDtArr[j]);
+			}
+			
+			//prac tarnsform
+			for(int j=0;j<intPracRegStartDtArr.length;j++) {
+				intPracRegStartDtArr[j] = Integer.parseInt(pracRegStartDtArr[j]);
+			}
+			for(int j=0;j<intPracRegEndDtArr.length;j++) {
+				intPracRegEndDtArr[j] = Integer.parseInt(pracRegEndDtArr[j]);
+			}
+			for(int j=0;j<intPracExamStartDtArr.length;j++) {
+				intPracExamStartDtArr[j] = Integer.parseInt(pracExamStartDtArr[j]);
+			}
+			for(int j=0;j<intPracExamEndDtArr.length;j++) {
+				intPracExamEndDtArr[j] = Integer.parseInt(pracExamEndDtArr[j]);
+			}
+			
+			//doc 값 판별 및 삽입
+			if(intDocRegStartDtArr[0] < intDocRegStartDtArr[1]) {
+				dvo.get(i).setDocRegStartDt(docRegStartDtArr[0]); 
+				dvo.get(i).setDocRegStartVacancyDt(docRegStartDtArr[1]); 
+			}
+			else {
+				dvo.get(i).setDocRegStartDt(docRegStartDtArr[1]);
+				dvo.get(i).setDocRegStartVacancyDt(docRegStartDtArr[0]); 
+			}
+			if(intDocRegEndDtArr[0] < intDocRegEndDtArr[1]) {
+				dvo.get(i).setDocRegEndDt(docRegStartDtArr[0]);
+				dvo.get(i).setDocRegEndVacancyDt(docRegStartDtArr[1]);
+			}
+			else {
+				dvo.get(i).setDocRegEndDt(docRegStartDtArr[1]);
+				dvo.get(i).setDocRegEndVacancyDt(docRegStartDtArr[0]);
+			}
+			if(intDocExamStartDtArr[0] < intDocExamStartDtArr[1]) {
+				dvo.get(i).setDocExamStartDt(docRegStartDtArr[0]);
+				dvo.get(i).setDocExamStartVacancyDt(docRegStartDtArr[1]);
+			}
+			else {
+				dvo.get(i).setDocExamStartDt(docRegStartDtArr[1]);
+				dvo.get(i).setDocExamStartVacancyDt(docRegStartDtArr[0]);
+			}
+			if(intDocExamEndDtArr[0] < intDocExamEndDtArr[1]) {
+				dvo.get(i).setDocExamEndDt(docRegStartDtArr[0]);
+				dvo.get(i).setDocExamEndVacancyDt(docRegStartDtArr[1]);
+			}
+			else {
+				dvo.get(i).setDocExamEndDt(docRegStartDtArr[1]);
+				dvo.get(i).setDocExamEndVacancyDt(docRegStartDtArr[0]);
+			}
+			
+			
+			//prac 값 판별 및 삽입
+			if(intPracRegStartDtArr[0] < intPracRegStartDtArr[1]) {
+				dvo.get(i).setPracRegStartDt(pracRegStartDtArr[0]); 
+				dvo.get(i).setPracRegStartVacancyDt(pracRegStartDtArr[1]); 
+			}
+			else {
+				dvo.get(i).setPracRegStartDt(pracRegStartDtArr[1]);
+				dvo.get(i).setPracRegStartVacancyDt(pracRegStartDtArr[0]); 
+			}
+			if(intPracRegEndDtArr[0] < intPracRegEndDtArr[1]) {
+				dvo.get(i).setPracRegEndDt(pracRegStartDtArr[0]);
+				dvo.get(i).setPracRegEndVacancyDt(pracRegStartDtArr[1]);
+			}
+			else {
+				dvo.get(i).setPracRegEndDt(pracRegStartDtArr[1]);
+				dvo.get(i).setPracRegEndVacancyDt(pracRegStartDtArr[0]);
+			}
+			if(intPracExamStartDtArr[0] < intPracExamStartDtArr[1]) {
+				dvo.get(i).setPracExamStartDt(pracRegStartDtArr[0]);
+				dvo.get(i).setPracExamStartVacancyDt(pracRegStartDtArr[1]);
+			}
+			else {
+				dvo.get(i).setPracExamStartDt(pracRegStartDtArr[1]);
+				dvo.get(i).setPracExamStartVacancyDt(pracRegStartDtArr[0]);
+			}
+			if(intPracExamEndDtArr[0] < intPracExamEndDtArr[1]) {
+				dvo.get(i).setPracExamEndDt(pracRegStartDtArr[0]);
+				dvo.get(i).setPracExamEndVacancyDt(pracRegStartDtArr[1]);
+			}
+			else {
+				dvo.get(i).setPracExamEndDt(pracRegStartDtArr[1]);
+				dvo.get(i).setPracExamEndVacancyDt(pracRegStartDtArr[0]);
+			}
+			
+			
+		}
+		
+		
+		return vo;
 	}
 	
 	//관심자격증 추가
@@ -94,8 +230,8 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
 	//QnA 게시판 목록조회
 	@Override
-	public List<LicenseBoardsVO> selectQnABoards(){
-		return lBoardRepo.selectQnABoards();
+	public List<LicenseBoardsVO> selectQnABoards(String jmcd){
+		return lBoardRepo.selectQnABoards(jmcd);
 	}
 	//QnA 게시판 상세조회
 	@Override
@@ -202,9 +338,13 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
 	//QnA 게시글 파일 업로드
 	@Override
-	public int insertlBoardFiles(FileLicenseBoardVO vo) {
+	public int insertlBoardFiles(MultipartFile file, int boardNum) throws IllegalStateException, IOException{
 		
-		String path = context.getRealPath("/uploads/licenses/boards/files"); 
+		if(file.isEmpty()) {
+			throw new IllegalStateException();
+		}
+		
+		String path = context.getRealPath("/uploads/licenses/boards/files/"+boardNum +"/"); 
 		File dir = new File(path);
 		if(!dir.exists()) {
 			dir.mkdir();
@@ -212,31 +352,36 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		
 		FileLicenseBoardVO fvo = new FileLicenseBoardVO(); 
 		
-		String realFileName = fvo.getRealFileName();
+		String realFileName = file.getOriginalFilename();
 		String ext = realFileName.substring(realFileName.lastIndexOf("."));
 		
 		String fileName = UUID.randomUUID().toString() + ext;
 		
-		String type = vo.getType();
+		String type = file.getContentType();
 		
-		//vo.transferTo(new File(path+fileName));
+		file.transferTo(new File(path+fileName));
 		
-		FileLicenseBoardVO flbvo = new FileLicenseBoardVO();
-		flbvo.setLicenseBoardsBoardNum(vo.getLicenseBoardsBoardNum());
-		flbvo.setRealFileName(realFileName);
-		flbvo.setFileName(fileName);
-		flbvo.setPath(path);
-		flbvo.setType(type);
-		return lBoardRepo.insertlBoardFiles(flbvo);
+		fvo.setLicenseBoardsBoardNum(boardNum);
+		fvo.setRealFileName(realFileName);
+		fvo.setFileName(fileName);
+		fvo.setPath(path);
+		fvo.setType(type);
+		return lBoardRepo.insertlBoardFiles(fvo);
 		
 	}
-
 	
+	@Override
+	public int deletelBoardFileOne(int fileNum) {
+		return lBoardRepo.deletelBoardFileOne(fileNum);
+	}
 
-	
-
-	
-
+	//게시글 조회수 추가 
+	@Override
+	public int insertQnABoardVisit(VisitLicenseBoardVO vvo) {
+		
+		return lBoardRepo.insertQnABoardVisit(vvo);
+		
+	}
 
 	
 	//QnA 게시판 글 작성
