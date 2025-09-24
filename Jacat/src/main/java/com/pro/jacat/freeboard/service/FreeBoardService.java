@@ -31,4 +31,7 @@ public interface FreeBoardService {
 	
 	//신고기능
 	void insertReport(FreeBoardReportVO vo);
+	
+	//댓글 수정
+	boolean updateComment(FreeBoardCommentVO vo);
 }

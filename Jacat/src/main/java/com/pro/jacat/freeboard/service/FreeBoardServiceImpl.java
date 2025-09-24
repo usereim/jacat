@@ -163,13 +163,18 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	public boolean addComment(FreeBoardCommentVO vo) {
 		return freeboardCommentRepository.insertComment(vo) > 0;
 	}
+	
+	// 댓글 수정
+	public boolean updateComment(FreeBoardCommentVO vo) {
+		return freeboardCommentRepository.updateComment(vo) > 0;
+	}
 
 	// 대댓글 조회
 	public List<FreeBoardCommentVO> selectCComment(int board_num) {
 		return freeboardCommentRepository.selectCComment(board_num);
 	}
 
-	// 신고기능
+	// 신고기능 
 	public void insertReport(FreeBoardReportVO vo) {
 		freeboardReportRepository.insertReport(vo);
 	}

@@ -152,6 +152,21 @@ public class FreeBoardController {
 			return "redirect:/freeboard/boards/"+vo.getBoardNum();
     }
 		
+		@PostMapping("/comment/modify")
+	    public String modifyComment(FreeBoardCommentVO vo, HttpSession session) {
+	        // 로그인 사용자 확인
+	        UserVO user = (UserVO) session.getAttribute("user");
+	        if (user == null) {
+	            return "redirect:/login"; // 로그인 안 했을 경우
+	        }
+
+	        // 댓글 내용 수정
+	        freeboardService.updateComment(vo);
+
+	        // 다시 해당 게시글 상세보기로 리다이렉트
+	        return "redirect:/freeboard/boards/" + vo.getBoardNum();
+	    }
+		
 		//신고insert
 		@RequestMapping(value="/report", method=RequestMethod.POST)
 		public void insertReport(@ModelAttribute FreeBoardReportVO vo,

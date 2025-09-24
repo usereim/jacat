@@ -27,4 +27,8 @@ public class FreeBoardCommentRepository {
 		return template.selectList("freeboardCommentMapper.selectCComment", board_num);
 	}
 	
+	public int updateComment(FreeBoardCommentVO vo) {
+		return template.update("freeboardCommentMapper.update", vo);
+	}
+	
 }

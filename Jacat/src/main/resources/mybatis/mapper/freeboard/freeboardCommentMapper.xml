@@ -49,4 +49,15 @@
 	select * from comments where boards_board_num = #{board_num} and parent_comment_num > 0;
 	</select>
 	
+	<!-- 댓글 수정 -->
+	<update id="update" parameterType="comment">
+		update comments
+		<set>
+			<if test="content != null">
+				content = #{content}
+			</if>
+		</set>
+		where comment_num = #{commentNum}
+	</update>
+	
 </mapper>
