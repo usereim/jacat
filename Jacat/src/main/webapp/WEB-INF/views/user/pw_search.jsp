@@ -6,22 +6,81 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
+<style>
+	main {
+		width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	main h2 {
+		margin-bottom: 60px;
+	}
+	
+	section#section_area {
+		width: 80%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 15px;
+		margin-bottom : 60px;
+	}
+	
+	.input_area {
+		width: 65%;
+		display: flex;
+		margin-bottom: 10px;
+		align-items: center;
+		gap: 10px;
+	}
+	
+	.input_area label {
+		font-size: 20px;
+		width: 20%;
+	}
+	
+	input.form-control {
+		width: 350px;
+	}
+</style>
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
+	<c:import url="/WEB-INF/views/includes/header.jsp"/>
+
 	<main>
-		<div id="content">
-			<h2>이메일 인증</h2>
-			<p>아이디 : <p><input type="text" name="id">
-			<p>이메일 : <p><input type="text" name="email">
-			<button type="button" id="emailBtn">인증 번호</button>
+		<section id="section_area">
+			<h2 class="text-primary">이메일 인증</h2>
+			
+			<div class="input_area">
+				<label for="id" class="text-primary">아이디</label>
+				<input type="text" name="id" id="id" class="form-control">
+			</div>
+			
+			<div class="input_area">
+				<label for="email" class="text-primary">이메일</label>
+				<input type="text" name="email" id="email" class="form-control">
+				<button type="button" id="email_btn" class="btn btn-primary">인증번호 전송</button>
+			</div>
+			
 			<div id="message"></div>
-			<br>
-			<p>이메일 인증 : <p><input type="text" name="code">
-			<button type="button" id="codeBtn" disabled>인증</button>
-		</div>
-			<button type="button" id="loginBtn">로그인</button>
+			
+			<div class="input_area">
+				<label for="code" class="text-primary">인증번호</label>
+				<input type="text" name="code" class="form-control">
+				<button type="button" id="code_btn" class="btn btn-primary" disabled>인증</button>
+			</div>
+			
+			<button type="button" id="login_btn" class="btn btn-primary">로그인</button>
+		</section>
+		
+			
 	</main>
+	
+	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	
 	<script>
 		$(function() {
@@ -29,11 +88,11 @@
 			let email = $("input[name=email]").val();
 			let pw_check = false;
 			
-			$("loginBtn").click(function() {
+			$("login_btn").click(function() {
 				location.href = "<c:url value='/user/login' />";
 			});
 			
-			$("#emailBtn").click(function() {
+			$("#email_btn").click(function() {
 				id = $("input[name=id]").val();
 				email = $("input[name=email]").val();
 				
@@ -46,6 +105,7 @@
 							"email" : email
 						}, success : function(response) {
 							if (response.code == 1) {
+								$("#message").text("");
 								sendMail();
 							} else {
 								$("#message").text("등록된 아이디, 이메일이 없습니다.").css("color", "red");
@@ -57,7 +117,7 @@
 				}
 			});
 			
-			$("#codeBtn").click(function() {
+			$("#code_btn").click(function() {
 				let code = $("input[name=code]").val();
 				
 				if (code != '') {
@@ -79,6 +139,10 @@
 				}
 			});
 			
+			$("#login_btn").click(function() {
+				location.href = "<c:url value='/user/login' />";
+			});
+			
 			function sendMail() {
 				email = $("input[name=email]").val(); 
 				
@@ -90,7 +154,7 @@
 					},
 					success : function(response) {
 						if(response == "success") {
-							$("#codeBtn").removeAttr("disabled");
+							$("#code_btn").removeAttr("disabled");
 						}
 					},
 					error : function() {
@@ -100,7 +164,7 @@
 			}
 			
 			function changeContent() {
-				let content = $("#content");
+				let content = $("#section_area");
 				content.children().remove();
 				
 				let h2 = $("<h2>");
@@ -131,7 +195,7 @@
 				let div2 = $("<div>").attr("id", "re_pw_message");
 				content.append(div2);
 				
-				let button = $("<button>").attr("type", "button").attr("id", "pwChangeBtn").text("비밀번호 변경")
+				let button = $("<button>").attr("type", "button").attr("id", "pwChange_btn").text("비밀번호 변경")
 				.on("click", function() {
 					pwChange();
 				});

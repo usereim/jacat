@@ -9,11 +9,7 @@
 
 <style>
 	input.form-control {
-		width: 300px;
-	}
-	
-	.btn {
-		width: 160px;
+		width: 350px;
 	}
 	
 	main {
