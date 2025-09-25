@@ -2,6 +2,7 @@ package com.pro.jacat.freeboard.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -84,16 +85,16 @@ public class FreeBoardController {
 		UserVO user = (UserVO)session.getAttribute("user");
 		if (user != null) {
 			FreeBoardVO visit = new FreeBoardVO();
+			
 			visit.setBoardNum(board_num);
 			visit.setUsersId(user.getId());
 			
 			//조회수 증가
+			
 			freeboardService.visit(visit);
-		} else {
 			
 		}
-		
-		
+
 		FreeBoardVO vo = freeboardService.selectBoardByBno(board_num);
 		
 		

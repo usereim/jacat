@@ -1,5 +1,6 @@
 package com.pro.jacat.freeboard.repository;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -45,7 +46,23 @@ public class FreeBoardRepository {
 	
 	//조회수 증가
 	public void visit(FreeBoardVO visit) {
-		 template.insert("freeboardMapper.visit", visit);
+		/*
+		 *  select count(*) from visit_board where boards_board_num = 2 and users_id = 'testuser';
+		 * 
+		 *  insert into visit_board(boards_board_num, users_id)
+		 *  values(2, 'testuser')
+		 */
+		//try {
+		//	template.insert("freeboardMapper.visit", visit);
+		//}catch (Exception e) {
+		//	//e.printStackTrace();
+		//}
+		
+		int count = template.selectOne("freeboardMapper.visitExistsCount", visit);
+		if(count <= 0) {
+			template.insert("freeboardMapper.visit", visit);
+		}
+		
 	}
 	
 

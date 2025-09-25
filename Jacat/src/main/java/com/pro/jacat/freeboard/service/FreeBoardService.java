@@ -1,6 +1,7 @@
 package com.pro.jacat.freeboard.service;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;

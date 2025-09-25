@@ -2,6 +2,7 @@ package com.pro.jacat.freeboard.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -180,9 +181,11 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 	
 	// 조회수 증가
-	public void visit(FreeBoardVO visit) {
+	public void visit(FreeBoardVO visit){
 		freeboardRepository.visit(visit);
 	}
+	
+	
 	
 	
 }

@@ -99,6 +99,11 @@
 		insert into visit_board(boards_board_num, users_id)
 		values(#{boardNum}, #{usersId})
 	</insert>
+	
+	<!-- 조회수 검증(조회)  -->
+	<select id="visitExistsCount" parameterType="freeboard" resultType="int">
+		select count(*) from visit_board where boards_board_num = #{boardNum} and users_id = #{usersId}
+	</select>
 		
 
 </mapper>
