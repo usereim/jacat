@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,15 +8,25 @@
 <title>게시글 수정</title>
 </head>
 <body>
-	<!-- <form action="http://localhost:8080/c/board/modify"> -->
-	<!-- <form action="/c/board/modify"> -->
-	<!-- <form action="modify"> -->
-	<!-- <form action=""> -->
-	<form method="post" enctype="multipart/form-data">
-		<input type="text" name="title" value="${NoticeBoard.title}"><br>
-		<textarea name="content">${NoticeBoard.content}</textarea><br>
-		<input type="file" name="files" multiple>첨부파일<br>
-		<input type="submit" value="수정">
-	</form>
+	<c:import url="/WEB-INF/views/includes/header.jsp"/>
+	<main>
+		<!-- <form action="http://localhost:8080/c/board/modify"> -->
+		<!-- <form action="/c/board/modify"> -->
+		<!-- <form action="modify"> -->
+		<!-- <form action=""> -->
+		<form class="text-primary-emphasis" method="post" enctype="multipart/form-data">
+			제목 <input class="form-control form-control-sm"
+				 type="text" name="title" value="${NoticeBoard.title}"><br>
+				 
+			내용 <input class="form-control form-control-sm">
+			<br>
+			
+			첨부파일 <input class="form-control form-control-sm"
+			 type="file" name="files" multiple class="btn btn-primary"><br>
+			 
+			<input  type="submit" value="수정" class="btn btn-primary">
+		</form>
+	</main>
 </body>
+<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 </html>
