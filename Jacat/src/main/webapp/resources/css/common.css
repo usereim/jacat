@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+header{
+	height:10vh;
+}
+
+main{
+	height:80vh;
+	width:80vw;
+	margin: 0 auto;
+}
+
+footer{
+	height:10vh;
+}

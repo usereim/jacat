@@ -7,9 +7,6 @@
 	<meta charset="UTF-8">
 	<title>자격증 정보의 모든 것! 자캣</title>
 	<style>
-		body *{
-			border:1px solid black;
-		}
 		main{
 			height:70vh;
 			display:flex;
