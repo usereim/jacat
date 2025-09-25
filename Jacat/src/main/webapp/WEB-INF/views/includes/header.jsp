@@ -9,75 +9,104 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 		<link href="<c:url value='/resources/css/common.css'/>" rel="stylesheet" type="text/css">
 		<style>
-			header{
-				height:10vh;
+			
+			main{
+				padding: 5vh 0;
 			}
-			#headerBox{
+			#headerUserBox>p{
 				display:flex;
-				flex-direction:row;
-				justify-content:space-between;
+				flex-direction:column;
+				align-items:flex-end;
 			}
-			#navigationBar{
-				display:flex;
-				justify-content:space-around;
+			a{
+				color:black;
+				text-decoration:bold;
 			}
-			#mainLogo{
-				width:5vh;
-				height:5vh;
-			}
+			
 		</style>
 	</head>
 	<body>
 		<header>
-			<div id="headerBox">
-				<a href="<c:url value='/'/>">
-					<img 
-					src="<c:url value="/resources/img/jacat_main_logo.png"/>"
-					id="mainLogo">
-				</a>
-				<form action="${pageContext.request.contextPath}/search/result"  onsubmit="return validateSearch();" method="get">
-					<input type="text" id="searchBox" name="keyword">
-					<button type="submit">🔎</button>
-				</form>
-				
-				<c:choose>
-					<c:when test="${empty sessionScope.user }">
-						<a href="<c:url value='/user/login'/>">
-							로그인
-						</a>
-					</c:when>
-					<c:otherwise>
-						<a href="<c:url value='/user/logout'/>">
-							로그아웃
-						</a>
-					</c:otherwise>
-				</c:choose>
-				
-			</div>
-			<nav id="navigationBar">
-				<a href="<c:url value='/notice/list'/>">공지사항</a>
-				<a href="<c:url value='/csc/main'/>">고객센터</a>
-				<a href="<c:url value='/freeboard/boards'/>">자유게시판</a>
-				<a href="<c:url value='/licenses/lists'/>">자격증 정보</a>
-				<c:choose>
-					<c:when test="${empty sessionScope.user}">
-						<a href="javascript:alert('로그인후 이용해 주세요.')">마이페이지</a>
-						<a href="javascript:alert('로그인후 이용해 주세요.')">캘린더</a>
-					</c:when>
-					<c:otherwise>
+			<section id="headerSection">
+				<div id="headerBox">
+					<a href="<c:url value='/'/>" class="navbar-brand">
+						<img 
+						src="<c:url value="/resources/img/jacat_main_logo.png"/>"
+						id="mainLogo">
+					</a>
+					<form 
+					action="${pageContext.request.contextPath}/search/result" 
+					onsubmit="return validateSearch();" 
+					method="get"
+					class="d-flex"
+					>
+						<input type="text" id="searchBox" name="keyword" class="form-control me-sm-2">
+						<button type="submit" class="btn btn-secondary my-2 my-sm-0">🔎</button>
+					</form>
+					
+					<div id="headerUserBox">
+						<p>
+							<c:choose>
+								<c:when test="${empty sessionScope.user }">
+									<a href="<c:url value='/user/login'/>">
+										로그인
+									</a>
+								</c:when>
+								<c:otherwise>
+									<span>${sessionScope.user.nick } 님 환영합니다!</span>
+									<a href="<c:url value='/user/logout'/>">
+										로그아웃
+									</a>
+								</c:otherwise>
+							</c:choose>
+						</p>
+					</div>
+					
+				</div>
+				<nav id="navigationBar navbarColor01" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a href="<c:url value='/notice/list'/>" class="nav-link">공지사항</a>
+						</li>
+						<li class="nav-item">
+							<a href="<c:url value='/csc/main'/>" class="nav-link">고객센터</a>
+						</li>
+						<li class="nav-item">
+							<a href="<c:url value='/freeboard/boards'/>" class="nav-link">자유게시판</a>
+						</li>
+						<li class="nav-item">
+							<a href="<c:url value='/licenses/lists'/>" class="nav-link">자격증 정보</a>
+						</li>
 						<c:choose>
-							<c:when test="${sessionScope.user.grade == 'A' }">
-								<a href="<c:url value='/adminPage/main'/>">관리자페이지</a>
+							<c:when test="${empty sessionScope.user}">
+								<li class="nav-item">
+									<a href="javascript:alert('로그인후 이용해 주세요.')" class="nav-link">마이페이지</a>
+								</li>
+								<li class="nav-item">
+									<a href="javascript:alert('로그인후 이용해 주세요.')" class="nav-link">캘린더</a>
+								</li>
 							</c:when>
 							<c:otherwise>
-								<a href="<c:url value='/mypage/pw-cert'/>">마이페이지</a>
+								<c:choose>
+									<c:when test="${sessionScope.user.grade == 'A' }">
+										<li class="nav-item">
+											<a href="<c:url value='/adminPage/main'/>" class="nav-link">관리자페이지</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li class="nav-item">
+											<a href="<c:url value='/mypage/pw-cert'/>" class="nav-link">마이페이지</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+								<li class="nav-item">
+									<a href="<c:url value='/calendar/main'/>" class="nav-link">캘린더</a>
+								</li>
 							</c:otherwise>
 						</c:choose>
-						
-						<a href="<c:url value='/calendar/main'/>">캘린더</a>
-					</c:otherwise>
-				</c:choose>
-			</nav>
+					</ul>
+				</nav>
+			</section>
 		</header>
 	</body>
 	<script>

@@ -1,15 +1,42 @@
 @charset "UTF-8";
 
+/*header style*/
 header{
-	height:10vh;
+	height:14vh;
 }
+	#headerSection{
+		width:80vw;
+		margin:1vh auto 1vh;
+	}
+	#headerBox{
+		display:flex;
+		flex-direction:row;
+		justify-content:space-between;
+		align-items:center;
+	}
+	#headerUserBox{
+				
+	}
+	
+	#navigationBar ul{
+		display:flex;
+		justify-content:space-around;
+	}
+	#mainLogo{
+		width:5vh;
+		height:5vh;
+	}
+	
+	
 
+/*main commom style*/
 main{
 	height:80vh;
 	width:80vw;
-	margin: 0 auto;
+	margin: 1vh auto;
 }
 
+/*footer style*/
 footer{
 	height:10vh;
 }

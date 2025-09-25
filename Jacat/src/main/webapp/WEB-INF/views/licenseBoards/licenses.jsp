@@ -8,29 +8,21 @@
 		<meta charset="UTF-8">
 		<title>자격증 정보</title>
 		<style>
-			body *{
-				border:1px solid black;
+			
+			#lListNavBox ul li{
+				width:20%;
+				text-align:center;
 			}
-			main{
-				height:70vh;
-				
-			}
-			#licenseBoardNavBox{
-				display:flex;
-				align-items:center;
-			}
-			#licenseBoardNavBox li{
-				width:30%;
-				list-style:none;
-			}
+			
 			#lListContentBox ul{
 				display:flex;
 				align-items:center;
+				justify-content:center;
 				flex-wrap:wrap;
 			}
 			#lListContentBox ul li{
-				width:23%;
-				list-style:none;
+				width:18%;
+				
 			}
 		</style>
 	</head>
@@ -42,21 +34,22 @@
 			</div>
 			<hr>
 			<div id="lListNavBox">
-				<ul>
-					<li>
-						<a href="<c:url value='/licenses/lists'/>">자격증 목록</a>
+				<ul class="nav nav-underline">
+					<li class="nav-item">
+						<a href="<c:url value='/licenses/lists'/>" class="nav-link">자격증 목록</a>
 					</li>
-					<li>
-						<a href="<c:url value='/licenses/center/list'/>">시험장 정보</a>
+					<li class="nav-item">
+						<a href="<c:url value='/licenses/center/list'/>" class="nav-link">시험장 정보</a>
 					</li>
 				</ul>
 			</div>
+			<hr>
 			<div id="lListContentBox">
-				<ul>
+				<ul class="nav nav-underline">
 					<c:forEach var="lList" items="${lList}">
 						
-						<li>
-							<a href="<c:url value='/licenses/lists/${lList.jmcd}'/>">${lList.jmfldnm }</a>
+						<li class="nav-item">
+							<a href="<c:url value='/licenses/lists/${lList.jmcd}'/>" class="nav-link">${lList.jmfldnm }</a>
 						</li>
 						
 					</c:forEach>

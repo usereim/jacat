@@ -6,6 +6,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${lListOne.jmfldnm } 상세정보</title>
+		<style>
+			
+		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
 			const id = "${sessionScope.user.id}";
@@ -69,17 +72,19 @@
 		<main>
 			<section id="licenseSubtitleBox">
 				<h2>${lListOne.jmfldnm } 상세정보</h2>
-				<ul id="licenseNavBox">
-					<li>
-						<a href="<c:url value='/licenses/lists' />">자격증 목록으로</a>
+				<hr>
+				<ul id="licenseNavBox" class="nav nav-underline">
+					<li class="nav-item">
+						<a href="<c:url value='/licenses/lists' />" class="nav-link">자격증 목록으로</a>
 					</li>
-					<li>
-						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/QnA' />">${lListOne.jmfldnm } QnA 게시판</a>
+					<li class="nav-item">
+						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/QnA' />" class="nav-link">${lListOne.jmfldnm } QnA 게시판</a>
 					</li>
-					<li>
-						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/dataroom' />">${lListOne.jmfldnm } 자료실</a>
+					<li class="nav-item">
+						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/dataroom' />" class="nav-link">${lListOne.jmfldnm } 자료실</a>
 					</li>
 				</ul>
+				<hr>
 			</section>
 			<section id="licenseInfosBox">
 				<div id="licenseFavoBtnBox">

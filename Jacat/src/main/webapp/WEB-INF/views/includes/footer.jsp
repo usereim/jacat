@@ -10,11 +10,16 @@
 				display:flex;
 				justify-content:center;
 				height:10vh;
+				padding:1vh;
+			}
+			footer span{
+				color:black;
+				text-decoration:bold;
 			}
 		</style>
 	</head>
 	<body>
-		<footer>
+		<footer class="bg-primary" data-bs-theme="dark">
 			<span>
 				&copy; 이젠 IT 아카데미 / A팀
 			</span>
