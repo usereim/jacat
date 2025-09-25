@@ -8,19 +8,18 @@
 <title>비밀번호 찾기</title>
 <style>
 	main {
-		width: 1200px;
-		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 	
-	main h2 {
+	section#section_area h2 {
+		margin-top: 150px;
 		margin-bottom: 60px;
 	}
 	
 	section#section_area {
-		width: 80%;
+		width: 70%;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
@@ -165,37 +164,69 @@
 			
 			function changeContent() {
 				let content = $("#section_area");
-				content.children().remove();
+				content.children("div").remove();
+				content.children("button").remove();
 				
-				let h2 = $("<h2>");
+				let h2 = content.children("h2").detach();
 				h2.text("비밀번호 변경");
 				content.append(h2);
 				
-				let p1 = $("<p>").text("수정 비밀번호 : ");
-				content.append(p1);
+				let inputArea = $("<div>").attr("class", "input_area text-primary").css({
+					"disply" : "flex",
+					"flex-direction" : "column",
+					"align-items" : "flex-start",
+					"gap" : "10px"
+				});
 				
-				let input1 = $("<input>").attr("type", "password").attr("name", "pw")
+				let input = $("<div>").attr("class", "input").css({
+					"display" : "flex",
+					"align-items" : "flex-end",
+					"gap" : "10px"
+				});
+				
+				let label = $("<label>").attr("for", "pw").text("비밀번호");
+				input.append(label);
+				
+				let pw = $("<input>").attr("type", "password").attr("name", "pw").attr("id", "pw").attr("class", "form-control")
 				.on("keyup", function() {
 					checkPw();
 				});
-				content.append(input1);
+				input.append(pw);
+				inputArea.append(input);
 				
-				let div1 = $("<div>").attr("id", "pw_message");
-				content.append(div1);
+				let pwMessage = $("<div>").attr("id", "pw_message");
+				inputArea.append(pwMessage);
+				content.append(inputArea);
 				
-				let p2 = $("<p>").text("비밀번호 확인 : ");
-				content.append(p2);
+				inputArea = $("<div>").attr("class", "input_area text-primary").css({
+					"disply" : "flex",
+					"flex-direction" : "column",
+					"align-items" : "flex-start",
+					"gap" : "10px",
+				});
 				
-				let input2 = $("<input>").attr("type", "password").attr("name", "re_pw")
+				input = $("<div>").attr("class", "input").css({
+					"display" : "flex",
+					"align-items" : "flex-end",
+					"justify-content" : "center",
+					"gap" : "10px"
+				});
+				
+				label = $("<label>").attr("for", "re_pw").text("비밀번호 확인");
+				input.append(label);
+				
+				let rePw = $("<input>").attr("type", "password").attr("name", "re_pw").attr("id", "re_pw").attr("class", "form-control")
 				.on("keyup", function() {
 					reCheckPw();
 				});
-				content.append(input2);
+				input.append(rePw);
+				inputArea.append(input);
 				
-				let div2 = $("<div>").attr("id", "re_pw_message");
-				content.append(div2);
+				let rePwMessage = $("<div>").attr("id", "re_pw_message");
+				inputArea.append(rePwMessage);
+				content.append(inputArea);
 				
-				let button = $("<button>").attr("type", "button").attr("id", "pwChange_btn").text("비밀번호 변경")
+				let button = $("<button>").attr("type", "button").attr("id", "pwChange_btn").attr("class", "btn btn-primary").text("비밀번호 변경")
 				.on("click", function() {
 					pwChange();
 				});
@@ -216,16 +247,11 @@
 					pw_check = false;
 				}
 
-				/* reCheckPw(); */
 			}
 			
 			function reCheckPw() {
 				let rePw = $("input[name=re_pw]").val();
 				let pw = $("input[name=pw]").val();
-
-				/* if (pw == '') {
-					checkPw();
-				} */
 
 				if (rePw == pw) {
 					$("#re_pw_message").text("");

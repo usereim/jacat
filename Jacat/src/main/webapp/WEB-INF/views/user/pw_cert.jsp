@@ -6,15 +6,36 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 재확인</title>
+<style>
+	#section_area {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		align-items: center;
+		margin-top: 200px;
+	}
+	
+	#content {
+		display: flex;
+		gap: 15px;
+		justify-content: center;
+		align-items: center;
+	}
+</style>
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/includes/header.jsp"/>
 	
 	<main>
-		<section>
-			비밀번호 : <input type="password" name="pw" id="pw"> <br>
-			<button type="button" id="pw_cert_btn">비밀번호 확인</button>
+		<section id="section_area">
+			<h2 class="text-primary-emphasis">비밀번호 확인</h2>
+			
+			<div id="content">
+				<label for="pw" class="text-primary-emphasis">비밀번호</label>
+				<input type="password" name="pw" id="pw"> <br>
+				<button type="button" id="pw_cert_btn" class="btn btn-primary">비밀번호 확인</button>
+			</div>
 		</section>
 	</main>
 	

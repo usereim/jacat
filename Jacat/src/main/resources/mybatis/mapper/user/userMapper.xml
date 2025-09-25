@@ -22,7 +22,7 @@
 	<select id="selectUsersCntByIdEmail" parameterType="user"
 		resultType="int">
 		select count(*) from users where id = #{id} and email =
-		#{email}
+		#{email} and grade != 'S'
 	</select>
 
 	<insert id="insertUsersOne" parameterType="user">

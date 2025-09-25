@@ -6,30 +6,73 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
+<style>
+	td {
+        border: 1px solid #222;
+        padding: 10px 8px;
+        line-height: 1.6;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    td:nth-child(1) { width: 20%; text-align: left; font-weight: bold;}
+    td:nth-child(2) { width: 80%; text-align: left; }
+
+    /* 테이블 행 구분선과 배경 */
+    table tr {
+        border-bottom: 1px solid #ccc;
+    }
+    table tr:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    /* 제목 링크 강조 */
+    td:first-child a {
+        font-weight: bold;
+        color: #000;
+    }
+    td:first-child a:hover {
+        text-decoration: underline;
+    }
+</style>
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/includes/header.jsp"/>
 
 	<main>
-		<p>회원 정보 수정</p>
-		<p>아이디 : ${userVO.id }</p>
-		<form action="<c:url value='/user/modify' />" method="post" enctype="multipart/form-data">
-			닉네임 : <input type="text" name="nick" value="${userVO.nick }"> <br>
-			<div id="nick_message"></div>
-			이메일 : <input type="text" name="email" value="${userVO.email }"> <br>
-			<div id="email_message"></div>
-			프로필 이미지 : <br>
-			<c:if test="${not empty userVO.realFileName }">
-				<img id="profile_img" width="300px" alt="프로필 이미지" src="<c:url value='/uploads/profile/${userVO.id }/${userVO.fileName }'/>"> <br>
-				<button type="button" id="profile_delete_btn">프로필 이미지 삭제</button>
-			</c:if>
-			<c:if test="${empty userVO.realFileName }">
-				<input type="file" name="profile"> <br>
-			</c:if>
-			<input type="submit" id="submit" value="수정하기"> <br>
-		</form>
-		<button type="button" id="cancle_btn">수정 취소</button>
+		<section id="section_area">
+			<h2>회원 정보 수정</h2>
+			
+			<form action="<c:url value='/user/modify' />" method="post" enctype="multipart/form-data">
+				<table>
+					<tr>
+						<td>아이디</td>
+						<td>${userVO.id }</td>
+					</tr>
+				
+				</table>
+			
+				닉네임 : <input type="text" name="nick" value="${userVO.nick }"> <br>
+				<div id="nick_message"></div>
+				이메일 : <input type="text" name="email" value="${userVO.email }"> <br>
+				<div id="email_message"></div>
+				프로필 이미지 : <br>
+				<c:if test="${not empty userVO.realFileName }">
+					<img id="profile_img" width="300px" alt="프로필 이미지" src="<c:url value='/uploads/profile/${userVO.id }/${userVO.fileName }'/>"> <br>
+					<button type="button" id="profile_delete_btn">프로필 이미지 삭제</button>
+				</c:if>
+				<c:if test="${empty userVO.realFileName }">
+					<input type="file" name="profile"> <br>
+				</c:if>
+				<input type="submit" id="submit" value="수정하기"> <br>
+			</form>
+			
+			
+			<button type="button" id="cancle_btn">수정 취소</button>
+		</section>
 	</main>
 	
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>

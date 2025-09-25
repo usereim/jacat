@@ -13,19 +13,18 @@
 	}
 	
 	main {
-		width: 1200px;
-		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 	
 	main h2 {
+		margin-top: 120px;
 		margin-bottom: 60px;
 	}
 	
 	form#form_area {
-		width: 80%;
+		width: 70%;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;

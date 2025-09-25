@@ -8,19 +8,18 @@
 <title>아이디 찾기</title>
 <style>
 	main {
-		width: 1200px;
-		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 	
 	main h2 {
+		margin-top: 150px;
 		margin-bottom: 60px;
 	}
 	
 	section#section_area {
-		width: 80%;
+		width: 70%;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;

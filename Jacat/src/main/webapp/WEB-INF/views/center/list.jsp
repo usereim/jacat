@@ -6,20 +6,106 @@
 <head>
 <meta charset="UTF-8">
 <title>시험장 조회</title>
+<style>
+	#section_area {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+	}
+	
+	#search_area {
+		width: 50%;
+		display: flex;
+		justify-content: center;
+		align-items : center;
+		gap: 15px;
+		margin-bottom: 40px;
+	}
+	
+	#keyword {
+		width: 300px;
+	}
+	
+	#content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	table {
+        width: 80%;
+        border-collapse: collapse;
+        font-size: 15px;
+        table-layout: fixed;
+    }
+
+    th, td {
+        border: 1px solid #222;
+        padding: 10px 8px;
+        line-height: 1.6;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    th:nth-child(1), td:nth-child(1) { width: 10%; text-align: left; }
+    th:nth-child(2), td:nth-child(2) { width: 45%; text-align: left; }
+    th:nth-child(3), td:nth-child(3) { width: 45%; text-align: left; }
+
+    /* 헤더 강조 */
+    th {
+    background-color: #2780e3; /* btn-primary 색상 */
+    color: #ffffff; /* 흰색 글씨로 대비 */
+    font-size: 15px;
+    border-bottom: 2px solid #222;
+	}
+
+    /* 테이블 행 구분선과 배경 */
+    table tr {
+        border-bottom: 1px solid #ccc;
+    }
+    table tr:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    /* 제목 링크 강조 */
+    td:first-child a {
+        font-weight: bold;
+        color: #000;
+    }
+    td:first-child a:hover {
+        text-decoration: underline;
+    }
+</style>
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/includes/header.jsp" />
 
 	<main>
-		<section id="search_area">
-			검색어 입력 : <input type="text" name="keyword" id="keyword"> <br>
-			<button type="button" id="search_btn">시험장 검색</button>
+		<section id="section_area">
+			<h2 class="text-primary-emphasis">시험장 검색</h2>
+			<section id="search_area">
+				<label for="keyword">검색어</label>
+				<input type="text" id="keyword" name="keyword" id="keyword" class="form-control"> <br>
+				<button type="button" id="search_btn" class="btn btn-primary">시험장 검색</button>
+			</section>
+			
+			<section id="content_area">
+				<div id="content">
+					<table id="table">
+						<tr id="t_head">
+							<th>번호</th>
+							<th>시험장 이름</th>
+							<th>시험장 주소</th>
+						</tr>
+					</table>
+				</div>
+			</section>
 		</section>
 		
-		<section id="content_area">
-			<div id="content"></div>
-		</section>
 	</main>
 	
 	<c:import url="/WEB-INF/views/includes/footer.jsp" />
@@ -27,10 +113,10 @@
 	<script>
 		$(function() {
 			$("#search_btn").on("click", function() {
-				let target = $("#content_area");
-				target.children("div").remove();
+				let target = $("#table");
+				target.find(".t_body").remove();
 				
-				let content = $("<div>").attr("id", "content");
+				$("#content").children(".center").remove();
 				
 				let keyword = $("#keyword").val();
 				if (keyword != '') {
@@ -43,29 +129,31 @@
 							if (response.length == 0) {
 								let div = $("<div>").attr("class", "center");
 								
-								let p = $("<p>").text("해당 검색어에 해당하는 시험장이 존재하지 않습니다.");
+								let p = $("<p>").text("해당 검색어에 해당하는 시험장이 존재하지 않습니다.").css("color", "red").css("fontSize", "24px");
 								div.append(p);
 								
-								content.append(div);
+								$("#content").append(div);
 							} else {
 								for (let i = 0; i < response.length; ++i) {
 									let center = response[i];
 									
-									let div = $("<div>").attr("class", "center")
+									let tr = $("<tr>").attr("class", "t_body")
 									.on("click", {addno : center.addno}, function(event) {
 										location.href = "<c:url value='/licenses/center/view/" + event.data.addno + "' />";
 									});
 									
-									let p = $("<p>").text("시험장 이름 : " + center.examAreaNm);
-									div.append(p);
+									let td = $("<td>").text(i + 1);
+									tr.append(td);
 									
-									p = $("<p>").text("주소 : " + center.address);
-									div.append(p);
+									td = $("<td>").text(center.examAreaNm);
+									tr.append(td);
 									
-									content.append(div);
+									td = $("<td>").text(center.address);
+									tr.append(td);
+									
+									target.append(tr);
 								}
-							}
-							target.append(content);
+							} 
 						}, error : function() {
 						}
 					});

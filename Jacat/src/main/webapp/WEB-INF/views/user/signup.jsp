@@ -8,14 +8,13 @@
 <title>회원가입</title>
 <style>
 	main {
-		width: 1200px;
-		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 	
 	main h2 {
+		margin-top: 20px;
 		margin-bottom: 60px;
 	}
 
@@ -28,7 +27,7 @@
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: flex-end;
 		gap: 15px;
 		margin-bottom : 60px;
 	}
