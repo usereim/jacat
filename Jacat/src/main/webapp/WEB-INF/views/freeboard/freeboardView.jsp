@@ -12,7 +12,8 @@
 
 </head>
 <body>
-<main>
+	<c:import url="/WEB-INF/views/includes/header.jsp"/>
+	<main>
     <div>제목 : ${FreeBoard.title}</div>
     <div>내용 : ${FreeBoard.content}</div>
     <div>작성자 : ${FreeBoard.usersId}</div>
@@ -35,9 +36,9 @@
 
     <!-- 게시글 수정/삭제 -->
     <c:if test="${sessionScope.user.id == FreeBoard.usersId}">
-        <input type="button" value="수정" onclick="moveModifyPage(${FreeBoard.boardNum})">
+        <input type="button" value="수정" class="btn btn-primary" onclick="moveModifyPage(${FreeBoard.boardNum})">
         <form action="<c:url value='/freeboard/delete/${FreeBoard.boardNum}'/>" method="post">
-            <input type="submit" value="삭제">
+            <input type="submit" value="삭제" class="btn btn-primary">
         </form>
     </c:if>
 
@@ -50,7 +51,7 @@
             <a href="javascript:ccommentFn(${comment.commentNum})">답글</a>
 
             <c:if test="${sessionScope.user.id == comment.usersID}">
-                <button type="button" onclick="editComment(${comment.commentNum})">수정</button>
+                <button type="button" onclick="editComment(${comment.commentNum})" class="btn btn-primary">수정</button>
             </c:if>
         </div>
 
@@ -63,7 +64,7 @@
                 
                  <!-- 대댓글 수정 버튼 -->
            		 <c:if test="${sessionScope.user.id == ccomment.usersID}">
-                	<button type="button" onclick="editComment(${ccomment.commentNum})">수정</button>
+                	<button type="button" onclick="editComment(${ccomment.commentNum})" class="btn btn-primary">수정</button>
            		 </c:if>
            	</c:if>
         </c:forEach>
@@ -73,7 +74,7 @@
     <form action="<c:url value='/freeboard/comment'/>" method="post">
         <input type="hidden" name="boardNum" value="${FreeBoard.boardNum}"/>
         <textarea name="content" placeholder="댓글을 작성하세요" required></textarea>
-        <button type="submit">댓글 작성</button>
+        <button type="submit" class="btn btn-primary">댓글 작성</button>
     </form>
 
     <!-- 대댓글 작성 -->
@@ -81,20 +82,22 @@
         <input type="hidden" name="parentCommentNum" value=""/>
         <input type="hidden" name="boardNum" value="${FreeBoard.boardNum}"/>
         <textarea name="content" placeholder="대댓글을 작성하세요" required></textarea>
-        <button type="button" onclick="clickFn()">대댓글 작성</button>
+        <button type="button" onclick="clickFn()" class="btn btn-primary">대댓글 작성</button>
     </form>
 
     <!-- 댓글/대댓글 수정 폼 -->
     <form id="editCommentForm" style="display:none; margin-top:10px;">
         <input type="hidden" name="commentNum" id="editCommentNum"/>
         <textarea name="content" id="editCommentContent" required></textarea>
-        <button type="button" onclick="submitEditComment()">수정 완료</button>
-        <button type="button" onclick="cancelEdit()">취소</button>
+        <button type="button" onclick="submitEditComment()" class="btn btn-primary">수정 완료</button>
+        <button type="button" onclick="cancelEdit()" class="btn btn-primary">취소</button>
     </form>
 
     <!-- 신고 -->
-    <button type="button" onclick="openReportPopup(${FreeBoard.boardNum})">신고하기</button>
+    <button type="button" onclick="openReportPopup(${FreeBoard.boardNum})" class="btn btn-primary">신고하기</button>
 </main>
+	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
+
 </body>
 <script>
     // 대댓글 작성 선택
