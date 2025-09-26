@@ -73,8 +73,8 @@ public class LicenseBoardsRepository {
 		return template.insert("licenseBoardMapper.insertQnABoardReportOne",vo);
 	}
 	//자격증 자료실 목록조회
-	public List<LicenseBoardsVO> selectDataroomBoards(){
-		return template.selectList("licenseBoardMapper.selectDataroomBoards");
+	public List<LicenseBoardsVO> selectDataroomBoards(String jmcd){
+		return template.selectList("licenseBoardMapper.selectDataroomBoards", jmcd);
 	}
 	//자격증 자료실 상세조회
 	public LicenseBoardsVO selectDataroomBoardOne(int boardNum) {

@@ -62,10 +62,10 @@
 						<a href="<c:url value='/licenses/lists' />">자격증 목록</a>
 					</li>
 					<li>
-						<a href="<c:url value='/licenses/QnA' />">자격증 QnA</a>
+						<a href="<c:url value='/licenses/lists/${jmcd }/QnA' />">자격증 QnA</a>
 					</li>
 					<li>
-						<a href="<c:url value='/licenses/dataroom' />">자격증 자료실</a>
+						<a href="<c:url value='/licenses/lists/${jmcd }/dataroom' />">자격증 자료실</a>
 					</li>
 				</ul>
 			</div>

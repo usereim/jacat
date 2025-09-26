@@ -7,7 +7,9 @@
 		<meta charset="UTF-8">
 		<title>${lListOne.jmfldnm } 상세정보</title>
 		<style>
-			
+			#licenseNavBox{
+				
+			}
 		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>

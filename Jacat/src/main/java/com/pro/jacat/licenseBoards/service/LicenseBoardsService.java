@@ -42,7 +42,7 @@ public interface LicenseBoardsService {
 	
 	public int insertQnABoardReportOne(LicenseBoardReportVO vo);
 	
-	public List<LicenseBoardsVO> selectDataroomBoards();
+	public List<LicenseBoardsVO> selectDataroomBoards(String jmcd);
 	
 	public LicenseBoardsVO selectDataroomBoardOne(int boardNum);
 	
