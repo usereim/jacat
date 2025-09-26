@@ -8,22 +8,6 @@
 		<title>jacatHeader</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 		<link href="<c:url value='/resources/css/common.css'/>" rel="stylesheet" type="text/css">
-		<style>
-			
-			main{
-				padding: 5vh 0;
-			}
-			#headerUserBox>p{
-				display:flex;
-				flex-direction:column;
-				align-items:flex-end;
-			}
-			a{
-				color:black;
-				text-decoration:bold;
-			}
-			
-		</style>
 	</head>
 	<body>
 		<header>
@@ -31,14 +15,21 @@
 				<div id="headerBox">
 					<a href="<c:url value='/'/>" class="navbar-brand">
 						<img 
-						src="<c:url value="/resources/img/jacat_main_logo.png"/>"
+						src="<c:url value="/resources/img/jacat_main_logo(no_text).png"/>"
 						id="mainLogo">
+						<img
+						src="<c:url value="/resources/img/jacat_text2(vert).png"/>"
+						id="mainLogoText1">
+						<img
+						src="<c:url value="/resources/img/jacat_text1(hor,small).png"/>"
+						id="mainLogoText2">
 					</a>
 					<form 
 					action="${pageContext.request.contextPath}/search/result" 
 					onsubmit="return validateSearch();" 
 					method="get"
 					class="d-flex"
+					id="searchBar"
 					>
 						<input type="text" id="searchBox" name="keyword" class="form-control me-sm-2">
 						<button type="submit" class="btn btn-secondary my-2 my-sm-0">🔎</button>
@@ -63,7 +54,7 @@
 					</div>
 					
 				</div>
-				<nav id="navigationBar navbarColor01" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+				<nav id="navigationBar" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
 					<ul class="navbar-nav">
 						<li class="nav-item">
 							<a href="<c:url value='/notice/list'/>" class="nav-link">공지사항</a>

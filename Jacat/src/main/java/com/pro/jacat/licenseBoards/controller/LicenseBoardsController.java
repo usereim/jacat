@@ -141,7 +141,7 @@ public class LicenseBoardsController {
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm", jmfldnm);
 		
-		return "licenseBoards/qnaBoard/qnaBoards";
+		return "licenseBoards/boards/boardList";
 	}
 	
 	//QnA 게시판 상세조회
@@ -195,7 +195,7 @@ public class LicenseBoardsController {
 		model.addAttribute("jmfldnm",jmfldnm);
 		model.addAttribute("board",vo);
 		
-		return "licenseBoards/qnaBoard/qnaBoardsView";
+		return "licenseBoards/boards/boardsView";
 	}
 	
 	//QnA 게시판 글 작성
@@ -211,7 +211,7 @@ public class LicenseBoardsController {
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
 		
-		return "licenseBoards/qnaBoard/qnaWrite";
+		return "licenseBoards/boards/boardsWrite";
 	}
 	//QnA 게시판 글 작성 처리
 	@RequestMapping(value="/lists/{jmcd}/QnA/write", method=RequestMethod.POST)
@@ -254,7 +254,7 @@ public class LicenseBoardsController {
 		model.addAttribute("jmfldnm", jmfldnm);
 		model.addAttribute("board",vo);
 		
-		return "licenseBoards/qnaBoard/qnaUpdate";
+		return "licenseBoards/boards/boardsUpdate";
 	}
 	//QnA 게시판 글 수정 처리
 	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/update", method=RequestMethod.POST)
@@ -271,10 +271,10 @@ public class LicenseBoardsController {
 			lboardService.insertlBoardFiles(file, boardNum);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		logger.info("자격증 QnA {}번 게시글 수정 처리",boardNum);
@@ -433,42 +433,159 @@ public class LicenseBoardsController {
 		return result;
 	}
 	
+//---------------------------------------------------------------------------------------------------------------------------
+	//자료실
+	
 	//자료실 목록 조회
-	@RequestMapping(value="/dataroom", method=RequestMethod.GET)
-	public String dataroomBoards() {
-		logger.info("자격증 자료실 진입");
+	@RequestMapping(value="/lists/{jmcd}/dataroom", method=RequestMethod.GET)
+	public String dataroomBoards(
+			Model model,
+			@PathVariable("jmcd") String jmcd
+			) {
+		logger.info("자격증 자료실 목록 진입");
 		
-		return "licenseBoards/dataroom/dataroomBoards";
+		List<LicenseBoardsVO> lists = lboardService.selectDataroomBoards(jmcd);
+		
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
+		model.addAttribute("boardList",lists);
+		model.addAttribute("jmcd", jmcd);
+		model.addAttribute("jmfldnm", jmfldnm);
+		
+		return "licenseBoards/boards/boardList";
 	}
 	
 	//자료실 상세조회
-	@RequestMapping(value="/dataroom/view/{boardNum}", method=RequestMethod.GET)
-	public String dataroomBoardView() {
+	@RequestMapping(value="/lists/{jmcd}/dataroom/{boardNum}", method=RequestMethod.GET)
+	public String dataroomBoardView(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			@SessionAttribute(name="user", required=false) UserVO user,
+			Model model
+			) {
 		logger.info("자격증 자료실 상세조회 진입");
 		
-		return "licenseBoards/dataroom/dataroomView";
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
+		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
+		
+		
+		if(user != null) {
+			if(!(user.getId().equals(vo.getUsersId()))) {
+				//logger.info("1");
+				//logger.info(user.getId());
+				VisitLicenseBoardVO vvo = new VisitLicenseBoardVO();
+				vvo.setUsersId(user.getId());
+				vvo.setLicenseBoardNum(boardNum);
+				lboardService.insertQnABoardVisit(vvo);
+			}
+			
+		}
+		
+		logger.info("{} 자격증 QnA게시판 {}번 게시물 상세조회 진입",jmfldnm,boardNum);
+		
+		logger.info("자격증 이름 : {}",jmfldnm);
+		
+		model.addAttribute("jmcd",jmcd);
+		model.addAttribute("jmfldnm",jmfldnm);
+		model.addAttribute("board",vo);
+		
+		return "licenseBoards/boards/boardsView";
 	}
 	
 	//자료실 글작성
-	@RequestMapping(value="/dataroom/write/{boardNum}", method=RequestMethod.GET)
-	public String dataroomBoardWrite() {
+	@RequestMapping(value="/lists/{jmcd}/dataroom/write", method=RequestMethod.GET)
+	public String dataroomBoardWrite(
+			@PathVariable("jmcd") String jmcd,
+			Model model
+			) {
 		logger.info("자격증 게시판 글쓰기 진입");
 		
-		return "licenseBoards/dataroom/dataroomWrite";
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
+		model.addAttribute("jmcd",jmcd);
+		model.addAttribute("jmfldnm",jmfldnm);
+		
+		return "licenseBoards/boards/boardsWrite";
+	}
+	
+	//자료실 글 작성 처리
+	@RequestMapping(value="", method=RequestMethod.POST)
+	public String dataroomBoardWritePost(
+			LicenseBoardsVO vo,
+			@RequestParam("file") MultipartFile file,
+			@SessionAttribute("user") UserVO user,
+			@PathVariable("jmcd") String jmcd
+			) throws IllegalStateException, IOException {
+		
+		vo.setUsersId(user.getId());
+		vo.setLicenseListJmcd(jmcd);
+
+		lboardService.insertQnABoardOne(vo);
+		lboardService.insertlBoardFiles(file,vo.getBoardNum());
+		
+		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
 	}
 	
 	//자료실 글수정
-	@RequestMapping(value="/dataroom/update/{boardNum}", method=RequestMethod.GET)
-	public String dataroomBoardUpdate() {
+	@RequestMapping(value="/lists/{jmcd}/dataroom/{boardNum}/update", method=RequestMethod.GET)
+	public String dataroomBoardUpdate(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			Model model,
+			LicenseBoardsVO vo
+			) {
 		logger.info("자격증 게시판 글수정 진입");
+		
+		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
+		
+		vo = lboardService.selectQnABoardOne(boardNum);
+		
+
+		model.addAttribute("jmfldnm", jmfldnm);
+		model.addAttribute("board",vo);
+		
 		
 		return "licenseBoards/dataroom/dataroomUpdate";
 	}
 	
+	//자료실 글 수정 처리
+	@PostMapping("/lists/{jmcd}/dataroom/{boardNum}/update")
+	public String dataroomBoardUpdatePost(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum,
+			@RequestParam("file") MultipartFile file,
+			LicenseBoardsVO vo
+			) {
+		
+		int result = lboardService.updateQnABoardOne(vo);
+		
+		try {
+			lboardService.insertlBoardFiles(file, boardNum);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		logger.info("자격증 QnA {}번 게시글 수정 처리",boardNum);
+		
+		return "redirect:/licenses/lists/"+jmcd+"/dataroom/"+vo.getBoardNum();
+		
+	}
+	
 	//자료실 글삭제
-	@RequestMapping(value="/dataroom/delete/{boardNum}", method=RequestMethod.GET)
-	public String dataroomBoardDelete() {
+	@RequestMapping(value="/lists/{jmcd}/dataroom/{boardNum}/delete", method=RequestMethod.POST)
+	@ResponseBody
+	public String dataroomBoardDelete(
+			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardNum") int boardNum
+			) {
 		logger.info("자격증 게시판 삭제");
+
+		int result = lboardService.deleteQnABoardOne(boardNum);
 		
 		return "redirect:/licenseBoards/dataroom/dataroomBoards";
 	}

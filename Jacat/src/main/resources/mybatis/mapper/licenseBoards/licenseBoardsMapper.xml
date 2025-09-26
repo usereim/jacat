@@ -215,7 +215,7 @@
          left join file_license_board flb
          on flb.license_boards_board_num = lb.board_num) tb
          
-          where tb.board_num = #{boardNum} and tb.board_type='Q' and tb.c_delyn = 'N'
+          where tb.board_num = #{boardNum} and tb.c_delyn = 'N'
 		 order by tb.w_date desc;
 	</select>
 	
@@ -250,15 +250,16 @@
 	</insert>
 	
 	<!-- 자료실 목록조회 -->
-	<select id="selectDataroomBoards" resultType="java.util.List">
+	<select id="selectDataroomBoards" resultType="lboard">
 		select lb.board_num, lb.users_id, lb.license_list_jmcd, 
-		 lb.title, lb.content, lb.w_date, lb.modify_date,
-		 lb.delyn, lb.board_type,
+		 lb.title, lb.content, date_format(lb.w_date,'%Y-%m-%d') as w_date, lb.modify_date,
+		 lb.delyn, lb.board_type,u.nick,
 		 (
 		  select count(*) from jacat_db.visit_license_board vlb 
 		  where lb.board_num = vlb.license_board_num
 		 ) as visit_count
- 		 FROM jacat_db.license_boards lb where lb.board_type = 'D';
+ 		 FROM jacat_db.license_boards lb , jacat_db.users u
+ 		 where lb.board_type = 'D' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
 	</select>
 	
 	<!-- 자료실 게시글 상세조회 -->
@@ -328,6 +329,7 @@
 		update license_comment set delyn = 'Y' where comment_num = #{commentNum};
 	</update>
 	
+	<!-- 조회수 증가 -->
 	<insert id="insertQnABoardVisit" parameterType="com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO">
 		insert into visit_license_board(users_id,license_board_num)
 		values(#{usersId},#{licenseBoardNum});

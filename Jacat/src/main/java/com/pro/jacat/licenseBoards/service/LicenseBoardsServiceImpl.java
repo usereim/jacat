@@ -261,8 +261,8 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
 	//자격증 자료실 목록조회
 	@Override
-	public List<LicenseBoardsVO> selectDataroomBoards(){
-		return lBoardRepo.selectDataroomBoards();
+	public List<LicenseBoardsVO> selectDataroomBoards(String jmcd){
+		return lBoardRepo.selectDataroomBoards(jmcd);
 	}
 	//자격증 자료실 상세조회
 	@Override
