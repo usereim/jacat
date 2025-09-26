@@ -12,11 +12,26 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 상세</title>
+
+<style>
+	#list{
+	border-radius:50%;
+	border : 1px solidblack;
+	}
+    main { max-width: 900px; margin: 20px auto; }
+    .board-info { padding: 15px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; position: relative; }
+    .board-info div { margin-bottom: 10px; font-size: 16px; }
+    .file-preview img { max-width: 300px; margin-top: 5px; }
+    .comment-box { margin-bottom: 10px; border-bottom: 1px solid #ddd; padding: 10px; border-radius: 5px; }
+    .ccomment-box { margin-left: 40px; margin-top: 5px; padding: 10px; border-left: 2px solid #ddd; border-radius: 5px; }
+    textarea { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    button, input[type=submit], input[type=button] { margin-top: 5px; }
+</style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/includes/header.jsp"/>
 	<main>
-	<div class="text-primary-emphasis">게시글번호 : ${noticeboard.boardNum}</div>
+	<div id="list" class="text-primary-emphasis">게시글번호 : ${noticeboard.boardNum}</div>
 		<div class="text-primary-emphasis">제목 : ${noticeboard.title}</div>
 		<div class="text-primary-emphasis">본문 : ${noticeboard.content}</div>
 		<div class="text-primary-emphasis">작성자 : ${noticeboard.user.nick}</div>
@@ -45,6 +60,11 @@
 				<input class="btn btn-primary" type="submit" value="삭제" >
 			</form>
 		</c:if>
+		
+		<!-- 선택 삭제 버튼 오른쪽 아래 -->
+    <div style="text-align: right; margin-top: 10px;">
+        <button type="button" onclick="deleteSelectedComments()" class="btn btn-primary btn-sm">선택 삭제</button>
+    </div>
 	</main>
 </body>
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>

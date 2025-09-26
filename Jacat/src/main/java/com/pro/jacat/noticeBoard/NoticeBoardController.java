@@ -92,7 +92,6 @@ public class NoticeBoardController {
 				@PathVariable("boardNum") int boardNum,
 					Model model
 				) {
-			logger.info("bno : {}", boardNum);
 			NoticeBoardVO vo = noticeBoardService.selectnoticeBoardBybno(boardNum);
 		
 			

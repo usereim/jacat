@@ -11,6 +11,15 @@
 	height:180px;
 	text-align: left; 
 	}
+    /* 이미지 미리보기 스타일 */
+    .preview-img {
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 10px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        padding: 2px;
+    }
 </style>
 </head><c:import url="/WEB-INF/views/includes/header.jsp"/>
 	<body>
@@ -28,4 +37,24 @@
 	</main>
 </body>
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
+	
+	<script>
+    // 이미지 선택 시 미리보기
+    $("#file").on("change", function() {
+        $("#preview").empty(); // 이전 이미지 삭제
+        const files = this.files;
+        if(files) {
+            Array.from(files).forEach(file => {
+                if(file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = $("<img>").attr("src", e.target.result).addClass("preview-img");
+                        $("#preview").append(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
 </html>
