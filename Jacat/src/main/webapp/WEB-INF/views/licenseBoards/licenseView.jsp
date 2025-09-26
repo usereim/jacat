@@ -80,6 +80,9 @@
 						<a href="<c:url value='/licenses/lists' />" class="nav-link">자격증 목록으로</a>
 					</li>
 					<li class="nav-item">
+						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }' />" class="nav-link">${lListOne.jmfldnm } 상세정보</a>
+					</li>
+					<li class="nav-item">
 						<a href="<c:url value='/licenses/lists/${lListOne.jmcd }/QnA' />" class="nav-link">${lListOne.jmfldnm } QnA 게시판</a>
 					</li>
 					<li class="nav-item">

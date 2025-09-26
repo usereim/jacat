@@ -50,7 +50,7 @@ public class LicenseBoardsController {
 	//자격증 목록
 	@RequestMapping(value="/lists", method=RequestMethod.GET)
 	public String licenseInfo(Model model) {
-		logger.info("자격증 정보 진입");
+		
 		
 		List<LicenseListVO> list = lboardService.selectLicenseLists();
 		
@@ -65,7 +65,7 @@ public class LicenseBoardsController {
 			@PathVariable("jmcd") String jmcd, 
 			@SessionAttribute(name="user", required=false) UserVO user,
 			Model model) {
-		logger.info("자격증 상세정보 진입(jmcd : {})",jmcd);
+		
 		
 		LicenseListVO vo = lboardService.selectLicenseOne(jmcd);
 		
@@ -80,15 +80,13 @@ public class LicenseBoardsController {
 			model.addAttribute("favoLi", favoriteLicenseYN);
 		}
 		
-		logger.info("{} 상세정보 진입",vo.getJmfldnm());
+		
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("lListOne",vo);
 		
 		
-		logger.info("lTest : {}, lTestDate : {}" , 1/*vo.getlTest()*/, vo.getlTestDate());
-		logger.info("lTest : {}, lTestDate : {}" , 1/*vo.getlTest()*/, vo.getlTestDate().get(0).getDocExamEndDt());
-		logger.info("시행기관 : {}", vo.getLicensingAutority());
+		
 		return "licenseBoards/licenseView";
 	}
 	
@@ -100,12 +98,12 @@ public class LicenseBoardsController {
 			@RequestParam ("licenseListJmcd") String jmcd
 			) {
 		
-		logger.info("{} 사용자 {} 자격증 추가",id,jmcd);
+		
 		
 		UsersFavoritesLicenseVO vo = new UsersFavoritesLicenseVO();
 		vo.setUsersId(id);
 		vo.setLicenseListJmcd(jmcd);
-		logger.info("{} 사용자 {} 자격증 추가",vo.getUsersId(),vo.getLicenseListJmcd());
+		
 		
 		int addResult = lboardService.insertFavoriteLicenseOne(vo);
 		
@@ -131,7 +129,7 @@ public class LicenseBoardsController {
 			Model model,
 			@PathVariable("jmcd") String jmcd
 			) throws ClassNotFoundException, SQLException {
-		logger.info("자격증 QnA 게시판 목록 진입");
+		
 		
 		List<LicenseBoardsVO> lists = lboardService.selectQnABoards(jmcd);
 		
@@ -160,14 +158,10 @@ public class LicenseBoardsController {
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
 		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
-		//logger.info(vo.getlFiles().get(0).getRealFileName());
-		//logger.info(vo.getlFile().getRealFileName());
 		
-		//logger.info("0");
 		if(user != null) {
 			if(!(user.getId().equals(vo.getUsersId()))) {
-				//logger.info("1");
-				//logger.info(user.getId());
+				
 				VisitLicenseBoardVO vvo = new VisitLicenseBoardVO();
 				vvo.setUsersId(user.getId());
 				vvo.setLicenseBoardNum(boardNum);
@@ -178,11 +172,6 @@ public class LicenseBoardsController {
 		
 		String boardTypeStr = lboardService.boardTypetoString(vo.getBoardType());
 		
-		logger.info("{} 자격증 {} 게시판",jmfldnm,boardTypeStr);
-		logger.info("{}번 게시물 상세조회 진입",boardNum);
-		
-		
-		logger.info("자격증 이름 : {}",jmfldnm);
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
@@ -199,7 +188,7 @@ public class LicenseBoardsController {
 			@PathVariable("jmcd") String jmcd,
 			Model model
 			) {
-		logger.info("자격증 QnA 게시글 작성 페이지 진입");
+		
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
@@ -224,12 +213,12 @@ public class LicenseBoardsController {
 		vo.setLicenseListJmcd(jmcd);
 		//lboardService.insertQnABoardOne(vo,file);
 		
-		logger.info(vo.getUsersId()+","+vo.getLicenseListJmcd());
+		
 		
 		lboardService.insertQnABoardOne(vo);
 		lboardService.insertlBoardFiles(file,vo.getBoardNum());
 		
-		logger.info("번호 : "+vo.getBoardNum());
+		
 		
 		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
 		
@@ -243,7 +232,7 @@ public class LicenseBoardsController {
 			Model model,
 			LicenseBoardsVO vo
 			) {
-		logger.info("자격증 QnA {}번 게시글 수정 페이지 진입",boardNum);
+		
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
@@ -276,7 +265,7 @@ public class LicenseBoardsController {
 			//e.printStackTrace();
 		}
 		
-		logger.info("자격증 QnA {}번 게시글 수정 처리",boardNum);
+		
 		
 		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
 	}
@@ -298,7 +287,7 @@ public class LicenseBoardsController {
 			@PathVariable("jmcd") String jmcd,
 			@PathVariable("boardNum") int boardNum
 			) {
-		logger.info("자격증 QnA {}번 게시글 삭제",boardNum);
+		
 		
 		int result = lboardService.deleteQnABoardOne(boardNum);
 		
@@ -330,7 +319,7 @@ public class LicenseBoardsController {
 		vo.setLicenseBoardsBoardNum(boardNum);
 		vo.setReportContent(etcOrExplanation);
 		
-		logger.info("QnA 게시판 신고 처리중!");
+		
 		
 		lboardService.insertQnABoardReportOne(vo);
 		
@@ -363,14 +352,10 @@ public class LicenseBoardsController {
 		cvo.setContent(content);
 		cvo.setParentCommentNum(parentCommentNum);*/
 		
-		logger.info("댓글 내용 : {}, 아이디 : {}",cvo.getContent(),cvo.getUsersId());
-		logger.info("작성자 아이디 : {} \n게시물 번호 : {}",cvo.getUsersId(),cvo.getLicenseBoardsBoardNum());
-		logger.info("부모댓글 번호 : {} \n댓글 내용 : {}",cvo.getParentCommentNum(),cvo.getContent());
 		
 		int result = lboardService.insertLicenseCommentOne(cvo);
 		
-		logger.info("작성자 아이디 : {} \n게시물 번호 : {}",cvo.getUsersId(),cvo.getLicenseBoardsBoardNum());
-		logger.info("부모댓글 번호 : {} \n댓글 내용 : {}",cvo.getParentCommentNum(),cvo.getContent());
+		
 		
 		String resultStr;
 		if(result >= 1) {
@@ -380,7 +365,7 @@ public class LicenseBoardsController {
 			resultStr = "fail";
 		}
 		
-		logger.info("댓글 쓰기 결과 : {}",resultStr);
+		
 		
 		cvo = lboardService.selectLicenseCommentOne(cvo.getCommentNum());
 		
@@ -427,7 +412,7 @@ public class LicenseBoardsController {
 		
 		//int commentNum = Integer.parseInt(commentNumStr);
 		
-		logger.info(""+commentNum);
+		
 		int result = lboardService.deleteLicenseCommentOne(commentNum);
 		
 		return result;
@@ -442,7 +427,7 @@ public class LicenseBoardsController {
 			Model model,
 			@PathVariable("jmcd") String jmcd
 			) {
-		logger.info("자격증 자료실 목록 진입");
+		
 		
 		List<LicenseBoardsVO> lists = lboardService.selectDataroomBoards(jmcd);
 		
@@ -465,7 +450,7 @@ public class LicenseBoardsController {
 			@SessionAttribute(name="user", required=false) UserVO user,
 			Model model
 			) {
-		logger.info("자격증 자료실 상세조회 진입");
+		
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
@@ -473,8 +458,7 @@ public class LicenseBoardsController {
 		
 		if(user != null) {
 			if(!(user.getId().equals(vo.getUsersId()))) {
-				//logger.info("1");
-				//logger.info(user.getId());
+				
 				VisitLicenseBoardVO vvo = new VisitLicenseBoardVO();
 				vvo.setUsersId(user.getId());
 				vvo.setLicenseBoardNum(boardNum);
@@ -483,9 +467,6 @@ public class LicenseBoardsController {
 			
 		}
 		
-		logger.info("{} 자격증 QnA게시판 {}번 게시물 상세조회 진입",jmfldnm,boardNum);
-		
-		logger.info("자격증 이름 : {}",jmfldnm);
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
@@ -502,7 +483,7 @@ public class LicenseBoardsController {
 			@PathVariable("jmcd") String jmcd,
 			Model model
 			) {
-		logger.info("자격증 게시판 글쓰기 진입");
+		
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
@@ -538,7 +519,7 @@ public class LicenseBoardsController {
 			Model model,
 			LicenseBoardsVO vo
 			) {
-		logger.info("자격증 게시판 글수정 진입");
+		
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
@@ -575,7 +556,7 @@ public class LicenseBoardsController {
 			//e.printStackTrace();
 		}
 		
-		logger.info("자격증 QnA {}번 게시글 수정 처리",boardNum);
+		
 		
 		return "redirect:/licenses/lists/"+jmcd+"/dataroom/"+vo.getBoardNum();
 		
@@ -588,7 +569,7 @@ public class LicenseBoardsController {
 			@PathVariable("jmcd") String jmcd,
 			@PathVariable("boardNum") int boardNum
 			) {
-		logger.info("자격증 게시판 삭제");
+		
 
 		int result = lboardService.deleteQnABoardOne(boardNum);
 		
