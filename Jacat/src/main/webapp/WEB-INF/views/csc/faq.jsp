@@ -6,11 +6,56 @@
 <head>
 <meta charset="UTF-8">
 <title>FAQ</title>
+<style>
+	#section_area {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		align-items: center;
+	}
+	
+	#lListNavBox {
+		width: 100%
+	}
+	
+	.nav-underline {
+		width: 80%;
+		display: flex;
+		justify-content: space-around;
+		margin: 0 auto;
+	}
+	
+	#lListNavBox ul li{
+		width:20%;
+		text-align:center;
+	}
+	
+	#content {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		align-items: center;
+	}
+	
+	dl {
+		width: 80%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 15px;
+		text-align: center;
+	}
+	
+	dt {
+		font-size: 30px;
+	}
+</style>
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 <script>
 	function viewFAQ(obj, boardNum) {
-		let p;
-		if($(obj).children("p").text() == '') {
+		let dd;
+		if($(obj).next("dd").text() == '') {
 			$.ajax({
 				url : "<c:url value='/csc/view' />",
 				type : "post",
@@ -20,9 +65,9 @@
 				}, success : function(response) {
 					let file = response.boardsFile;
 					
-					p = $("<p>");
-					p.text(response.content);
-					$(obj).append(p);
+					dd = $("<dd>");
+					dd.text(response.content);
+					$(obj).after(dd);
 					
 					
 					if (file.boardsBoardNum == 0) {
@@ -30,14 +75,14 @@
 						let img = $("<img>");
 						img.attr("width", "300px")
 						.attr("src", "<c:url value='/uploads/boards/" + file.boardsBoardNum + "/" + file.fileName + "' />");
-						$(obj).append(img);
+						$(obj).parent().append(img);
 					}
 				}, error : function() {
 				}
 			});
 		} else {
-			$(obj).children("p").remove();
-			$(obj).children("img").remove();
+			$(obj).next("dd").remove();
+			$(obj).next("img").remove();
 		}
 	}
 	
@@ -45,7 +90,7 @@
 		location.href = "<c:url value='/csc/modify/Q/"+ boardNum + "' />";
 	}
 	
-	function deleteFn(boardNum) {
+	function deleteFn(boardNum, obj) {
 		$.ajax({
 			url : "<c:url value='/csc/delete' />",
 			type : "post",
@@ -55,6 +100,7 @@
 			}, success : function(response) {
 				if (response == 'delete success') {
 					$("." + boardNum).remove();
+					$(obj).parent("#btn_area").remove();
 				}
 			}, error: function() {
 				
@@ -72,36 +118,46 @@
 <body>
 	<c:import url="/WEB-INF/views/includes/header.jsp" />
 	<main>
-		<div id="tab">
-			<div id="faq">
-				<a href="<c:url value="/csc/tab/Q"/>">FAQ</a>
+		<section id="section_area">
+			<h2 class="text-primary-emphasis">FAQ</h2>
+			<div id="lListNavBox">
+				<ul class="nav nav-underline">
+					<li class="nav-item">
+						<a href="<c:url value="/csc/tab/Q"/>" class="nav-link">FAQ</a>
+					</li>
+					<li class="nav-item">
+						<a href="<c:url value="/csc/tab/I"/>" class="nav-link">1:1 문의</a>
+					</li>
+					<li class="nav-item">
+						<a href="<c:url value="/csc/tab/A"/>" class="nav-link">정지 회원 이의신청</a>
+					</li>
+				</ul>
 			</div>
-			<div id="inquiry">
-				<a href="<c:url value='/csc/tab/I'/>">1:1 문의</a>
-			</div>
-			<div id="appeal">
-				<a href="<c:url value="/csc/tab/A"/>">정지 회원 이의신청</a>
-			</div>
-		</div>
-
-		<div id="content">
-			<c:forEach var="boards" items="${boardsList }">
-				<div class="${boards.boardNum }">
-					<div class="faq-list" onclick="viewFAQ(this, ${boards.boardNum})">
-						<h3>${boards.title }</h3>
-					</div>
+			
+			<div id="content">
+				<c:forEach var="boards" items="${boardsList }">
+					<dl class="${boards.boardNum }">
+						<dt class="faq-list text-primary-emphasis" onclick="viewFAQ(this, ${boards.boardNum})">
+							${boards.title }
+						</dt>
+					</dl>
 					<c:if test="${sessionScope.user.grade eq 'A' }">
-						<button type="button" id="modBtn"
-							onclick="modify(${boards.boardNum})">수정</button>
-						<button type="button" id="delBtn"
-							onclick="deleteFn(${boards.boardNum})">삭제</button>
+						<div id="btn_area">
+							<button type="button" id="modBtn"
+								onclick="modify(${boards.boardNum})" class="btn btn-primary">수정</button>
+							<button type="button" id="delBtn"
+								onclick="deleteFn(${boards.boardNum}, this)" class="btn btn-primary">삭제</button>
+						</div>						
 					</c:if>
-				</div>
-			</c:forEach>
-			<c:if test="${sessionScope.user.grade eq 'A'}">
-				<button type="button" id="addBtn">FAQ등록</button>
-			</c:if>
-		</div>
+				</c:forEach>
+				
+				<c:if test="${sessionScope.user.grade eq 'A'}">
+					<button type="button" id="addBtn" class="btn btn-primary">FAQ등록</button>
+				</c:if>
+			</div>
+		</section>
+
+		
 	</main>
 	<c:import url="/WEB-INF/views/includes/footer.jsp" />
 </body>

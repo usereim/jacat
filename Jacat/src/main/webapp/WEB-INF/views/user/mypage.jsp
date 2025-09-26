@@ -78,7 +78,7 @@
 						}
 						
 						let button = $("<button>");
-						button.attr("type", "button").attr("id", "user_mod_btn").text("회원정보 수정")
+						button.attr("type", "button").attr("id", "user_mod_btn").attr("class", "btn btn-primary").text("회원정보 수정")
 						.on("click", function() {
 							location.href = "<c:url value='/mypage/modify-user' />";
 						});

@@ -6,23 +6,22 @@
 <mapper namespace="userMapper">
 	<select id="selectUsersCntById" parameterType="String"
 		resultType="int">
-		select count(*) from users where id = #{id}
+		select count(*) from users where id = #{id} and grade != 'S'
 	</select>
 
 	<select id="selectUsersCntByNick" parameterType="String"
 		resultType="int">
-		select count(*) from users where nick = #{nick}
+		select count(*) from users where nick = #{nick} and grade != 'S'
 	</select>
 
 	<select id="selectUsersCntByEmail" parameterType="String"
 		resultType="int">
-		select count(*) from users where email = #{email}
+		select count(*) from users where email = #{email} and grade != 'S'
 	</select>
 
 	<select id="selectUsersCntByIdEmail" parameterType="user"
 		resultType="int">
-		select count(*) from users where id = #{id} and email =
-		#{email} and grade != 'S'
+		select count(*) from users where id = #{id} and email = #{email} and grade != 'S'
 	</select>
 
 	<insert id="insertUsersOne" parameterType="user">

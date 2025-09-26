@@ -107,7 +107,7 @@ public class UserController {
 	
 	@PostMapping("/modify")
 	public String modify(UserVO user,
-			@RequestParam("profile") MultipartFile profile,
+			@RequestParam(required = false) MultipartFile profile,
 			HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			UserVO _user = (UserVO)session.getAttribute("user");
