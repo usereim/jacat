@@ -58,7 +58,6 @@ public class FreeBoardController {
 				@RequestParam("file") List<MultipartFile> file,
 				@SessionAttribute("user") UserVO user
 			) throws IllegalStateException, IOException {
-			System.out.println("freeBoardWrite Post ");
 			vo.setUsersId(user.getId());
 			freeboardService.insertBoard(vo, file);
 			return "redirect:/freeboard/boards/"+vo.getBoardNum();
@@ -164,7 +163,6 @@ public class FreeBoardController {
 		public String addComment(@ModelAttribute FreeBoardCommentVO vo,
 				@SessionAttribute("user") UserVO user
 			) throws IllegalStateException, IOException {
-			System.out.println("addComment Post ");
 			vo.setUsersID(user.getId());
 			freeboardService.addComment(vo);
 			return "redirect:/freeboard/boards/"+vo.getBoardNum();
@@ -178,8 +176,6 @@ public class FreeBoardController {
 	        if (user == null) {
 	            return "redirect:/login"; // 로그인 안 했을 경우
 	        }
-
-	        System.out.println(vo.getCommentNum());
 	        // 댓글 내용 수정
 	        freeboardService.updateComment(vo);
 
@@ -193,7 +189,6 @@ public class FreeBoardController {
 				@SessionAttribute("user") UserVO user,
 				HttpServletResponse response
 			) throws IllegalStateException, IOException {
-			System.out.println(vo.getBoardsBoardNum());
 			vo.setUsersId(user.getId());
 			freeboardService.insertReport(vo);
 			
