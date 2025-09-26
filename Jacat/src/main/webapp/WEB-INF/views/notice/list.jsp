@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>공지사항</title>
 <style>
-<style>
     body {
         font-family: '맑은 고딕', Arial, sans-serif;
         font-size: 14px;
@@ -24,7 +23,10 @@
         display: flex;
         flex-direction: column;
     }
-
+    
+    #noticeText{
+    	font-size: calc(1.325rem + .9vw);
+    	}
     /* 메인 콘텐츠 영역 */
     .content {
         flex: 1;
@@ -109,14 +111,24 @@
         display: fixed;
 		bottom : 0;    
 		}
+	footer {
+	    width: 100%;
+	    height: 80px; /* 원하는 높이 */
+	    background-color: #f1f1f1;
+	    position: fixed;
+	    bottom: 0;
+	    left: 0;
+	    text-align: center;
+	    line-height: 80px; /* 세로 가운데 정렬 */
+}
+		
 </style>
 </head>
  <c:import url="/WEB-INF/views/includes/header.jsp"/>
 <body>
-		<c:if test="${sessionScope.user.grade == 'A'}">
-		<a href="<c:url value="/notice/write" />">글작성</a>
-		</c:if>
 	<main>
+	<h2 id="noticeText">공지사항</h2>
+	<hr>
 		<table>
 		<tr class="text-primary-emphasis">
 			<th>게시글 번호</th>
@@ -142,9 +154,9 @@
 		</table>
 		
 		 <!-- 글쓰기 버튼 오른쪽 정렬 -->
-            <c:if test="${not empty sessionScope.user}">
+            <c:if test="${sessionScope.user.grade == 'A'}">
                 <div class="btn-container" style="text-align: right; margin-top: 12px;">
-                    <button type="button" onclick="location.href='<c:url value='/freeboard/freeboardWrite'/>'" class="btn btn-primary">글쓰기</button>
+                    <button type="button" onclick="location.href='<c:url value='/notice/write'/>'" class="btn btn-primary">글쓰기</button>
                 </div>
             </c:if>
 	</main>

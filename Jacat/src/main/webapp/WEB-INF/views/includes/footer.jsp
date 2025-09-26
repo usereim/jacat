@@ -5,7 +5,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>jacatFooter</title>
-		
+		<style>
+		#footerSection{
+		overflow-wrap: break-word;
+		}
+		#footerCompanyInfoBox{
+		height :50px;
+		}
+		#footerTeamInfo{
+			text-align : center;
+			margin : 5px;
+		}
+		footer{
+		height :100px;
+		}
+		</style>
 	</head>
 	<body>
 		<footer>
@@ -17,12 +31,15 @@
 					<span>
 						전북 전주시 덕진구 백제대로 572 5층
 					</span>
-				</div>
-				<div id="footerTeamInfo">
+					<br>
 					<span>김철호</span>
 					<span>김정준</span>
 					<span>정태양</span>
 					<span>조윤성</span>
+					<br>
+				<div id="footerTeamInfo">			
+					
+				</div>
 				</div>
 			</section>
 		</footer>
