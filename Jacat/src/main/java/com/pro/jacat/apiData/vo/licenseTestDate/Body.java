@@ -39,11 +39,4 @@ public class Body {
 	public void setTotalCount(String totalCount) {
 		this.totalCount = totalCount;
 	}
-
-	@Override
-	public String toString() {
-		return "Body [items=" + items + ", numOfRows=" + numOfRows + ", pageNo=" + pageNo + ", totalCount=" + totalCount
-				+ "]";
-	}
-	
 }

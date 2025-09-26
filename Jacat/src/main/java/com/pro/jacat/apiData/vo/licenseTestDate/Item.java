@@ -114,14 +114,4 @@ public class Item {
 	public void setJmcd(String jmcd) {
 		this.jmcd = jmcd;
 	}
-	@Override
-	public String toString() {
-		return "Item [implYy=" + implYy + ", implSeq=" + implSeq + ", qualgbCd=" + qualgbCd + ", qualgbNm=" + qualgbNm
-				+ ", description=" + description + ", docRegStartDt=" + docRegStartDt + ", docRegEndDt=" + docRegEndDt
-				+ ", docExamStartDt=" + docExamStartDt + ", docExamEndDt=" + docExamEndDt + ", docPassDt=" + docPassDt
-				+ ", pracRegStartDt=" + pracRegStartDt + ", pracRegEndDt=" + pracRegEndDt + ", pracExamStartDt="
-				+ pracExamStartDt + ", pracExamEndDt=" + pracExamEndDt + ", pracPassDt=" + pracPassDt + ", jmcd=" + jmcd
-				+ "]";
-	}
-	
 }

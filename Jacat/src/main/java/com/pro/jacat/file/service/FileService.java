@@ -82,11 +82,6 @@ public class FileService {
 		String savedName = UUID.randomUUID().toString() + ext;
 		String contentType = file.getContentType();
 
-		logger.info(originalName);
-		logger.info(savedName);
-		logger.info(path);
-		logger.info(contentType);
-
 		file.transferTo(new File(path + savedName));
 
 		return new UserFileVO(originalName, savedName, path, contentType);

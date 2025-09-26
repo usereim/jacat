@@ -12,7 +12,6 @@ public class SessionInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("夸没 贸府 傈");
 		
 		// 技记 八荤
 //		Object user = request.getSession().getAttribute("user");
@@ -28,12 +27,10 @@ public class SessionInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("夸没 贸府 饶");
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("夸没 肯丰 饶");
 	}
 }

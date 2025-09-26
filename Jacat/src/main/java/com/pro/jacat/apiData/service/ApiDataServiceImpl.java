@@ -109,7 +109,6 @@ public class ApiDataServiceImpl implements ApiDataService {
 						.queryParam("pageNo", "1")
 						.build(true)
 						.toUri();
-				logger.info(uri.toString());
 				
 				LicenseTestCenterResponse data = restTemplate.getForObject(uri, LicenseTestCenterResponse.class);
 				List<com.pro.jacat.apiData.vo.licenseTestCenter.Item> itemList = data.getResponse().getBody().getItems().getItem(); 

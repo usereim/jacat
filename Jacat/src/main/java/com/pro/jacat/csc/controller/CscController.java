@@ -79,14 +79,10 @@ public class CscController {
 				return "redirect:/csc/main";
 			}
 			
-			logger.info("{}", session.getAttribute("suspend"));
-			logger.info("{}", session.getAttribute("id"));
 			Object suspend = session.getAttribute("suspend");
 			if (suspend == null) {
-				logger.info("이메일 인증 안됨");
 				return "csc/appeal";
 			} else {
-				logger.info("이메일 인증 됨");
 				CscVO csc = new CscVO();
 				csc.setUsersId((String)session.getAttribute("id"));
 				csc.setBoardType(type);
@@ -109,7 +105,6 @@ public class CscController {
 	@RequestMapping(value = "/write/{type}", method = RequestMethod.POST)
 	public String write(@PathVariable("type") String type, CscVO csc, HttpSession session,
 			@RequestParam("img") MultipartFile file) throws IllegalStateException, IOException {
-		logger.info(type);
 		UserVO user = null;
 
 		if (type == null) {
@@ -133,7 +128,6 @@ public class CscController {
 		int result = cscService.insertBoardsOne(csc);
 		int bno = csc.getBoardNum();
 		String subPath = "boards/" + bno + "/";
-		logger.info("" + bno);
 		if (result > 0) {
 			try {
 				fileService.uploadFile(file, subPath, bno);
@@ -149,7 +143,6 @@ public class CscController {
 	public String view(@PathVariable("boardsNum") int boardsNum,
 			@PathVariable("type") String type,
 			Model model) {
-		logger.info("boardsNum : {}", boardsNum);
 		CscVO csc = new CscVO();
 		
 		csc.setBoardNum(boardsNum);
@@ -210,7 +203,6 @@ public class CscController {
 				String subPath = "boards/" + boardNum + "/";
 				fileService.deleteFile(file, subPath, boardNum);
 			} else {
-				logger.info("file delete");
 				// 이미지 삭제
 				String subPath = "boards/" + boardNum + "/";
 				fileService.deleteFile(file, subPath, boardNum);
@@ -223,8 +215,6 @@ public class CscController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public String delete(CscVO csc) {
-		logger.info("boardNum : {}", csc.getBoardNum());
-		logger.info("boardType : {}", csc.getBoardType());
 		
 		cscService.deleteBoards(csc);
 		
@@ -234,9 +224,6 @@ public class CscController {
 	@PostMapping("/add-reply")
 	@ResponseBody
 	public List<CscCommentsVO> addReply(CscCommentsVO cscCommentsVO) {
-		logger.info("comment content : {}", cscCommentsVO.getContent());
-		logger.info("comment usersId : {}", cscCommentsVO.getUsersId());
-		logger.info("commnet boardsBoardNum : {}", cscCommentsVO.getBoardsBoardNum());
 		
 		int result = cscService.insertComments(cscCommentsVO);
 	

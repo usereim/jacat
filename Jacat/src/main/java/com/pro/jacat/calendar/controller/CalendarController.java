@@ -42,9 +42,7 @@ public class CalendarController {
 	@PostMapping("/add-event")
 	@ResponseBody
 	public String addEvent(CalendarVO calendar) {
-		
-		logger.info(calendar.getUsersId());
-		logger.info(calendar.getStartDate());
+
 		calendarService.insertCalendarOne(calendar);
 		
 		return "success";

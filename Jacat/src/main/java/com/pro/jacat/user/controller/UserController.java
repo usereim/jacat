@@ -49,11 +49,9 @@ public class UserController {
 			session.removeAttribute("id");
 		}
 		
-		logger.info(user.getId());
 		UserVO userVO = userService.selectUsersOne(user);
 		
 		if (userVO == null) {
-			logger.info("userVO is null");
 			return "redirect:/user/login";
 		}
 		
@@ -128,7 +126,6 @@ public class UserController {
 	@RequestMapping(value = "/id-search", method = RequestMethod.POST)
 	@ResponseBody
 	public String idSearch(@RequestParam("email") String email) {
-		logger.info("id-search post");
 		return userService.selectUsersIdByEmail(email);
 	}
 	

@@ -35,8 +35,6 @@ public class MailController {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
 		
-		logger.info(email);
-		
 		String code = mailService.sendMail(email);
 		session.setAttribute("code", code);
 		
@@ -48,8 +46,6 @@ public class MailController {
 	public String codeCheck(@RequestParam("code") String code,
 			HttpSession session) {
 		String sessionCode = (String)session.getAttribute("code");
-		
-		logger.info(code);
 		
 		if (code.equals(sessionCode)) {
 			session.removeAttribute("code");
