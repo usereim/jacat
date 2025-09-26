@@ -185,6 +185,10 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		freeboardRepository.visit(visit);
 	}
 	
+	public void deleteComment(FreeBoardCommentVO vo) {
+		 freeboardCommentRepository.deleteComment(vo);
+	}
+	
 	
 	
 	

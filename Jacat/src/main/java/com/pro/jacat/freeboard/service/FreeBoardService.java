@@ -38,4 +38,9 @@ public interface FreeBoardService {
 	
 	//조회수 증가
 	void visit(FreeBoardVO visit);
+	
+	//댓글 삭제
+	void deleteComment(FreeBoardCommentVO vo);
+
+	
 }

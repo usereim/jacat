@@ -60,4 +60,9 @@
 		where comment_num = #{commentNum}
 	</update>
 	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="comment">
+    DELETE FROM comments WHERE comment_num = #{commentNum}
+</delete>
+	
 </mapper>

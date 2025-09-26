@@ -17,6 +17,7 @@
         margin: 0;
         height: 100%;
     }
+    
 
     /* 전체 레이아웃 */
     .wrapper {
@@ -36,7 +37,6 @@
 
     main h2 {
         margin: 10px 0;
-        font-size: 20px;
         text-align: left;
     }
 
@@ -114,9 +114,12 @@
     <!-- 헤더 -->
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
 
+	
     <!-- 메인 콘텐츠 -->
     <div class="content">
         <main>
+        <h2 id="ww">자유게시판</h2>
+        <hr>
             <table>
                 <tr>
                     <th>제목</th>

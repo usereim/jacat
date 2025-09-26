@@ -6,28 +6,108 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 수정</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+<style>
+    /* 이미지 미리보기 스타일 */
+    .preview-img {
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 10px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        padding: 2px;
+    }
+</style>
 </head>
 <body>
-	<form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/freeboard/modify/${FreeBoardModify.boardNum}">
-    <label>제목</label>
-    <input type="text" name="title" value="${FreeBoardModify.title}"><br>
+<c:import url="/WEB-INF/views/includes/header.jsp"/>
+<main class="container mt-4">
+    <h2>게시글 수정</h2>
+    <hr>
+    <div class="card">
+        <div class="card-header fw-bold">수정하기</div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/freeboard/modify/${FreeBoardModify.boardNum}">
+                
+                <!-- 제목 -->
+                <div class="mb-3 row">
+                    <label for="title" class="col-sm-2 col-form-label">제목</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="title" name="title" 
+                               value="${FreeBoardModify.title}" required>
+                    </div>
+                </div>
+                
+                <!-- 본문 -->
+                <div class="mb-3 row">
+                    <label for="content" class="col-sm-2 col-form-label">본문</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="content" name="content" rows="6" required>${FreeBoardModify.content}</textarea>
+                    </div>
+                </div>
+                
+                <!-- 첨부파일 -->
+                <div class="mb-3 row">
+                    <label for="file" class="col-sm-2 col-form-label">첨부파일</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="file" id="file" name="file" multiple accept="image/*">
+                        <!-- 이미지 미리보기 영역 -->
+                        <div id="preview" class="d-flex flex-wrap"></div>
+                    </div>
+                </div>
+                
+                <!-- 기존 첨부파일 -->
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">기존 파일</label>
+                    <div class="col-sm-10">
+                        <c:forEach var="file" items="${FreeBoardModify.filelist}">
+                            <div class="mb-2">
+                                <a href="<c:url value='/uploads/${file.fileName}'/>" download="${file.realFileName}">
+                                    ${file.realFileName}
+                                </a>
+                                <c:if test="${fn:contains(file.type,'image')}">
+                                    <img src="<c:url value='/uploads/${file.fileName}'/>" class="preview-img">
+                                </c:if>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+                
+                <!-- 수정 버튼 -->
+                <div class="mb-3 row">
+                    <div class="offset-sm-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">수정 완료</button>
+                        <a href="<c:url value='/freeboard/list'/>" class="btn btn-secondary">취소</a>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</main>
+<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 
-    <label>내용</label>
-    <textarea name="content">${FreeBoardModify.content}</textarea><br>
-
-    <label>첨부파일</label>
-    <input type="file" name="file" multiple><br>
-
-    <!-- 기존 첨부파일 리스트 출력 -->
-    <c:forEach var="file" items="${FreeBoardModify.filelist}">
-        <p>
-            ${file.realFileName}
-            <!-- 필요하면 삭제 버튼이나 다운로드 링크 추가 가능 -->
-        </p>
-    </c:forEach>
-
-    <input type="submit" value="수정">
-</form>
+<script>
+    // 이미지 선택 시 미리보기
+    $("#file").on("change", function() {
+        $("#preview").empty(); // 이전 이미지 삭제
+        const files = this.files;
+        if(files) {
+            Array.from(files).forEach(file => {
+                if(file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = $("<img>").attr("src", e.target.result).addClass("preview-img");
+                        $("#preview").append(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

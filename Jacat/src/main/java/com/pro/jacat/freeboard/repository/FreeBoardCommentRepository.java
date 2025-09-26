@@ -31,4 +31,7 @@ public class FreeBoardCommentRepository {
 		return template.update("freeboardCommentMapper.update", vo);
 	}
 	
-}
+	public int deleteComment(FreeBoardCommentVO vo) {
+		return template.delete("freeboardCommentMapper.deleteComment", vo);
+	}	
+}	

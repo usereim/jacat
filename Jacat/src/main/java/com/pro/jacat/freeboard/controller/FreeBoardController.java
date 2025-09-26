@@ -3,7 +3,9 @@ package com.pro.jacat.freeboard.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -168,6 +171,7 @@ public class FreeBoardController {
     }
 		
 		@PostMapping("/comment/modify")
+		@ResponseBody
 	    public String modifyComment(FreeBoardCommentVO vo, HttpSession session) {
 	        // 로그인 사용자 확인
 	        UserVO user = (UserVO) session.getAttribute("user");
@@ -175,6 +179,7 @@ public class FreeBoardController {
 	            return "redirect:/login"; // 로그인 안 했을 경우
 	        }
 
+	        System.out.println(vo.getCommentNum());
 	        // 댓글 내용 수정
 	        freeboardService.updateComment(vo);
 
@@ -209,6 +214,31 @@ public class FreeBoardController {
 		    // 팝업에 보낼 게시글 번호
 		    model.addAttribute("boardNum", boardNum);
 		    return "freeboard/freeboardReport"; // /WEB-INF/views/freeboard/reportPopup.jsp
+		}
+		
+		@PostMapping("/comment/delete")
+		@ResponseBody
+		public Map<String, Object> deleteComments(@RequestParam(value="commentNums", required=false) List<Integer> commentNums,
+		                                          HttpSession session) {
+		    Map<String, Object> result = new HashMap<>();
+		    UserVO user = (UserVO) session.getAttribute("user");
+		    if(user == null) {
+		        result.put("status", "fail");
+		        result.put("message", "로그인 필요");
+		        return result;
+		    }
+
+		    if(commentNums != null) {
+		        for(Integer commentNum : commentNums) {
+		        	FreeBoardCommentVO vo = new FreeBoardCommentVO();
+		        	vo.setCommentNum(commentNum);
+		        	vo.setUsersID(user.getId());
+		            freeboardService.deleteComment(vo);
+		        }
+		    }
+
+		    result.put("status", "success");
+		    return result;
 		}
 		
 }
