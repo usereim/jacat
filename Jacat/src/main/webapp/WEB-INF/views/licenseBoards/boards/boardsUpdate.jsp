@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>${jmfldnm } QnA 게시판 글 수정 페이지</title>
+		<title>${jmfldnm } ${boardTypeStr } 게시판 글 수정 페이지</title>
 		<style>
 			.imgPreview{
 				width:300px;
@@ -21,17 +21,34 @@
 				
 				let file = $(obj)[0].files[0];
 				let _this = $(obj);
-				let regex = /\.(jpe?g|png|gif|bmp|svg|webp)$/i;
+				let regex;
 				
-				if (regex.test(file.name) && file.type.startsWith('image/')) {
-			        $(".fileErrorMsg").remove();
-			    	file_check = true;
-			    } else {
-			    	_this.val('');
-			    	$(".fileErrorMsg").remove();
-			        _this.after("<br class='fileErrorMsg'><span class='fileErrorMsg'>파일은 이미지만 업로드 할 수 있습니다.</span>");
-			        file_check = false;
-			    }
+				if(boardTypeStr == "QnA"){
+					regex = /\.(jpe?g|png|gif|bmp|svg|webp)$/i;
+					
+					if (regex.test(file.name) && file.type.startsWith('image/')) {
+				        $(".fileErrorMsg").remove();
+				    	file_check = true;
+				    } else {
+				    	_this.val('');
+				    	$(".fileErrorMsg").remove();
+				        _this.after("<br class='fileErrorMsg'><span class='fileErrorMsg'>파일은 이미지만 업로드 할 수 있습니다.</span>");
+				        file_check = false;
+				    }
+				}
+				else{
+					regex = /\.(jpe?g|png|gif|bmp|svg|webp|doc|docx|hwp|xls?x|ppt?x|pdf|txt)$/i;
+					
+					if (regex.test(file.name) && (file.type.startsWith('image/') || file.type.startsWith('application/'))) {
+				        $(".fileErrorMsg").remove();
+				    	file_check = true;
+				    } else {
+				    	_this.val('');
+				    	$(".fileErrorMsg").remove();
+				        _this.after("<br class='fileErrorMsg'><span class='fileErrorMsg'>파일은 이미지와 문서 파일만 업로드 할 수 있습니다.</span>");
+				        file_check = false;
+				    }
+				}
 			}
 		
 			function delExistFileFn(){
@@ -40,7 +57,7 @@
 				let fileNum = ${board.lFile.fileNum};
 				console.log(fileNum);
 				$.ajax({
-					url : "<c:url value='/lists/"+jmcd+"/QnA/"+boardNum+"/file-update/"+fileNum+"'/>",
+					url : "<c:url value='/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/file-update/"+fileNum+"'/>",
 					type : "post",
 					data : {
 						"fileNum" : fileNum
@@ -60,14 +77,14 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
 			<section id="licenseQnABoardUpdateSubtitleBox">
-				<h2>${jmfldnm } QnA 게시판</h2>
+				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
 				<h3>글 수정</h3>
 				<hr>
 			</section>
 			<section id="licenseQnABoardUpdateContentBox">
 				<div class="contentBox">
 					<form 
-					action="<c:url value='/licenses/lists/${jmcd }/QnA/${board.boardNum}/update'/>" 
+					action="<c:url value='/licenses/lists/${jmcd }/${boardType }/${board.boardNum}/update'/>" 
 					method="post" 
 					enctype="multipart/form-data">
 						<p class="writeTitleBox">

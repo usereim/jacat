@@ -5,37 +5,34 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>${jmfldnm } QnA 게시판</title>
+		<title>${jmfldnm } ${boardTypeStr } 게시판</title>
 		<style>
-			body *{
-				border:1px solid black;
-			}
 			main{
 				height:70vh;
 			}
-			#licenseQnANavBox{
+			#licenseBoardNavBox{
 				display:flex;
 				align-items:center;
 			}
-			#licenseQnANavBox li{
+			#licenseBoardNavBox li{
 				width:30%;
 				list-style:none;
 			}
-			#licenseQnAContentBox ul{
+			#licenseBoardContentBox ul{
 				display:flex;
 				align-items:center;
 				flex-wrap:wrap;
 			}
-			#licenseQnAContentBox ul li{
+			#licenseBoardContentBox ul li{
 				width:23%;
 				list-style:none;
 			}
-			#licenseQnAPagenationBox>ul{
+			#licenseBoardPagenationBox>ul{
 				display:flex;
 				justify-content:center;
 				
 			}
-			#licenseQnAPagenationBox>ul>li{
+			#licenseBoardPagenationBox>ul>li{
 				list-style:none;
 				width:8%;
 			}
@@ -43,9 +40,10 @@
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
 			let jmcd = "${jmcd}";
+			let boardType = "${boardType}"
 			function moveWriteFn(){
 				//console.log(jmcd);
-				location.href="<c:url value='/licenses/lists/"+jmcd+"/QnA/write'/>";
+				location.href="<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/write'/>";
 				//console.log("<c:url value='/resource/js/jquery-3.7.1.min.js'/>");
 				//console.log("<c:url value=''/>");
 			}
@@ -55,9 +53,9 @@
 		
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
-			<div id="licenseQnASubtitleBox">
-				<h2>${jmfldnm } QnA 게시판</h2>
-				<ul id="licenseQnANavBox">
+			<div id="licenseBoardSubtitleBox">
+				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
+				<ul id="licenseBoardNavBox">
 					<li>
 						<a href="<c:url value='/licenses/lists' />">자격증 목록</a>
 					</li>
@@ -70,7 +68,7 @@
 				</ul>
 			</div>
 			<hr>
-			<div id="licenseQnAContentBox">
+			<div id="licenseBoardContentBox">
 				<table>
 					<thead>
 						<tr>
@@ -85,7 +83,7 @@
 						<c:forEach var="board" items="${boardList }">
 							<tr>
 								<td>
-									<a href="<c:url value="/licenses/lists/${board.licenseListJmcd }/QnA/${board.boardNum}"/>">
+									<a href="<c:url value="/licenses/lists/${board.licenseListJmcd }/${boardType }/${board.boardNum}"/>">
 										${board.title }
 									</a>
 								</td>
@@ -103,7 +101,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div id="licenseQnABtnBox">
+			<div id="licenseBoardBtnBox">
 				<c:choose>
 					<c:when test="${empty sessionScope.user }">
 					
@@ -114,7 +112,7 @@
 				</c:choose>
 			</div>
 			<%-- 
-			<div id="licenseQnAPagenationBox">
+			<div id="licenseBoardPagenationBox">
 				<ul>
 					<li><a href="#">&lt;&lt;</a></li>
 					<li><a href="#">&lt;</a></li>

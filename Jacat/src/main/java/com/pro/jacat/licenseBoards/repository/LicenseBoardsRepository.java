@@ -78,7 +78,7 @@ public class LicenseBoardsRepository {
 	}
 	//자격증 자료실 상세조회
 	public LicenseBoardsVO selectDataroomBoardOne(int boardNum) {
-		return template.selectOne("licenseBoardMapper.selectDataroomBoardOne",boardNum);
+		return template.selectOne("licenseBoardMapper.selectQnABoardOne",boardNum);
 	}
 	//자격증 자료실 글 작성
 	public int insertDataroomBoardOne(LicenseBoardsVO vo) {

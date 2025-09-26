@@ -6,16 +6,18 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>${jmfldnm } QnA 게시판 상세조회 페이지</title>
+		<title>${jmfldnm } ${boardTypeStr } 게시판 상세조회 페이지</title>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
 			
 			const jmcd = "${jmcd}";
 			const boardNum = "${boardNum}";
+			const boardType = "${boardType}";
+			const boardTypeStr = "${boardTypeStr}";
 		
 			//게시글 수정 이동 함수
 			function moveUpdateBoardFn(){
-				location.href="<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/update'/>";
+				location.href="<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/update'/>";
 				//console.log(jmcd);
 				//console.log(boardNum);
 			}
@@ -35,7 +37,7 @@
 				
 				let url = "<c:url value='/licenses/lists/";
 				url += jmcd;
-				url += "/QnA/";
+				url += "/"+boardType+"/";
 				url += boardNum;
 				url += "/comment/write'/>";
 				//console.log(url);
@@ -84,6 +86,7 @@
 							$("#commentListsId").prepend(addCommentBox);
 							
 						}
+						
 						else{
 							
 							let addChildCommentBox = $("#commentBox"+cvo.parentCommentNum);
@@ -91,7 +94,7 @@
 							addChildCommentBox.append(addCommentBox);
 							
 						}
-						
+						$("#childCommentInput").val("");
 						
 					},
 					error : function(cvo){
@@ -144,7 +147,7 @@
 				let comment = $("#commentLine"+commentNum).val();
 				
 				let readComment;
-				let rurl = "<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/read-one'/>";
+				let rurl = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/read-one'/>";
 				
 				
 				$.ajax({
@@ -157,9 +160,11 @@
 					success : function(cvo){
 						readComment = cvo.content;
 						console.log("데이터 읽기 성공!");
+						alert("댓글 수정에 성공하였습니다.");
 					},
 					error : function(){
 						console.log("데이터 읽기 실패..");
+						alert("댓글 수정에 실패하였습니다.");
 					}
 				});
 				
@@ -185,7 +190,7 @@
 			//댓글 수정 함수
 			function commentUpdateFn(commentNum){
 				
-				let upurl = "<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/update'/>"
+				let upurl = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/update'/>"
 				let commentLine = $("#commentLine"+commentNum);
 				let comment = $("#commentLine"+commentNum).val();
 				console.log(commentLine);
@@ -211,7 +216,7 @@
 			
 			//댓글 삭제 함수
 			function commentDeleteFn(commentNum){
-				let url = "<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/comment/delete'/>";
+				let url = "<c:url value='/licenses/lists/"+jmcd+"/"+boardTypeStr+"/"+boardNum+"/comment/delete'/>";
 				console.log(url);
 				$.ajax({
 					url : url,
@@ -235,7 +240,7 @@
 			
 			function reportPopupFn(){
 				let reportPopupOpen = 
-					window.open("<c:url value='/licenses/lists/"+jmcd+"/QnA/"+boardNum+"/report'/>"
+					window.open("<c:url value='/licenses/lists/"+jmcd+"/"+boardTypeStr+"/"+boardNum+"/report'/>"
 							,"lboardReport"
 							,"width=500,height=400");
 				
@@ -247,7 +252,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
 			<section id="licenseQnABoardSubtitleBox">
-				<h2>${jmfldnm } QnA 게시판</h2>
+				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
 				<hr>
 			</section>
 			<section id="licenseQnABoardContentBox">
@@ -284,7 +289,7 @@
 				<c:if test="${sessionScope.user.id == board.usersId}">
 					<div class="updateDeleteBtnBox">
 						<button type="button" onclick="moveUpdateBoardFn()">글 수정하기</button>
-						<form action="<c:url value='/licenses/lists/${jmcd }/QnA/${board.boardNum }/delete'/>" method="post">
+						<form action="<c:url value='/licenses/lists/${jmcd }/${boardType }/${board.boardNum }/delete'/>" method="post">
 							<button type="submit">글 삭제하기</button>
 						</form>
 					</div>

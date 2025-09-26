@@ -137,9 +137,13 @@ public class LicenseBoardsController {
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
+		//String boardTypeStr = lboardService.boardTypetoString(vo.getBoardType()); 
+		
 		model.addAttribute("boardList", lists);
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm", jmfldnm);
+		model.addAttribute("boardType","QnA");
+		model.addAttribute("boardTypeStr","QnA");
 		
 		return "licenseBoards/boards/boardList";
 	}
@@ -171,29 +175,20 @@ public class LicenseBoardsController {
 			}
 			
 		}
-		//logger.info("2");
-		//logger.info(vo.getUsersId());
 		
+		String boardTypeStr = lboardService.boardTypetoString(vo.getBoardType());
 		
-		logger.info("{} 자격증 QnA게시판 {}번 게시물 상세조회 진입",jmfldnm,boardNum);
-		/*
-		 * logger.info("결과\n 파일수 : {}, 댓글수 : {}",vo.getlFile().size(),vo.getlComment().
-		 * size()); logger.info("댓글1 : {} ",vo.getlComment().get(0).getContent());
-		 * logger.info("댓글1 : {} ",vo.getlComment().get(0).getParentComment());
-		 * logger.info("댓글1 : {} ",vo.getlComment().get(0).getNick());
-		 * logger.info("댓글2 : {} ",vo.getlComment().get(1).getContent());
-		 * logger.info("댓글2 : {} ",vo.getlComment().get(1).getParentComment());
-		 * logger.info("댓글2 : {} ",vo.getlComment().get(0).getNick());
-		 * logger.info("댓글3 : {} ",vo.getlComment().get(2).getContent());
-		 * logger.info("댓글3 : {} ",vo.getlComment().get(2).getParentComment());
-		 * logger.info("댓글3 : {} ",vo.getlComment().get(0).getNick());
-		 */
+		logger.info("{} 자격증 {} 게시판",jmfldnm,boardTypeStr);
+		logger.info("{}번 게시물 상세조회 진입",boardNum);
+		
 		
 		logger.info("자격증 이름 : {}",jmfldnm);
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
 		model.addAttribute("board",vo);
+		model.addAttribute("boardType","QnA");
+		model.addAttribute("boardTypeStr",boardTypeStr);
 		
 		return "licenseBoards/boards/boardsView";
 	}
@@ -210,6 +205,9 @@ public class LicenseBoardsController {
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
+		model.addAttribute("boardType","QnA");
+		model.addAttribute("boardTypeStr", "QnA");
+		
 		
 		return "licenseBoards/boards/boardsWrite";
 	}
@@ -253,6 +251,7 @@ public class LicenseBoardsController {
 		
 		model.addAttribute("jmfldnm", jmfldnm);
 		model.addAttribute("board",vo);
+		model.addAttribute("boardTypeStr","QnA");
 		
 		return "licenseBoards/boards/boardsUpdate";
 	}
@@ -270,10 +269,10 @@ public class LicenseBoardsController {
 		try {
 			lboardService.insertlBoardFiles(file, boardNum);
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
+			
 			//e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			//e.printStackTrace();
 		}
 		
@@ -282,6 +281,7 @@ public class LicenseBoardsController {
 		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
 	}
 	
+	//QnA 게시판 파일 삭제
 	@PostMapping("/lists/{jmcd}/QnA/{boardNum}/file-update/{fileNum}")
 	@ResponseBody
 	public void qnaBoardBoardUpdateFileDelete(
@@ -451,6 +451,8 @@ public class LicenseBoardsController {
 		model.addAttribute("boardList",lists);
 		model.addAttribute("jmcd", jmcd);
 		model.addAttribute("jmfldnm", jmfldnm);
+		model.addAttribute("boardType","dataroom");
+		model.addAttribute("boardTypeStr","자료실");
 		
 		return "licenseBoards/boards/boardList";
 	}
@@ -468,7 +470,6 @@ public class LicenseBoardsController {
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
 		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
-		
 		
 		if(user != null) {
 			if(!(user.getId().equals(vo.getUsersId()))) {
@@ -489,6 +490,8 @@ public class LicenseBoardsController {
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
 		model.addAttribute("board",vo);
+		model.addAttribute("boardType","dataroom");
+		model.addAttribute("boardTypeStr","자료실");
 		
 		return "licenseBoards/boards/boardsView";
 	}
@@ -540,11 +543,13 @@ public class LicenseBoardsController {
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
 		vo = lboardService.selectQnABoardOne(boardNum);
-		
+
+		String boardTypeStr = "자료실";
 
 		model.addAttribute("jmfldnm", jmfldnm);
 		model.addAttribute("board",vo);
-		
+		model.addAttribute("boardType","dataroom");
+		model.addAttribute("boardTypeStr",boardTypeStr);
 		
 		return "licenseBoards/dataroom/dataroomUpdate";
 	}

@@ -383,7 +383,19 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		
 	}
 
-	
+	@Override
+	public String boardTypetoString(String boardType) {
+		String boardTypeString;
+		if(boardType.equals("Q")) {
+			boardTypeString = "QnA";
+		}
+		else {
+			boardTypeString = "자료실";
+		}
+		
+		return boardTypeString;
+		
+	}
 	//QnA 게시판 글 작성
 	/*@Override
 	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)

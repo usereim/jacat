@@ -67,4 +67,6 @@ public interface LicenseBoardsService {
 	public int deletelBoardFileOne(int fileNum);
 	
 	public int insertQnABoardVisit(VisitLicenseBoardVO vvo);
+	
+	public String boardTypetoString(String boardType);
 }
