@@ -233,56 +233,36 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	public List<LicenseBoardsVO> selectQnABoards(String jmcd){
 		return lBoardRepo.selectQnABoards(jmcd);
 	}
-	//QnA 게시판 상세조회
+	//게시판 상세조회
 	@Override
-	public LicenseBoardsVO selectQnABoardOne(int boardNum) {
-		return lBoardRepo.selectQnABoardOne(boardNum);
+	public LicenseBoardsVO selectLicenseBoardOne(int boardNum) {
+		return lBoardRepo.selectLicenseBoardOne(boardNum);
 	}
 	
 	
 	@Override
 	@Transactional
-	public int insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException {
+	public int insertLicenseBoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException {
 		//게시글 insert
-		return lBoardRepo.insertQnABoardOne(vo);
+		return lBoardRepo.insertLicenseBoardOne(vo);
 		
 	}
 	
 	//QnA 게시판 글 수정
 	@Override
-	public int updateQnABoardOne(LicenseBoardsVO vo) {
-		return lBoardRepo.updateQnABoardOne(vo);
+	public int updateLicenseBoardOne(LicenseBoardsVO vo) {
+		return lBoardRepo.updateLicenseBoardOne(vo);
 	}
-	//QnA 게시판 글 삭제
+	//게시판 글 삭제
 	@Override
-	public int deleteQnABoardOne(int boardNum) {
-		return lBoardRepo.deleteQnABoardOne(boardNum);
+	public int deleteLicenseBoardOne(int boardNum) {
+		return lBoardRepo.deleteLicenseBoardOne(boardNum);
 	}
 	
 	//자격증 자료실 목록조회
 	@Override
 	public List<LicenseBoardsVO> selectDataroomBoards(String jmcd){
 		return lBoardRepo.selectDataroomBoards(jmcd);
-	}
-	//자격증 자료실 상세조회
-	@Override
-	public LicenseBoardsVO selectDataroomBoardOne(int boardNum) {
-		return lBoardRepo.selectDataroomBoardOne(boardNum);
-	}
-	//자격증 자료실 글 작성
-	@Override
-	public int insertDataroomBoardOne(LicenseBoardsVO vo) {
-		return lBoardRepo.insertDataroomBoardOne(vo);
-	}
-	//자격증 자료실 글 수정
-	@Override
-	public int updateDataroomBoardOne(LicenseBoardsVO vo) {
-		return lBoardRepo.updateDataroomBoardOne(vo);
-	}
-	//자격증 자료실 글 삭제
-	@Override
-	public int deleteDataroomBoardOne(LicenseBoardsVO vo) {
-		return lBoardRepo.deleteDataroomBoardOne(vo);
 	}
 
 	//종목코드로 자격증 이름 조회 메서드 
@@ -291,28 +271,28 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		return lBoardRepo.selectLicenseNameOne(jmcd);
 	}
 	
-	//QnA 게시판 댓글 작성
+	//게시판 댓글 작성
 	@Override
 	public int insertLicenseCommentOne(LicenseBoardsCommentVO vo) {
 		
 		return lBoardRepo.insertLicenseCommentOne(vo);
 	}
 	
-	//QnA 게시판 댓글 하나 조회
+	//게시판 댓글 하나 조회
 	@Override
 	public LicenseBoardsCommentVO selectLicenseCommentOne(int commentNum) {
 		
 		return lBoardRepo.selectLicenseCommentOne(commentNum);
 	}
 	
-	//QnA 게시판 댓글 수정
+	//게시판 댓글 수정
 	@Override
 	public int updateLicenseCommentOne(LicenseBoardsCommentVO vo) {
 		
 		return lBoardRepo.updateLicenseCommentOne(vo);
 	}
 	
-	//QnA 게시판 댓글 삭제
+	//게시판 댓글 삭제
 	@Override
 	public int deleteLicenseCommentOne(int commentNum) {
 		
@@ -322,9 +302,9 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
 	//QnA 게시판 게시글 신고
 	@Override
-	public int insertQnABoardReportOne(LicenseBoardReportVO vo) {
+	public int insertLicenseBoardReportOne(LicenseBoardReportVO vo) {
 		
-		int result = lBoardRepo.insertQnABoardReportOne(vo);
+		int result = lBoardRepo.insertLicenseBoardReportOne(vo);
 		
 		if(result != 0) {
 			logger.info("QnA 게시판 신고 완료!");
@@ -336,11 +316,12 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		return result;
 	}
 	
-	//QnA 게시글 파일 업로드
+	//게시글 파일 업로드
 	@Override
 	public int insertlBoardFiles(MultipartFile file, int boardNum) throws IllegalStateException, IOException{
 		
 		if(file.isEmpty()) {
+			
 			throw new IllegalStateException();
 		}
 		
@@ -370,6 +351,7 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		
 	}
 	
+	//게시글 파일 삭제
 	@Override
 	public int deletelBoardFileOne(int fileNum) {
 		return lBoardRepo.deletelBoardFileOne(fileNum);
@@ -377,12 +359,13 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 
 	//게시글 조회수 추가 
 	@Override
-	public int insertQnABoardVisit(VisitLicenseBoardVO vvo) {
+	public int insertLicenseBoardVisit(VisitLicenseBoardVO vvo) {
 		
-		return lBoardRepo.insertQnABoardVisit(vvo);
+		return lBoardRepo.insertLicenseBoardVisit(vvo);
 		
 	}
 
+	//보드타입 -> 보드 이름 서비스
 	@Override
 	public String boardTypetoString(String boardType) {
 		String boardTypeString;
@@ -396,49 +379,5 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 		return boardTypeString;
 		
 	}
-	//QnA 게시판 글 작성
-	/*@Override
-	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
-	throws IllegalStateException, IOException
-	{	
-		
-		
-		//게시글 insert
-		lBoardRepo.insertQnABoardOne(vo);
-		
-		//첨부파일 업로드
-		List<FileLicenseBoardVO> list = new ArrayList<>();
-		
-		for(MultipartFile f : file) {
-			if(f.isEmpty()) {
-				continue;
-			}
-			
-			String realFileName = f.getOriginalFilename();
-			String ext = realFileName.substring(realFileName.lastIndexOf("."));
-			
-			String fileName = UUID.randomUUID().toString() + ext;
-			//long fileSize = f.getSize();
-			String fileType = f.getContentType();
-			
-			f.transferTo(new File(path+fileName));
-			
-			FileLicenseBoardVO flbVO = new FileLicenseBoardVO();
-			flbVO.setLicenseBoardsBoardNum(vo.getBoardNum());
-			flbVO.setRealFileName(realFileName);
-			flbVO.setFileName(fileName);
-			flbVO.setPath(path);
-			flbVO.setType(fileType);
-			
-			list.add(flbVO);
-			
-		}
-		
-		if(!list.isEmpty()) {
-			lFileRepo.insertFiles(list);
-		}
-		
-	}*/
-
 	
 }

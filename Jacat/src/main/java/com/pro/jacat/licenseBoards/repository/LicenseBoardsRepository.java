@@ -53,44 +53,28 @@ public class LicenseBoardsRepository {
 		return template.selectList("licenseBoardMapper.selectQnABoards", jmcd);
 	}
 	//QnA 게시판 상세조회
-	public LicenseBoardsVO selectQnABoardOne(int boardNum) {
-		return template.selectOne("licenseBoardMapper.selectQnABoardOne",boardNum);
+	public LicenseBoardsVO selectLicenseBoardOne(int boardNum) {
+		return template.selectOne("licenseBoardMapper.selectLicenseBoardOne",boardNum);
 	}
 	//QnA 게시판 글 작성
-	public int insertQnABoardOne(LicenseBoardsVO vo) {
-		return template.insert("licenseBoardMapper.insertQnABoardOne",vo);
+	public int insertLicenseBoardOne(LicenseBoardsVO vo) {
+		return template.insert("licenseBoardMapper.insertLicenseBoardOne",vo);
 	}
 	//QnA 게시판 글 수정
-	public int updateQnABoardOne(LicenseBoardsVO vo) {
-		return template.update("licenseBoardMapper.updateQnABoardOne",vo);
+	public int updateLicenseBoardOne(LicenseBoardsVO vo) {
+		return template.update("licenseBoardMapper.updateLicenseBoardOne",vo);
 	}
-	//QnA 게시판 글 삭제
-	public int deleteQnABoardOne(int boardNum) {
-		return template.update("licenseBoardMapper.deleteQnABoardOne",boardNum);
+	//게시판 글 삭제
+	public int deleteLicenseBoardOne(int boardNum) {
+		return template.update("licenseBoardMapper.deleteLicenseBoardOne",boardNum);
 	}
 	//QnA 게시판 게시글 신고
-	public int insertQnABoardReportOne(LicenseBoardReportVO vo) {
-		return template.insert("licenseBoardMapper.insertQnABoardReportOne",vo);
+	public int insertLicenseBoardReportOne(LicenseBoardReportVO vo) {
+		return template.insert("licenseBoardMapper.insertLicenseBoardReportOne",vo);
 	}
 	//자격증 자료실 목록조회
 	public List<LicenseBoardsVO> selectDataroomBoards(String jmcd){
 		return template.selectList("licenseBoardMapper.selectDataroomBoards", jmcd);
-	}
-	//자격증 자료실 상세조회
-	public LicenseBoardsVO selectDataroomBoardOne(int boardNum) {
-		return template.selectOne("licenseBoardMapper.selectQnABoardOne",boardNum);
-	}
-	//자격증 자료실 글 작성
-	public int insertDataroomBoardOne(LicenseBoardsVO vo) {
-		return template.insert("licenseBoardMapper.insertDataroomBoardOne",vo);
-	}
-	//자격증 자료실 글 수정
-	public int updateDataroomBoardOne(LicenseBoardsVO vo) {
-		return template.update("licenseBoardMapper.updateDataroomBoardOne",vo);
-	}
-	//자격증 자료실 글 삭제
-	public int deleteDataroomBoardOne(LicenseBoardsVO vo) {
-		return template.update("licenseBoardMapper.deleteDataroomBoardOne",vo);
 	}
 	
 	//종목코드로 자격증 이름 조회하는 메서드 
@@ -126,9 +110,9 @@ public class LicenseBoardsRepository {
 	}
 	
 	//게시글 조회수 
-	public int insertQnABoardVisit(VisitLicenseBoardVO vvo) {
+	public int insertLicenseBoardVisit(VisitLicenseBoardVO vvo) {
 		try {
-			return template.insert("licenseBoardMapper.insertQnABoardVisit", vvo);
+			return template.insert("licenseBoardMapper.insertLicenseBoardVisit", vvo);
 		}catch(DuplicateKeyException e) {
 			//e.printStackTrace();
 			return 0;

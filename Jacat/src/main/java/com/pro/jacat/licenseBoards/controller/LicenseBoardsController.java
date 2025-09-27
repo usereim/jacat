@@ -157,7 +157,7 @@ public class LicenseBoardsController {
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
-		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
+		LicenseBoardsVO vo = lboardService.selectLicenseBoardOne(boardNum);
 		
 		if(user != null) {
 			if(!(user.getId().equals(vo.getUsersId()))) {
@@ -165,7 +165,7 @@ public class LicenseBoardsController {
 				VisitLicenseBoardVO vvo = new VisitLicenseBoardVO();
 				vvo.setUsersId(user.getId());
 				vvo.setLicenseBoardNum(boardNum);
-				lboardService.insertQnABoardVisit(vvo);
+				lboardService.insertLicenseBoardVisit(vvo);
 			}
 			
 		}
@@ -211,12 +211,20 @@ public class LicenseBoardsController {
 		
 		vo.setUsersId(user.getId());
 		vo.setLicenseListJmcd(jmcd);
-		//lboardService.insertQnABoardOne(vo,file);
+		vo.setBoardType("Q");
+		//lboardService.insertLicenseBoardOne(vo,file);
 		
 		
 		
-		lboardService.insertQnABoardOne(vo);
-		lboardService.insertlBoardFiles(file,vo.getBoardNum());
+		lboardService.insertLicenseBoardOne(vo);
+		try {
+			lboardService.insertlBoardFiles(file,vo.getBoardNum());
+		}catch(IllegalStateException e) {
+			
+		}catch(IOException e) {
+			
+		}
+		
 		
 		
 		
@@ -236,10 +244,11 @@ public class LicenseBoardsController {
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
-		vo = lboardService.selectQnABoardOne(boardNum);
+		vo = lboardService.selectLicenseBoardOne(boardNum);
 		
 		model.addAttribute("jmfldnm", jmfldnm);
 		model.addAttribute("board",vo);
+		model.addAttribute("boardType","QnA");
 		model.addAttribute("boardTypeStr","QnA");
 		
 		return "licenseBoards/boards/boardsUpdate";
@@ -253,7 +262,7 @@ public class LicenseBoardsController {
 			LicenseBoardsVO vo
 			) {
 		
-		int result = lboardService.updateQnABoardOne(vo);
+		int result = lboardService.updateLicenseBoardOne(vo);
 		
 		try {
 			lboardService.insertlBoardFiles(file, boardNum);
@@ -289,39 +298,40 @@ public class LicenseBoardsController {
 			) {
 		
 		
-		int result = lboardService.deleteQnABoardOne(boardNum);
+		int result = lboardService.deleteLicenseBoardOne(boardNum);
 		
 		return "redirect:/licenses/lists/"+jmcd+"/QnA";
 	}
 	
-	/*----------QnA 신고----------*/
-	//QnA 신고 화면
-	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/report", method=RequestMethod.GET)
+	/*----------신고----------*/
+	//신고 화면
+	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/report", method=RequestMethod.GET)
 	public String qnaReport(
 			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum
 			) {
 		
 		return "licenseBoards/licenseBoardReportPopup";
 	}
-	//QnA 신고 처리
-	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/report", method=RequestMethod.POST)
+	//신고 처리
+	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/report", method=RequestMethod.POST)
 	
 	public void qnaReportPost(
 			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum,
 			@SessionAttribute("user") UserVO user,
 			@RequestParam("etcOrExplanation") String etcOrExplanation,
 			LicenseBoardReportVO vo,
 			HttpServletResponse response
 			) throws IOException  {
+		
 		vo.setUsersId(user.getId());
 		vo.setLicenseBoardsBoardNum(boardNum);
 		vo.setReportContent(etcOrExplanation);
 		
-		
-		
-		lboardService.insertQnABoardReportOne(vo);
+		lboardService.insertLicenseBoardReportOne(vo);
 		
 		response.setContentType("text/html");
 		response.getWriter().append("<script>window.close();</script>");
@@ -329,33 +339,20 @@ public class LicenseBoardsController {
 	}
 	
 	
-	/*----------QnA 댓글----------*/
+	/*----------댓글----------*/
 	
-	//QnA 게시판 댓글 작성
-	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/write", method=RequestMethod.POST)
+	//게시판 댓글 작성
+	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/comment/write", method=RequestMethod.POST)
 	@ResponseBody
 	public LicenseBoardsCommentVO qnaBoardCommentWrite(
-			/*@RequestParam("usersId") String id,
-			@RequestParam("licenseBoardsBoardNum") int boardNum,
-			@RequestParam("content") String content,
-			@RequestParam("parentComment") int parentCommentNum*/
 			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum,
 			LicenseBoardsCommentVO cvo
 			) throws Exception{
 		
-		//int intBoardNum = Integer.parseInt(boardNum);
-		
-		//LicenseBoardsCommentVO cvo = new LicenseBoardsCommentVO();
-		/*cvo.setUsersId(id);
-		cvo.setLicenseBoardsBoardNum(boardNum);
-		cvo.setContent(content);
-		cvo.setParentCommentNum(parentCommentNum);*/
-		
 		
 		int result = lboardService.insertLicenseCommentOne(cvo);
-		
-		
 		
 		String resultStr;
 		if(result >= 1) {
@@ -365,18 +362,17 @@ public class LicenseBoardsController {
 			resultStr = "fail";
 		}
 		
-		
-		
 		cvo = lboardService.selectLicenseCommentOne(cvo.getCommentNum());
 		
 		return cvo;
 	}
 	
-	//QnA 게시판 댓글 하나 조회
-	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/read-one", method=RequestMethod.POST)
+	//게시판 댓글 하나 조회
+	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/comment/read-one", method=RequestMethod.POST)
 	@ResponseBody
 	public LicenseBoardsCommentVO qnaBoardCommentReadOne(
 			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum,
 			LicenseBoardsCommentVO cvo
 			) {
@@ -385,11 +381,12 @@ public class LicenseBoardsController {
 		
 	}
 	
-	//QnA 게시판 댓글 수정
-	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/update", method=RequestMethod.POST)
+	//게시판 댓글 수정
+	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/comment/update", method=RequestMethod.POST)
 	@ResponseBody
 	public LicenseBoardsCommentVO qnaBoardCommentUpdate(
 			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum,
 			LicenseBoardsCommentVO uvo
 			) {
@@ -401,11 +398,12 @@ public class LicenseBoardsController {
 		return uvo;
 	}
 	
-	//QnA 게시판 댓글 삭제
-	@RequestMapping(value="/lists/{jmcd}/QnA/{boardNum}/comment/delete", method=RequestMethod.POST)
+	//게시판 댓글 삭제
+	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/comment/delete", method=RequestMethod.POST)
 	@ResponseBody
 	public int qnaBoardCommentDelete(
 			@PathVariable("jmcd") String jmcd,
+			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum,
 			@RequestParam("commentNum") int commentNum
 			) {
@@ -454,7 +452,10 @@ public class LicenseBoardsController {
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
-		LicenseBoardsVO vo = lboardService.selectQnABoardOne(boardNum);
+		LicenseBoardsVO vo = lboardService.selectLicenseBoardOne(boardNum);
+		
+		//logger.info("vo : "+vo);
+		//logger.info("user : "+user);
 		
 		if(user != null) {
 			if(!(user.getId().equals(vo.getUsersId()))) {
@@ -462,7 +463,7 @@ public class LicenseBoardsController {
 				VisitLicenseBoardVO vvo = new VisitLicenseBoardVO();
 				vvo.setUsersId(user.getId());
 				vvo.setLicenseBoardNum(boardNum);
-				lboardService.insertQnABoardVisit(vvo);
+				lboardService.insertLicenseBoardVisit(vvo);
 			}
 			
 		}
@@ -489,12 +490,14 @@ public class LicenseBoardsController {
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("jmfldnm",jmfldnm);
+		model.addAttribute("boardType","dataroom");
+		model.addAttribute("boardTypeStr", "자료실");
 		
 		return "licenseBoards/boards/boardsWrite";
 	}
 	
 	//자료실 글 작성 처리
-	@RequestMapping(value="", method=RequestMethod.POST)
+	@RequestMapping(value="/lists/{jmcd}/dataroom/write", method=RequestMethod.POST)
 	public String dataroomBoardWritePost(
 			LicenseBoardsVO vo,
 			@RequestParam("file") MultipartFile file,
@@ -504,11 +507,19 @@ public class LicenseBoardsController {
 		
 		vo.setUsersId(user.getId());
 		vo.setLicenseListJmcd(jmcd);
+		vo.setBoardType("D");
 
-		lboardService.insertQnABoardOne(vo);
-		lboardService.insertlBoardFiles(file,vo.getBoardNum());
+		lboardService.insertLicenseBoardOne(vo);
 		
-		return "redirect:/licenses/lists/"+jmcd+"/QnA/"+vo.getBoardNum();
+		try {
+			lboardService.insertlBoardFiles(file,vo.getBoardNum());
+		}catch(IllegalStateException e) {
+			
+		}catch(IOException e) {
+			
+		}
+		
+		return "redirect:/licenses/lists/"+jmcd+"/dataroom/"+vo.getBoardNum();
 	}
 	
 	//자료실 글수정
@@ -523,16 +534,14 @@ public class LicenseBoardsController {
 		
 		String jmfldnm = lboardService.selectLicenseNameOne(jmcd);
 		
-		vo = lboardService.selectQnABoardOne(boardNum);
-
-		String boardTypeStr = "자료실";
+		vo = lboardService.selectLicenseBoardOne(boardNum);
 
 		model.addAttribute("jmfldnm", jmfldnm);
 		model.addAttribute("board",vo);
 		model.addAttribute("boardType","dataroom");
-		model.addAttribute("boardTypeStr",boardTypeStr);
+		model.addAttribute("boardTypeStr","자료실");
 		
-		return "licenseBoards/dataroom/dataroomUpdate";
+		return "licenseBoards/boards/boardsUpdate";
 	}
 	
 	//자료실 글 수정 처리
@@ -544,7 +553,7 @@ public class LicenseBoardsController {
 			LicenseBoardsVO vo
 			) {
 		
-		int result = lboardService.updateQnABoardOne(vo);
+		int result = lboardService.updateLicenseBoardOne(vo);
 		
 		try {
 			lboardService.insertlBoardFiles(file, boardNum);
@@ -562,7 +571,7 @@ public class LicenseBoardsController {
 		
 	}
 	
-	//자료실 글삭제
+	//자료실 글삭제 처리
 	@RequestMapping(value="/lists/{jmcd}/dataroom/{boardNum}/delete", method=RequestMethod.POST)
 	@ResponseBody
 	public String dataroomBoardDelete(
@@ -571,7 +580,7 @@ public class LicenseBoardsController {
 			) {
 		
 
-		int result = lboardService.deleteQnABoardOne(boardNum);
+		int result = lboardService.deleteLicenseBoardOne(boardNum);
 		
 		return "redirect:/licenseBoards/dataroom/dataroomBoards";
 	}

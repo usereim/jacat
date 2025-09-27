@@ -17,9 +17,47 @@
 		
 			//게시글 수정 이동 함수
 			function moveUpdateBoardFn(){
+				alert(jmcd+","+boardType+","+boardNum);
 				location.href="<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/update'/>";
 				//console.log(jmcd);
 				//console.log(boardNum);
+			}
+			
+			//게시글 삭제 확인 함수
+			function deleteYnConfirmFn(){
+				
+				let deleteConfirm = confirm("게시글을 삭제하시겠습니까?");
+				
+				let durl = "";  
+				durl += "<c:url value='/licenses/lists/";
+				durl += jmcd;
+				durl += "/"+boardType+"/";
+				durl += boardNum;
+				durl += "/delete'/>";
+				
+				let reurl = "";
+				reurl += "<c:url value='/licenses/lists/";
+				reurl += jmcd;
+				reurl += "/"+boardType+"'/>";
+				
+				
+				if(deleteConfirm){
+					$.ajax({
+						url : durl,
+						type : "post",
+						data : {
+							"boardNum" : boardNum
+						},
+						success : function (){
+							alert("게시글 삭제가 완료되었습니다.");
+							location.href = reurl;
+						},
+						error : function (){
+							alert("게시글 삭제에 실패했습니다.");
+						}
+					}); 
+				}
+				
 			}
 			
 			//댓글 작성 함수
@@ -216,31 +254,37 @@
 			
 			//댓글 삭제 함수
 			function commentDeleteFn(commentNum){
-				let url = "<c:url value='/licenses/lists/"+jmcd+"/"+boardTypeStr+"/"+boardNum+"/comment/delete'/>";
-				console.log(url);
-				$.ajax({
-					url : url,
-					type : "post",
-					data : {
-						"commentNum" : commentNum
-					},
-					success : function(res){
-						if(res == 1){
-							alert("댓글 삭제에 성공하였습니다.");
-						}
-						else{
+				
+				let commentDeleteYn = confirm("댓글을 삭제하시겠습니까?");
+				
+				if(commentDeleteYn){
+
+					let url = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/delete'/>";
+					console.log(url);
+					$.ajax({
+						url : url,
+						type : "post",
+						data : {
+							"commentNum" : commentNum
+						},
+						success : function(res){
+							if(res == 1){
+								alert("댓글 삭제에 성공하였습니다.");
+							}
+							else{
+								alert("댓글 삭제에 실패하였습니다.");
+							}
+						},
+						error : function(){
 							alert("댓글 삭제에 실패하였습니다.");
 						}
-					},
-					error : function(){
-						alert("댓글 삭제에 실패하였습니다.");
-					}
-				});
+					});
+				}
 			}
 			
 			function reportPopupFn(){
 				let reportPopupOpen = 
-					window.open("<c:url value='/licenses/lists/"+jmcd+"/"+boardTypeStr+"/"+boardNum+"/report'/>"
+					window.open("<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/report'/>"
 							,"lboardReport"
 							,"width=500,height=400");
 				
@@ -289,9 +333,7 @@
 				<c:if test="${sessionScope.user.id == board.usersId}">
 					<div class="updateDeleteBtnBox">
 						<button type="button" onclick="moveUpdateBoardFn()">글 수정하기</button>
-						<form action="<c:url value='/licenses/lists/${jmcd }/${boardType }/${board.boardNum }/delete'/>" method="post">
-							<button type="submit">글 삭제하기</button>
-						</form>
+						<button type="button" onclick="deleteYnConfirmFn()">글 삭제하기</button>
 					</div>
 					<hr>
 				</c:if>

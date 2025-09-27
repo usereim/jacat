@@ -174,8 +174,21 @@
  		 where lb.board_type = 'Q' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
 	</select>
 	
-	<!-- QnA 게시글 상세조회 -->
-	<select id="selectQnABoardOne" parameterType="int" resultMap="licenseBoardCommentAndFileMap">
+	<!-- 자료실 게시글 목록조회 -->
+	<select id="selectDataroomBoards" resultType="lboard">
+		select lb.board_num, lb.users_id, lb.license_list_jmcd, 
+		 lb.title, lb.content, date_format(lb.w_date,'%Y-%m-%d') as w_date, lb.modify_date,
+		 lb.delyn, lb.board_type,u.nick,
+		 (
+		  select count(*) from jacat_db.visit_license_board vlb 
+		  where lb.board_num = vlb.license_board_num
+		 ) as visit_count
+ 		 FROM jacat_db.license_boards lb , jacat_db.users u
+ 		 where lb.board_type = 'D' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
+	</select>
+	
+	<!-- 게시글 상세조회 -->
+	<select id="selectLicenseBoardOne" parameterType="int" resultMap="licenseBoardCommentAndFileMap">
 		select * from( select
 		lb.board_num,
 		 lb.users_id,
@@ -219,80 +232,36 @@
 		 order by tb.w_date desc;
 	</select>
 	
-	<!-- QnA 게시글 작성 -->
-	<insert id="insertQnABoardOne" parameterType="lboard" useGeneratedKeys="true" keyProperty="boardNum">
+	<!-- 자격증 게시글 작성 -->
+	<insert id="insertLicenseBoardOne" parameterType="lboard" useGeneratedKeys="true" keyProperty="boardNum">
 		insert into jacat_db.license_boards(
 		users_id,license_list_jmcd,title,content,board_type
 		)
 		values(
-		#{usersId},#{licenseListJmcd},#{title},#{content},'Q'
+		#{usersId},#{licenseListJmcd},#{title},#{content},#{boardType}
 		);
 	</insert>
 	
-	<!-- QnA 게시글 수정 -->
-	<update id="updateQnABoardOne" parameterType="lboard">
+	<!-- 자격증 게시글 수정 -->
+	<update id="updateLicenseBoardOne" parameterType="lboard">
 		update jacat_db.license_boards set
 		 title = #{title}, content = #{content}, modify_date = now()
 		 where board_num = #{boardNum};
 	</update>
 	
-	<!-- QnA 게시글 삭제 -->
-	<update id="deleteQnABoardOne" parameterType="int">
+	<!-- 자격증 게시글 삭제 -->
+	<update id="deleteLicenseBoardOne" parameterType="int">
 		update jacat_db.license_boards set
 		 delyn = 'Y'
 		 where board_num = #{boardNum};
 	</update>
 	
-	<!-- QnA 게시글 신고 -->
-	<insert id="insertQnABoardReportOne" parameterType="lreport">
+	<!-- 게시글 신고 -->
+	<insert id="insertLicenseBoardReportOne" parameterType="lreport">
 		insert into license_board_report(users_id,license_boards_board_num,report_category,report_content)
 		values(#{usersId},#{licenseBoardsBoardNum},#{reportCategory},#{reportContent});
 	</insert>
 	
-	<!-- 자료실 목록조회 -->
-	<select id="selectDataroomBoards" resultType="lboard">
-		select lb.board_num, lb.users_id, lb.license_list_jmcd, 
-		 lb.title, lb.content, date_format(lb.w_date,'%Y-%m-%d') as w_date, lb.modify_date,
-		 lb.delyn, lb.board_type,u.nick,
-		 (
-		  select count(*) from jacat_db.visit_license_board vlb 
-		  where lb.board_num = vlb.license_board_num
-		 ) as visit_count
- 		 FROM jacat_db.license_boards lb , jacat_db.users u
- 		 where lb.board_type = 'D' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
-	</select>
-	
-	<!-- 자료실 게시글 상세조회 -->
-	<select id="selectDataroomBoardOne" parameterType="int" resultType="lboard">
-		select * from jacat_db.license_boards lboards 
-		 left join jacat_db.license_comment lcomment
-		 on lboards.board_num = lcomment.license_boards_board_num
-		 where lboards.board_num = #{boardNum} and lboards.board_type='D';
-	</select>
-	
-	<!-- 자료실 게시글 작성 -->
-	<insert id="insertDataroomBoardOne" parameterType="lboard">
-		insert into jacat_db.license_boards(
-		users_id, license_list_jmcd, title, content, board_type
-		)
-		values(
-		#{usersId}, #{licenseListJmcd}, #{title}, #{content}, 'D'
-		);
-	</insert>
-	
-	<!-- 자료실 게시글 수정 -->
-	<update id="updateDataroomBoardOne" parameterType="lboard">
-		update jacat_db.license_boards set
-		 title = #{title}, content = #{content}, modify_date = #{modify_date}
-		 where board_num = #{boardNum};
-	</update>
-	
-	<!-- 자료실 게시글 삭제 -->
-	<update id="deleteDataroomBoardOne" parameterType="lboard">
-		update jacat_db.license_boards set
-		 delyn = 'Y'
-		 where board_num = #{boardNum};
-	</update>
 	
 	<!-- 종목코드로 자격증 이름 조회  -->
 	<select id="selectLicenseNameOne" parameterType="String" resultType="String">
@@ -330,7 +299,7 @@
 	</update>
 	
 	<!-- 조회수 증가 -->
-	<insert id="insertQnABoardVisit" parameterType="com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO">
+	<insert id="insertLicenseBoardVisit" parameterType="com.pro.jacat.licenseBoards.vo.VisitLicenseBoardVO">
 		insert into visit_license_board(users_id,license_board_num)
 		values(#{usersId},#{licenseBoardNum});
 	</insert>

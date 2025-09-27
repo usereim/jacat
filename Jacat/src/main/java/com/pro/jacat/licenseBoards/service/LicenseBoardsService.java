@@ -29,28 +29,20 @@ public interface LicenseBoardsService {
 	
 	public List<LicenseBoardsVO> selectQnABoards(String jmcd);
 	
-	public LicenseBoardsVO selectQnABoardOne(int boardNum);
+	public LicenseBoardsVO selectLicenseBoardOne(int boardNum);
 	/*
-	public void insertQnABoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
+	public void insertLicenseBoardOne(LicenseBoardsVO vo, List<MultipartFile> file)
 			throws IllegalStateException, IOException;
 	*/
-	public int insertQnABoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException;
+	public int insertLicenseBoardOne(LicenseBoardsVO vo) throws IllegalStateException, IOException;
 	
-	public int updateQnABoardOne(LicenseBoardsVO vo);
+	public int updateLicenseBoardOne(LicenseBoardsVO vo);
 	
-	public int deleteQnABoardOne(int boardNum);
+	public int deleteLicenseBoardOne(int boardNum);
 	
-	public int insertQnABoardReportOne(LicenseBoardReportVO vo);
+	public int insertLicenseBoardReportOne(LicenseBoardReportVO vo);
 	
 	public List<LicenseBoardsVO> selectDataroomBoards(String jmcd);
-	
-	public LicenseBoardsVO selectDataroomBoardOne(int boardNum);
-	
-	public int insertDataroomBoardOne(LicenseBoardsVO vo);
-	
-	public int updateDataroomBoardOne(LicenseBoardsVO vo);
-	
-	public int deleteDataroomBoardOne(LicenseBoardsVO vo);
 	
 	public String selectLicenseNameOne(String jmcd);
 	
@@ -66,7 +58,7 @@ public interface LicenseBoardsService {
 	
 	public int deletelBoardFileOne(int fileNum);
 	
-	public int insertQnABoardVisit(VisitLicenseBoardVO vvo);
+	public int insertLicenseBoardVisit(VisitLicenseBoardVO vvo);
 	
 	public String boardTypetoString(String boardType);
 }

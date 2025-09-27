@@ -96,7 +96,7 @@
 							<textarea name="content" id="ucontent">${board.content }</textarea>
 						</p>
 						<p class="writeFileBox">
-							<input type="file" name="file">
+							<input type="file" name="file" onchange="delExistFileFn">
 							<c:if test="${fn:contains(board.lFile.type, 'image' )}">
 								<img 
 								class="imgPreview"
