@@ -6,37 +6,90 @@
 <head>
 <meta charset="UTF-8">
 <title>수정</title>
+<style>
+	h2 {
+		text-align: center;
+		margin-top: 60px;
+	}
+	
+	#form_area {
+		width: 70%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+		margin: 0 auto;
+		margin-top: 100px;
+	}
+	
+	#input_area {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+	
+	#input_area > input {
+		width: 300px;
+	}	
+	
+	#btn_area {
+		display: flex;
+		gap: 15px;
+	}
+</style>
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/includes/header.jsp" />
 
 	<main>
-		<div>게시글 타입 : ${csc.boardType }</div>
+		<c:choose>
+			<c:when test="${csc.boardType eq 'Q'}">
+				<h2 class="text-primary-emphasis">FAQ 수정</h2>
+			</c:when>
+			<c:when test="${csc.boardType eq 'I' }">
+				<h2 class="text-primary-emphasis">1:1문의 수정</h2>
+			</c:when>
+			<c:when test="${csc.boardType eq 'A' }">
+				<h2 class="text-primary-emphasis">정지회원 이의신청 수정</h2>
+			</c:when>
+		</c:choose>
 
-		<form action="<c:url value="/csc/modify/${csc.boardType }/false/${csc.boardNum }" />" method="post"
+		<form id="form_area" action="<c:url value="/csc/modify/${csc.boardType }/false/${csc.boardNum }" />" method="post"
 			enctype="multipart/form-data">
-			제목 : <input type="text" name="title" value="${csc.title }"> <br>
-			내용 : <input type="text" name="content" value="${csc.content }">
-			<br>
-
+			
+			<div id="input_area">
+				<label for="title" class="text-primary-emphasis">제목</label>
+				<input type="text" id="title" name="title" value="${csc.title }" class="form-control">
+			</div>
+			
+			<div id="input_area">
+				<label for="content" class="text-primary-emphasis">내용</label>
+				<input type="text" id="content" name="content" value="${csc.content }" class="form-control">
+			</div>
+			
 			<c:choose>
 				<c:when test="${csc.boardsFile.boardsBoardNum != 0 }">
-					<img width="300px" class="img"
-						src="<c:url value="/uploads/boards/${csc.boardsFile.boardsBoardNum}/${csc.boardsFile.fileName } "/>">
-					<button type="button" id="img_delete_btn">이미지 삭제</button>
-					이미지 : <input type="file" name="img" disabled>
+					<div id="input_area" class="img_target">
+						<label for="img" class="text-primary-emphasis">이미지</label>
+						<img width="300px" id="img"
+							src="<c:url value="/uploads/boards/${csc.boardsFile.boardsBoardNum}/${csc.boardsFile.fileName } "/>">
+						<button type="button" id="img_delete_btn" class="btn btn-primary">이미지 삭제</button>
+					</div>
 				</c:when>
 				<c:otherwise>
-					이미지 : <input type="file" name="img">
+					<div id="input_area">
+						<label for="img" class="text-primary-emphasis">이미지</label>
+						<input type="file" id="img" name="img" class="form-control">
+					</div>
 				</c:otherwise>
 			</c:choose>
-
-
 			
+			<div id="btn_area">
+				<button type="button" id="cancle_btn" class="btn btn-primary">수정 취소</button>
+				<input type="submit" value="수정하기" class="btn btn-primary">
 
-			<button type="button" id="cancle_btn">수정 취소</button>
-			<input type="submit" value="수정하기">
+			</div>
 		</form>
 	</main>
 
@@ -45,10 +98,11 @@
 	<script>
 		$(function() {
 			$("#img_delete_btn").click(function() {
-				$(".img").remove();
+				$("#img").remove();
 				$("#img_delete_btn").remove();
 
-				$("input[name=img]").prop("disabled", false);
+				let img = $("<input>").attr("type", "file").attr("id", "img").attr("name", "img").attr("class", "form-control")
+				$(".img_target").append(img);
 				$("form").attr("action", "<c:url value='/csc/modify/${csc.boardType}/true/${csc.boardNum}' />");
 			});
 

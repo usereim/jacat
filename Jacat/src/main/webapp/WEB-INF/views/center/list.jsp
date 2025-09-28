@@ -7,6 +7,11 @@
 <meta charset="UTF-8">
 <title>시험장 조회</title>
 <style>
+	#lListNavBox ul li{
+		width:20%;
+		text-align:center;
+	}
+	
 	#section_area {
 		display: flex;
 		flex-direction: column;
@@ -85,6 +90,19 @@
 	<c:import url="/WEB-INF/views/includes/header.jsp" />
 
 	<main>
+		<hr>
+		<div id="lListNavBox">
+			<ul class="nav nav-underline">
+				<li class="nav-item">
+					<a href="<c:url value='/licenses/lists'/>" class="nav-link">자격증 목록</a>
+				</li>
+				<li class="nav-item">
+					<a href="<c:url value='/licenses/center/list'/>" class="nav-link">시험장 정보</a>
+				</li>
+			</ul>
+		</div>
+		<hr>
+		
 		<section id="section_area">
 			<h2 class="text-primary-emphasis">시험장 검색</h2>
 			<section id="search_area">

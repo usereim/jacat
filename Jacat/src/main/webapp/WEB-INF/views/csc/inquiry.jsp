@@ -54,8 +54,8 @@
         white-space: nowrap;
     }
 
-    td:nth-child(1) {width: 30%; text-align: center; font-weight: bold; font-size: 20px;}
-	td:nth-child(2) {width: 70%; text-align: left; font-weight: bold; font-size: 20px;}
+    td:nth-child(1) {width: 30%; text-align: left; font-weight: bold; }
+	td:nth-child(2) {width: 70%; text-align: left; }
 	
     /* 테이블 행 구분선과 배경 */
     table tr {

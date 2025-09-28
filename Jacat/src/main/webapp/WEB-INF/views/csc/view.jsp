@@ -14,6 +14,76 @@
 	</c:when>
 </c:choose>
 
+<style>
+	#content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		align-items: center;
+	}
+	
+	table {
+		width: 80%;
+        border-collapse: collapse;
+        font-size: 15px;
+        table-layout: fixed;
+    	margin: 0 auto;
+    }
+
+    td {
+        border: 1px solid #222;
+        padding: 10px 8px;
+        line-height: 1.6;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    td:nth-child(1) { width: 30%; text-align: left; font-weight: bold;}
+    td:nth-child(2) { width: 70%; text-align: left; }
+
+    /* 테이블 행 구분선과 배경 */
+    table tr {
+        border-bottom: 1px solid #ccc;
+    }
+    table tr:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    /* 제목 링크 강조 */
+    td:first-child a {
+        font-weight: bold;
+        color: #000;
+    }
+    td:first-child a:hover {
+        text-decoration: underline;
+    }
+    
+    #btn_area {
+    	display: flex;
+    	gap: 15px;
+    }
+    
+    #reply_area {
+    	width: 80%;
+    	margin: 0 auto;
+    	margin-top: 60px;
+    }
+    
+    #input_area {
+    	width: 50%;
+    	display: flex;
+    	gap: 15px;
+    	align-items: center;
+    	margin-bottom: 20px;
+    }
+    
+    #input_area input {
+    	width: 150px;
+    }
+</style>
+
 <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
 <script>
 	function delFn(boardNum) {
@@ -34,7 +104,7 @@
 	}
 	
 	function modFn(boardNum) {
-		location.href = "<c:url value='/csc/modify/A/"+ boardNum + "' />";
+		location.href = "<c:url value='/csc/modify/${board.boardType}/"+ boardNum + "' />";
 	}
 </script>
 </head>
@@ -42,29 +112,59 @@
 	<c:import url="/WEB-INF/views/includes/header.jsp" />
 	<main>
 		<div id="content">
-			<p>${board.boardNum }</p>
-			<p>${board.title }</p>
-			<p>${board.content }</p>
-			<c:if test="${board.boardsFile.fileName != null }">
-				<img width="300px"
-					src="<c:url value="/uploads/boards/${board.boardsFile.boardsBoardNum }/${board.boardsFile.fileName }" />">
-			</c:if>
 			<c:if test="${board.boardType == 'A' }">
-				<button type="button" onclick="modFn(${board.boardNum})">수정하기</button>
+				<h2 class="text-primary-emphasis">정지회원 이의신청글 상세보기</h2>
 			</c:if>
-			<button type="button" onclick="delFn(${board.boardNum })">삭제하기</button>
+			<c:if test="${board.boardType == 'I' }">
+				<h2 class="text-primary-emphasis">1:1 문의글 상세보기</h2>
+			</c:if>
+		
+			<table>
+				<tr>
+					<td>게시글 번호</td>
+					<td>${board.boardNum }</td>
+				</tr>
+				<tr>
+					<td>제목</td>
+					<td>${board.title }</td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td>${board.content }</td>
+				</tr>
+				
+				<c:if test="${board.boardsFile.fileName != null }">
+				<tr>
+					<td>이미지</td>
+					<td>
+						<img width="300px"
+						src="<c:url value="/uploads/boards/${board.boardsFile.boardsBoardNum }/${board.boardsFile.fileName }" />">
+					</td>
+				</tr>
+			</c:if>
+			</table>
+
+			<div id="btn_area">
+				<button type="button" onclick="modFn(${board.boardNum})" class="btn btn-primary">수정하기</button>
+				<button type="button" onclick="delFn(${board.boardNum })" class="btn btn-primary">삭제하기</button>
+			</div>
 		</div>
 
 		<c:if test="${board.boardType == 'I' }">
 			<div id="reply_area">
-				댓글 : <input type="text" name="content">
-				<button type="button" id="add_reply_btn">댓글 작성</button>
-
+				<h3 class="text-primary-emphasis">댓글</h3>
+				
+				<div id="input_area">
+					<label for="reply">댓글</label>
+					<input type="text" id="reply" name="content" class="form-control">
+					<button type="button" id="add_reply_btn" class="btn btn-primary">댓글 작성</button>
+				</div>
+				
 				<div id="reply_list"></div>
 			</div>
 		</c:if>
-
 	</main>
+	
 	<c:import url="/WEB-INF/views/includes/footer.jsp" />
 
 	<script>
@@ -151,7 +251,7 @@
 			target.before(modInput);
 			
 			let modBtn = $("<button>");
-			modBtn.attr("type", "button")
+			modBtn.attr("type", "button").attr("class", "btn btn-primary")
 			.text("수정")
 			.on("click", function() {
 				let commentNum = Number($(this).parent().attr("id"));
@@ -159,6 +259,8 @@
 			});
 			
 			target.before(modBtn);
+			
+			$(obj).remove();
 		}
 		
 		function addReply(response) {
@@ -186,7 +288,7 @@
 				
 				if (response[i].usersId == '${board.usersId}') {
 					let modBtn = $("<button>");
-					modBtn.attr("type", "button")
+					modBtn.attr("type", "button").attr("class", "btn btn-primary").attr("id", "mod_btn")
 					.text("댓글 수정")
 					.on("click", function() {
 						let commentNum = Number($(this).parent().attr("id"));
@@ -197,7 +299,7 @@
 					reply.append(modBtn);
 					
 					let delBtn = $("<button>");
-					delBtn.attr("type", "button")
+					delBtn.attr("type", "button").attr("class", "btn btn-primary")
 					.text("댓글 삭제")
 					.on("click", function() {
 						let commentNum = Number($(this).parent().attr("id"));
