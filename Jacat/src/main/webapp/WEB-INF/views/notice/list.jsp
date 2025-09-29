@@ -113,7 +113,6 @@
 		}
 	footer {
 	    width: 100%;
-	    background-color: #f1f1f1;
 	    position: flexbox;
 	    bottom: 0;
 	    left: 0;
