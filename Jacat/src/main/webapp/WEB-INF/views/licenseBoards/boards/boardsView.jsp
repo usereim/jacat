@@ -7,6 +7,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${jmfldnm } ${boardTypeStr } 게시판 상세조회 페이지</title>
+		<style>
+			main{
+				/* height:750px; */
+			}
+		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
 			
@@ -295,11 +300,11 @@
 	<body>
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
-			<section id="licenseQnABoardSubtitleBox">
+			<section id="licenseBoardSubtitleBox">
 				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
 				<hr>
 			</section>
-			<section id="licenseQnABoardContentBox">
+			<section id="licenseBoardContentBox">
 				<div class="contentInfoBox">
 					<p class="contentTitle">${board.title }</p>
 					<p class="contentAuthor">${board.nick }</p>

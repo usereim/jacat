@@ -11,6 +11,7 @@
 			
 			#lListNavBox ul li{
 				width:20%;
+				list-style:none;
 				text-align:center;
 			}
 			

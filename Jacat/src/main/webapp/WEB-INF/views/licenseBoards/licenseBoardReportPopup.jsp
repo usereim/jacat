@@ -6,7 +6,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>게시글 신고하기</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 		<style>
+			h2{
+				margin:20px 0 40px;
+			}
 			section{
 				padding:10px 20px;
 				text-align:center;
@@ -22,7 +26,7 @@
 			}
 			#reportSubmitBtn{
 				width:40%;
-				height:30px;
+				height:40px;
 			}
 		</style>
 	</head>
@@ -50,7 +54,7 @@
 				</div>
 				<textarea name="etcOrExplanation" placeholder="기타 사유나 추가적인 설명을 적어주세요.(선택)" rows="3"></textarea>
 				<br>
-				<button type="submit" id="reportSubmitBtn">신고</button>
+				<button type="submit" id="reportSubmitBtn" class="btn btn-primary">신고</button>
 			</form>
 		</section>
 	</body>

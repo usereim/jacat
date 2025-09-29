@@ -7,9 +7,19 @@
 		<meta charset="UTF-8">
 		<title>${lListOne.jmfldnm } 상세정보</title>
 		<style>
-			#licenseNavBox{
-				
+			main{
+				height:750px;
 			}
+			#licenseNavBox{
+				display:flex;
+				align-items:center;
+			}
+			#licenseNavBox li{
+				width:20%;
+				list-style:none;
+				text-align:center;
+			}
+			
 		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
