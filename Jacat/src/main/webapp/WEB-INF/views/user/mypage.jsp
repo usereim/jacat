@@ -723,7 +723,7 @@
 							td = $("<td>").text(fav.jmfldnm);
 							tr.append(td);
 							
-							let button = $("<button>").attr("type", "button").text("관심자격증 해제")
+							let button = $("<button>").attr("type", "button").text("관심자격증 해제").attr("class", "btn btn-primary")
 							.on("click", {jmcd : fav.licenseListJmcd}, function(event) {
 								event.stopPropagation();
 								$.ajax({
