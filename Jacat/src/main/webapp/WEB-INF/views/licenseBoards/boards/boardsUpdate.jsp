@@ -7,11 +7,16 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${jmfldnm } ${boardTypeStr } 게시판 글 수정 페이지</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 		<style>
-			.imgPreview{
-				width:300px;
-				
-			}
+			.preview-img {
+		        max-width: 200px;
+		        max-height: 200px;
+		        margin-top: 10px;
+		        margin-right: 10px;
+		        border: 1px solid #ddd;
+		        padding: 2px;
+		    }
 		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
@@ -82,31 +87,31 @@
 				<hr>
 			</section>
 			<section id="licenseQnABoardUpdateContentBox">
-				<div class="contentBox">
+				<div class="contentBox" class="card-body">
 					<form 
 					action="<c:url value='/licenses/lists/${jmcd }/${boardType }/${board.boardNum}/update'/>" 
 					method="post" 
 					enctype="multipart/form-data">
-						<p class="writeTitleBox">
-							<label for="utitle">제목 : </label>
-							<input type="text" name="title" id="utitle" value="${board.title }">
-						</p>
-						<p class="updateContentBox">
-							<label for="ucontent">내용 : </label>
-							<textarea name="content" id="ucontent">${board.content }</textarea>
-						</p>
-						<p class="writeFileBox">
-							<input type="file" name="file" onchange="delExistFileFn">
+					<div class="writeTitleBox mb-3 row">
+						<label for="utitle" class="col-sm-2 col-form-label">제목 : </label>
+						<input type="text" name="title" id="utitle" value="${board.title }" class="form-control">
+					</div>
+					<div class="updateContentBox mb-3 row">
+						<label for="ucontent" class="col-sm-2 col-form-label">내용 : </label>
+						<textarea name="content" id="ucontent" class="form-control" rows="6">${board.content }</textarea>
+					</div>
+						<div class="writeFileBox" class="mb-3 row">
+							<input type="file" name="file" onchange="delExistFileFn" class="form-control">
 							<c:if test="${fn:contains(board.lFile.type, 'image' )}">
 								<img 
-								class="imgPreview"
+								class="preview-img"
 								width="80%"
 								alt="${board.lFile.realFileName }" 
 								src="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>"
 								>
 							</c:if>
-						</p>
-						<button type="submit" onsubmit="delExistFileFn()">수정</button>
+						</div>
+						<button type="submit" onsubmit="delExistFileFn()" class="btn btn-primary">수정</button>
 					</form>
 				</div>
 			</section>

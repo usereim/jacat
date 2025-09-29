@@ -13,6 +13,7 @@
 			#licenseBoardNavBox{
 				display:flex;
 				align-items:center;
+				justify-content:space-around;
 			}
 			#licenseBoardNavBox li{
 				width:20%;
@@ -62,8 +63,8 @@
 		    th:nth-child(5), td:nth-child(5) { width: 10%; text-align: center; }
 		    
 		    th {
-			    background-color: #2780e3; /* btn-primary 색상 */
-			    color: #ffffff; /* 흰색 글씨로 대비 */
+			    background-color: #2780e3;
+			    color: #ffffff;
 			    font-size: 15px;
 			    border-bottom: 2px solid #222;
 			}
@@ -105,7 +106,7 @@
 		
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<main>
-			<div id="licenseBoardSubtitleBox">
+			<section id="licenseBoardSubtitleBox">
 				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
 				<hr>
 				<ul id="licenseBoardNavBox" class="nav nav-underline">
@@ -122,9 +123,9 @@
 						<a href="<c:url value='/licenses/lists/${jmcd }/dataroom' />" class="nav-link">${jmfldnm } 자료실</a>
 					</li>
 				</ul>
-			</div>
+			</section>
 			<hr>
-			<div id="licenseBoardContentBox">
+			<section id="licenseBoardContentBox">
 				<table>
 					<thead>
 						<tr>
@@ -159,8 +160,8 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</div>
-			<div id="licenseBoardBtnBox">
+			</section>
+			<section id="licenseBoardBtnBox">
 				<c:choose>
 					<c:when test="${empty sessionScope.user }">
 					
@@ -169,7 +170,7 @@
 						<button type="button" onclick="moveWriteFn()" class="btn btn-primary">글쓰기</button>
 					</c:otherwise>
 				</c:choose>
-			</div>
+			</section>
 			<%-- 
 			<div id="licenseBoardPagenationBox">
 				<ul>

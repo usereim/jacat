@@ -283,6 +283,7 @@
 		 lc.parent_comment_num, lc.content,
  		 date_format(lc.w_date,'%Y-%m-%d') as w_date,
  		 date_format(lc.modify_date,'%Y-%m-%d') as modify_date,
+ 		 lc.delyn,
 		 u.nick 
 		 from license_comment lc, users u 
 		 where u.id = lc.users_id and comment_num = #{commentNum};

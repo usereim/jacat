@@ -13,10 +13,26 @@
 			justify-content:space-evenly;
 		}
 		main>section{
-			width:50%;
+			width:40%;
 		}
 		h2{
 			text-align:center;
+		}
+		ol{
+			border:1px solid #ddd;
+			border-radius:5px;
+		}
+		ol li{
+			font-size:25px;
+		}
+		h2 a{
+			text-decoration:none;
+		}
+		ol li a{
+			text-decoration:none;
+		}
+		ol li a:hover{
+			font-weight:bold;
 		}
 	</style>
 </head>

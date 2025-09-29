@@ -370,7 +370,7 @@ public class LicenseBoardsController {
 	//게시판 댓글 하나 조회
 	@RequestMapping(value="/lists/{jmcd}/{boardType}/{boardNum}/comment/read-one", method=RequestMethod.POST)
 	@ResponseBody
-	public LicenseBoardsCommentVO qnaBoardCommentReadOne(
+	public LicenseBoardsCommentVO BoardCommentReadOne(
 			@PathVariable("jmcd") String jmcd,
 			@PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum,

@@ -8,18 +8,63 @@
 		<title>${lListOne.jmfldnm } 상세정보</title>
 		<style>
 			main{
-				height:750px;
+				/* height:750px; */
+				/* margin:0 auto; */
 			}
+			#licenseInfosBox{
+				width:80%;
+				margin:0 auto;
+				
+			}
+			
 			#licenseNavBox{
 				display:flex;
 				align-items:center;
+				justify-content:space-around;
 			}
 			#licenseNavBox li{
 				width:20%;
 				list-style:none;
 				text-align:center;
 			}
-			
+			#licenseGeneralInfo{
+				margin-top:30px;
+			}
+			#licenseTestDateInfo{
+				margin-top:30px;
+			}
+		    table {
+		        width: 100%;
+		        border-collapse: collapse;
+		        font-size: 15px;
+		        table-layout: fixed;
+		        margin-top:20px;
+		    }
+		    th, td {
+		        border: 1px solid #222;
+		        padding: 10px 8px;
+		        line-height: 1.6;
+		        height: 40px;
+		        overflow: hidden;
+		        text-overflow: ellipsis;
+		        white-space: nowrap;
+		    }
+		    td:nth-child(1) { width: 30%; text-align: right; }
+		    td:nth-child(2) { width: 10%; text-align: center; }
+		    td:nth-child(3) { width: 60%; text-align: left; }
+		    
+		    table tr {
+		        border-bottom: 1px solid #ccc;
+		    }
+		    table tr:nth-child(even) {
+		        background-color: #f7f7f7;
+		    }
+		    .implSeqLine{
+		    	margin-bottom:20px;
+		    }
+		    .implSeqLine:last-child{
+		    	display:none;
+		    }
 		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
@@ -108,22 +153,49 @@
 						
 						</c:when>
 						<c:when test="${favoLi == 'N' }">
-							<button type="button" onclick="addLicenseFn()">관심자격증 추가</button>
+							<button type="button" onclick="addLicenseFn()" class="btn btn-primary">관심자격증 추가</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" onclick="delLicenseFn()">관심자격증 제거</button>
+							<button type="button" onclick="delLicenseFn()" class="btn btn-primary">관심자격증 제거</button>
 						</c:otherwise>
 					</c:choose>
 				</div>
 				<div id="licenseGeneralInfo">
-					<h3>${lListOne.jmfldnm} 기본정보</h3>
-					자격증 명 : ${lListOne.jmfldnm }<br>
-					자격구분 : ${lListOne.qualgbnm }<br>
-					계열 : ${lListOne.seriesnm }<br>
-					대직무분야 : ${lListOne.obligfldnm }<br>
-					중직무분야 : ${lListOne.mdobligfldnm }<br>
-					시행 기관 : ${lListOne.licensingAutority }<br>
+				<h3>${lListOne.jmfldnm} 기본정보</h3>
+					<table>
+						<tr>
+							<td>자격증 명</td>
+							<td> : </td>
+							<td>${lListOne.jmfldnm }</td>
+						</tr>
+						<tr>
+							<td>자격구분</td>
+							<td> : </td>
+							<td>${lListOne.qualgbnm }</td>
+						</tr>
+						<tr>
+							<td>계열</td>
+							<td> : </td>
+							<td>${lListOne.seriesnm }</td>
+						</tr>
+						<tr>
+							<td>대직무분야</td>
+							<td> : </td>
+							<td>${lListOne.obligfldnm }</td>
+						</tr>
+						<tr>
+							<td>중직무분야</td>
+							<td> : </td>
+							<td>${lListOne.mdobligfldnm }</td>
+						</tr>
+						<tr>
+							<td>시행 기관</td>
+							<td> : </td>
+							<td>${lListOne.licensingAutority }</td>
+						</tr>
+					</table>
 				</div>
+				
 				<!-- 
 				<div id="licenseTestInfo">
 					<h3>${lListOne.jmfldnm } 출제 과목</h3>
@@ -142,35 +214,80 @@
 						</c:choose>
 					</c:forEach>
 				</div>
+				
 				 -->
 				<div id="licenseTestDateInfo">
 					<h3>${lListOne.jmfldnm } 시험 일정</h3>
 					<c:forEach var="ltdi" items="${lListOne.lTestDate }">
-						<c:choose>
-							<c:when test = "${lTestDate.isEmpty() }">
-								바보
-							</c:when>
-							<c:otherwise>
-								<p>
-								시행 년도 : ${ltdi.implYy }<br>
-								회차 : ${ltdi.implSeq }<br>
-								설명 : ${ltdi.description }<br>
-								필기 원서접수일 : ${ltdi.docRegStartDt } ~ ${ltdi.docRegEndDt }<br>
-								<c:if test="${ltdi.docRegStartDt != ltdi.docRegStartVacancyDt && ltdi.docRegEndDt != ltdi.docRegEndVacancyDt}">
-									필기 빈자리접수일 : ${ltdi.docRegStartVacancyDt} ~ ${ltdi.docRegEndVacancyDt}<br>
-								</c:if>
-								필기 시험일 : ${ltdi.docExamStartDt } ~ ${ltdi.docExamEndDt }<br>
-								필기 합격자 발표일 : ${ltdi.docPassDt }<br>
-								실기 원서접수일 : ${ltdi.pracRegStartDt } ~ ${ltdi.pracRegEndDt }<br>
-								<c:if test="${ltdi.pracRegStartDt != ltdi.pracRegStartVacancyDt && ltdi.pracRegEndDt != ltdi.pracRegVacancyEndDt }">
-									실기 빈자리접수일 : ${ltdi.pracRegStartVacancyDt } ~ ${ltdi.pracRegVacancyEndDt }<br>
-								</c:if>
-								실기 시험일 : ${ltdi.pracExamStartDt } ~ ${ltdi.pracExamEndDt }<br>
-								합격자 발표일 : ${ltdi.pracPassDt }<br>
-								</p>
-							</c:otherwise>
-						</c:choose>
-					
+						<table>
+							<c:choose>
+								<c:when test = "${lTestDate.isEmpty() }">
+									
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td>시행 년도</td>
+										<td> : </td>
+										<td>${ltdi.implYy }</td>
+									</tr>
+									<tr>
+										<td>회차</td>
+										<td> : </td>
+										<td>${ltdi.implSeq }</td>
+									</tr>
+									<tr>
+										<td>설명</td>
+										<td> : </td>
+										<td>${ltdi.description }</td>
+									</tr>
+									<tr>
+										<td>필기 원서접수일</td>
+										<td> : </td>
+										<td>${ltdi.docRegStartDt } ~ ${ltdi.docRegEndDt }</td>
+									</tr>
+									<c:if test="${ltdi.docRegStartDt != ltdi.docRegStartVacancyDt && ltdi.docRegEndDt != ltdi.docRegEndVacancyDt}">
+										<tr>
+											<td>필기 빈자리접수일</td>
+											<td> : </td>
+											<td>${ltdi.docRegStartVacancyDt} ~ ${ltdi.docRegEndVacancyDt}</td>
+										</tr>
+									</c:if>
+									<tr>
+										<td>필기 시험일</td>
+										<td> : </td>
+										<td>${ltdi.docExamStartDt } ~ ${ltdi.docExamEndDt }</td>
+									</tr>
+									<tr>
+										<td>필기 합격자 발표일</td>
+										<td> : </td>
+										<td>${ltdi.docPassDt }</td>
+									</tr>
+									<tr>
+										<td>실기 원서접수일</td>
+										<td> : </td>
+										<td>${ltdi.pracRegStartDt } ~ ${ltdi.pracRegEndDt }</td>
+									</tr>
+									<c:if test="${ltdi.pracRegStartDt != ltdi.pracRegStartVacancyDt && ltdi.pracRegEndDt != ltdi.pracRegVacancyEndDt }">
+										<tr>
+											<td>실기 빈자리접수일</td>
+											<td> : </td>
+											<td>${ltdi.pracRegStartVacancyDt } ~ ${ltdi.pracRegVacancyEndDt }</td>
+										</tr>
+									</c:if>
+									<tr>
+										<td>실기 시험일</td>
+										<td> : </td>
+										<td>${ltdi.pracExamStartDt } ~ ${ltdi.pracExamEndDt }</td>
+									</tr>
+									<tr>
+										<td>합격자 발표일</td>
+										<td> : </td>
+										<td>${ltdi.pracPassDt }</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</table>
+						<hr class="implSeqLine">
 					</c:forEach>
 				</div>
 			</section>

@@ -11,6 +11,77 @@
 			main{
 				/* height:750px; */
 			}
+			#licenseBoardContentBox{
+				width:80%;
+				margin:0 auto;
+			}
+			/* #lboardContentBox{
+				height:50%;
+			} */
+			.board-info { 
+				padding: 15px; 
+				border: 1px solid #ddd; 
+				border-radius: 8px; 
+				margin-bottom: 20px; 
+				position: relative; 
+				}
+			.board-info div { 
+				margin-bottom: 10px; 
+				font-size: 16px; 
+				}
+			.file-preview img { 
+				max-width: 300px; 
+				margin-top: 5px; 
+			}
+			/*---------------------------------------*/
+		    .comment-box { 
+			    margin-bottom: 10px; 
+			    border-bottom: 1px solid #ddd; 
+			    padding: 10px; 
+			    border-radius: 5px; 
+		    }
+		    .ccomment-box { 
+			    margin-left: 40px; 
+			    margin-top: 5px; 
+			    padding: 10px; 
+			    border-left: 2px solid #ddd; 
+			    border-radius: 5px; 
+		    }
+		    /*---------------------------------------*/
+		    
+		    button, input[type=submit], input[type=button] { 
+		    	margin-top: 5px; 
+		    }
+		    #reportBtnBox{
+		    	position:absolute;
+		    	top:10px;
+		    	right:10px;
+		    }
+		    #contentInfoSubBox{
+		    	display:flex;
+		    	justify-content:space-between;
+		    }
+		    #contentTitle{
+		    	text-align:left;
+		    }
+			.parentsComment{
+				border:1px solid #ddd;
+			}
+			.childComments{
+				margin-left:50px;
+			}
+			.comments table{
+				width:100%;
+			}
+			.comments table tr{
+				display:flex;
+				border-bottom:1px solid #ddd;
+			}
+			.comments td:first-child{width:10%; text-aligh:right;}
+			.comments td:nth-child(2){width:40%; text-align:left;}
+			.comments td:nth-child(3){width:10%; text-align:center;}
+			.comments td:last-child{width:40%; text-align:right;}
+			
 		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
@@ -22,7 +93,7 @@
 		
 			//게시글 수정 이동 함수
 			function moveUpdateBoardFn(){
-				alert(jmcd+","+boardType+","+boardNum);
+				
 				location.href="<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/update'/>";
 				//console.log(jmcd);
 				//console.log(boardNum);
@@ -72,9 +143,12 @@
 				
 				let comment = $("input[name=comment]").val();
 				
+				let commentBox = $("input[name=comment]");
+				
 				if(commentLength > 1){
 				
 					comment = $("input[name=comment]").last().val();
+					commentBox = $("input[name=comment]").last();
 				
 				}
 				
@@ -100,34 +174,36 @@
 						alert("댓글 작성이 완료되었습니다.");
 						
 						let addCommentBox = "";
-						addCommentBox += "<div id='commentBox"+cvo.commentNum+"' class='comments'>";
-						addCommentBox += "	<ul>";
-						addCommentBox += "		<li>"+cvo.parentCommentNum+"</li>";
-						addCommentBox += "		<li>"+cvo.nick+"</li>";
-						addCommentBox += "		<li>"+cvo.content+"</li>";
-						addCommentBox += "		<li>"+cvo.wDate+"</li>";
-						addCommentBox += "		<li id='commentBtnBox"+cvo.commentNum+"'>";
+						addCommentBox += "<div id='commentBox"+cvo.commentNum+"' class='comments parentsComment'>";
+						addCommentBox += "	<table>";
+						addCommentBox += "		<tr>";
+						addCommentBox += "			<td>"+cvo.nick+"</td>";
+						addCommentBox += "			<td>"+cvo.content+"</td>";
+						addCommentBox += "			<td>"+cvo.wDate+"</td>";
+						addCommentBox += "			<td id='commentBtnBox"+cvo.commentNum+"'>";
 						
 						let loginYn = "${sessionScope.user}";
 						if(loginYn != null && cvo.parentCommentNum == 0){
-							addCommentBox += "<button type='button' onclick='childCommentWriteFn("+cvo.commentNum+")'>대댓글 작성</button>";
+							addCommentBox += "<button type='button' onclick='childCommentWriteFn("+cvo.commentNum+","+cvo.parentCommentNum+")' class='btn btn-primary'>대댓글 작성</button>";
 						}
 						//console.log(loginYn);
 						
 						let loginId = "${sessionScope.user.id}";
 						if(loginId == cvo.usersId){
-							addCommentBox += "<button type='button' onclick='commentUpdateInputFransformFn("+cvo.commentNum+")'>댓글 수정</button>";
-							addCommentBox += "<button type='button' onclick='commentDeleteFn("+cvo.commentNum+")'>댓글 삭제</button>";
+							addCommentBox += "<button type='button' onclick='commentUpdateInputFransformFn("+cvo.commentNum+")' class='btn btn-primary'>댓글 수정</button>";
+							addCommentBox += "<button type='button' onclick='commentDeleteFn("+cvo.commentNum+")' class='btn btn-primary'>댓글 삭제</button>";
 						}
 						
-						addCommentBox += "		</li>";
-						addCommentBox += "	</ul>";
+						addCommentBox += "			</td>";
+						addCommentBox == "		<tr>";
+						addCommentBox += "	</table>";
 						addCommentBox += "</div>";
 						
 						if(cvo.parentCommentNum == 0){
 							
-							$("#commentListsId").prepend(addCommentBox);
-							
+							$("#commentListsId").append(addCommentBox);
+							//console.log(commentBox);
+							commentBox.val("");
 						}
 						
 						else{
@@ -142,9 +218,6 @@
 					},
 					error : function(cvo){
 						
-						//console.log(comment);
-						//console.log(cvo);
-						//console.log(cvo.id);
 						alert("댓글 작성이 실패하였습니다.");
 					}
 				});
@@ -159,8 +232,8 @@
 				childCommentBox += "<div class='childCommentInputBox'>";
 				childCommentBox += "<label for='childCommentInput"+commentNum+"'>대댓글 작성 : </label>";
 				childCommentBox += "<input type='text' name='comment' id='childCommentInput"+commentNum+"'placeholder='대댓글을 작성하세요.'>";
-				childCommentBox += "<button type='button' onclick='commentWriteFn("+commentNum+")'>작성</button>";
-				childCommentBox += "<button type='button' onclick='commentInputRemoveFn()'>X</button>";
+				childCommentBox += "<button type='button' onclick='commentWriteFn("+commentNum+")' class='btn btn-primary'>작성</button>";
+				childCommentBox += "<button type='button' onclick='commentInputRemoveFn()' class='btn btn-primary'>X</button>";
 				childCommentBox += "</div>";
 				
 				let childCommentInputBox = $(".childCommentInputBox");
@@ -189,7 +262,7 @@
 				let commentLine = $("#commentLine"+commentNum);
 				let comment = $("#commentLine"+commentNum).val();
 				
-				let readComment;
+				let readComment = "";
 				let rurl = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/read-one'/>";
 				
 				
@@ -197,37 +270,59 @@
 					url : rurl,
 					type : "post",
 					data : {
-						"boardNum" : boardNum,
+						"licenseBoardsBoardNum" : boardNum,
 						"commentNum" : commentNum
 					},
 					success : function(cvo){
 						readComment = cvo.content;
-						console.log("데이터 읽기 성공!");
-						alert("댓글 수정에 성공하였습니다.");
+						$("#updateCommentInput"+commentNum).val(readComment);
+						//console.log("데이터 읽기 성공!");
+						//console.log(readComment);
+						//alert("댓글 수정에 성공하였습니다.");
 					},
 					error : function(){
 						console.log("데이터 읽기 실패..");
-						alert("댓글 수정에 실패하였습니다.");
+						//alert("댓글 수정에 실패하였습니다.");
 					}
 				});
-				
-				console.log(commentLine);
-				console.log(comment);
 				
 				let printInputTag = "";
 				printInputTag += "<label for='updateCommentInput"+commentNum+"'>댓글 수정 : </label>";
 				printInputTag += "<input type='text' name='commentUpdate' id='updateCommentInput"+commentNum+"' value='"+readComment+"'>";
-				printInputTag += "<button type='button' onclick='commentUpdateFn("+commentNum+")'>수정완료</button>";
-				printInputTag += "<button type='button' onclick='updateCommentInputRemoveBtnFn()'>X</button>"
+				printInputTag += "<button type='button' onclick='commentUpdateFn("+commentNum+")' class='btn btn-primary'>수정완료</button>";
+				printInputTag += "<button type='button' onclick='updateCommentInputRemoveBtnFn("+commentNum+")' class='btn btn-primary'>X</button>"
 				
 				commentLine.html("");
 				commentLine.html(printInputTag);
-				
+				//console.log("??");
 			}
 			
 			//댓글 수정 입력폼 제거 함수
-			function updateCommentInputRemoveBtnFn(){
+			function updateCommentInputRemoveBtnFn(commentNum){
 				
+				let rurl = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/read-one'/>";
+				let commentLine = $("#commentLine"+commentNum);
+				
+				let commentTag = "";
+				commentTag += "<table>";
+				commentTag += "<tr>";
+				commentTag += "<td>";
+				commentTag += "";
+				commentTag += "";
+				
+				$.ajax({
+					url : rurl,
+					type : "post",
+					data : {
+							"commentNum" : commentNum
+					},
+					success : function(cvo){
+						commentLine.html(cvo.content);
+					},
+					error : function(cvo){
+						
+					}
+				});
 			}
 			
 			//댓글 수정 함수
@@ -235,7 +330,7 @@
 				
 				let upurl = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/update'/>"
 				let commentLine = $("#commentLine"+commentNum);
-				let comment = $("#commentLine"+commentNum).val();
+				let comment = $("#updateCommentInput"+commentNum).val();
 				console.log(commentLine);
 				console.log(comment);
 				
@@ -263,6 +358,7 @@
 				let commentDeleteYn = confirm("댓글을 삭제하시겠습니까?");
 				
 				if(commentDeleteYn){
+					let commentBox = $("#commentBox"+commentNum);
 
 					let url = "<c:url value='/licenses/lists/"+jmcd+"/"+boardType+"/"+boardNum+"/comment/delete'/>";
 					console.log(url);
@@ -275,6 +371,7 @@
 						success : function(res){
 							if(res == 1){
 								alert("댓글 삭제에 성공하였습니다.");
+								commentBox.remove();
 							}
 							else{
 								alert("댓글 삭제에 실패하였습니다.");
@@ -304,24 +401,35 @@
 				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
 				<hr>
 			</section>
-			<section id="licenseBoardContentBox">
+			<section id="licenseBoardContentBox" class="board-info">
 				<div class="contentInfoBox">
-					<p class="contentTitle">${board.title }</p>
-					<p class="contentAuthor">${board.nick }</p>
-					<p class="contentWDate">${board.wDate }</p>
-					<p class="contentVisitCount">${board.visitCount }</p>
+					<c:if test="${sessionScope.user.id != board.usersId && not empty sessionScope.user}">
+						<div class="reportBtnBox" id="reportBtnBox">
+							<button type="button" onclick="reportPopupFn()" class="btn btn-primary">신고하기</button>
+						</div>
+					</c:if>
+					<h3 id="contentTitle"><span>제목 : </span>${board.title }</h3>
+					<hr>
+					<div id="contentInfoSubBox">
+						<div class="contentAuthor"><span>작성자 : </span>${board.nick }</div>
+						<div class="contentWDate"><span>작성일 : </span>${board.wDate }</div>
+						<div class="contentVisitCount"><span>조회수 : </span>${board.visitCount }</div>
+					</div>
 				</div>
-				<div class="contentBox">
-					<p class="content">
+				<hr>
+				<div class="contentBox" >
+					<div class="content" id="lboardContentBox">
 						${board.content }
-					</p>
+					</div>
 				</div>
-				<div class="fileBox">
+				<hr>
+				<div class="fileBox file-preview">
 					<h3 class="fileSubtitle">파일</h3>
 					<%--<c:forEach var="lfile" items="${board.lFile }">--%>
 						<p class="files">
 							<a download="${board.lFile.realFileName }" 
-								href="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>">
+								href="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>"
+								class="img-fluid mt-2">
 								${board.lFile.realFileName }
 							</a><br>
 						</p>
@@ -337,66 +445,90 @@
 				<hr>
 				<c:if test="${sessionScope.user.id == board.usersId}">
 					<div class="updateDeleteBtnBox">
-						<button type="button" onclick="moveUpdateBoardFn()">글 수정하기</button>
-						<button type="button" onclick="deleteYnConfirmFn()">글 삭제하기</button>
-					</div>
-					<hr>
-				</c:if>
-				<c:if test="${sessionScope.user.id != board.usersId && not empty sessionScope.user}">
-					<div class="reportBtnBox">
-						<button type="button" onclick="reportPopupFn()">신고하기</button>
+						<button type="button" onclick="moveUpdateBoardFn()" class="btn btn-primary">글 수정하기</button>
+						<button type="button" onclick="deleteYnConfirmFn()" class="btn btn-primary">글 삭제하기</button>
 					</div>
 					<hr>
 				</c:if>
 				<div class="commentBox">
 					<h3 class="commentSubtitle">댓글</h3>
-					<c:choose>
-						<c:when test="${empty sessionScope.user }">
-							
-						</c:when>
-						<c:otherwise>
-							<div class="commentWrite">
-								<label for="commentInput">댓글 작성 : </label>
-								<input type="text" name="comment" id="commentInput" placeholder="댓글을 작성하세요.">
-								<button type="button" onclick="commentWriteFn(0)">작성</button>
-							</div>
-							<hr>
-						</c:otherwise>
-					</c:choose>
+					
+					<c:if test="${not empty sessionScope.user }">
+						<div class="commentWrite">
+							<label for="commentInput">댓글 작성 : </label>
+							<input type="text" name="comment" id="commentInput" placeholder="댓글을 작성하세요.">
+							<button type="button" onclick="commentWriteFn(0)" class="btn btn-primary">작성</button>
+						</div>
+						<hr>
+					</c:if>
+					
 					<div id="commentListsId" class="commentLists">
 						<c:forEach var="i" items="${board.lComment }">
-						<c:choose>
-							<c:when test="${i.parentCommentNum != 0 }">
-								
-							</c:when>
-							<c:otherwise>
-								
-							</c:otherwise>
-						</c:choose>
-							<div id="commentBox${i.commentNum }" class="comments">
-								<ul>
-									<li>${i.commentNum }</li>
-									<li>${i.parentCommentNum }</li>
-									<li>${i.nick }</li>
-									<li id="commentLine${i.commentNum }">${i.content }</li>
-									<li>${i.wDate }</li>
-									<li id="commentBtnBox${i.commentNum }">
-										<c:if test="${not empty sessionScope && i.parentCommentNum == 0 }">
-											<button type="button" onclick="childCommentWriteFn(${i.commentNum})">대댓글 작성</button>
-										</c:if>
+							<c:if test="${not empty i.content && i.parentCommentNum == 0}">
+								<%-- <c:if test="${i.parentCommentNum == 0 }"> --%>
+									<div id="commentBox${i.commentNum }" class="comments parentsComment">
+										<table>
+											<tr>
+												<%-- <li>${i.commentNum }</li> --%>
+												<%-- <li>${i.parentCommentNum }</li> --%>
+												<td>${i.nick }</td>
+												<td id="commentLine${i.commentNum }">${i.content }</td>
+												<td>${i.wDate }</td>
+												<td id="commentBtnBox${i.commentNum }">
+													<c:if test="${not empty sessionScope && i.parentCommentNum == 0 }">
+														<button 
+															type="button" 
+															onclick="childCommentWriteFn(${i.commentNum})" 
+															class="btn btn-primary"
+														>대댓글 작성</button>
+														<c:if test="${sessionScope.user.id == i.usersId}">
+															<button 
+															type="button" 
+															onclick="commentUpdateInputFransformFn(${i.commentNum})"
+															 class="btn btn-primary">댓글 수정</button>
+															<button 
+															type="button" 
+															onclick="commentDeleteFn(${i.commentNum})"
+															 class="btn btn-primary">댓글 삭제</button>
+														</c:if>
+													</c:if>
+												</td>
+											</tr>
+										</table>
 										
-										<c:if test="${sessionScope.user.id == i.usersId}">
-												<button type="button" onclick="commentUpdateInputFransformFn(${i.commentNum})">댓글 수정</button>
-												<button type="button" onclick="commentDeleteFn(${i.commentNum})">댓글 삭제</button>
-										</c:if>
-										
-									</li>
-								</ul>
-							</div>
+										<c:forEach var="j" items="${board.lComment }">
+											<c:if test="${j.parentCommentNum == i.commentNum }">
+												<div id="commentBox${j.commentNum }" class="comments childComments">
+													<table>
+														<tr>
+															<%-- <li>${j.commentNum }</li> --%>
+															<%-- <li>${j.parentCommentNum }</li> --%>
+															<td>${j.nick }</td>
+															<td id="commentLine${j.commentNum }">${j.content }</td>
+															<td>${i.wDate }</td>
+															<td id="commentBtnBox${j.commentNum }">
+																<c:if test="${sessionScope.user.id == j.usersId}">
+																	<button 
+																	type="button" 
+																	onclick="commentUpdateInputFransformFn(${j.commentNum})"
+																	 class="btn btn-primary">댓글 수정</button>
+																	<button 
+																	type="button" 
+																	onclick="commentDeleteFn(${j.commentNum})"
+																	 class="btn btn-primary">댓글 삭제</button>
+																</c:if>
+															</td>
+														</tr>
+													</table>
+												</div>
+											</c:if>
+										</c:forEach>
+									</div>
+								</c:if>
+							<%-- </c:if> --%>					
 						</c:forEach>
 					</div>
 				</div>
-				
 			</section>
 		</main>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>

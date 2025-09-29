@@ -6,6 +6,20 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${boardTypeStr } 게시글 작성</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			#licenseBoardWriteContentBox{
+				width:80%:
+			}
+			.preview-img {
+		        max-width: 200px;
+		        max-height: 200px;
+		        margin-top: 10px;
+		        margin-right: 10px;
+		        border: 1px solid #ddd;
+		        padding: 2px;
+		    }
+		</style>
 		<script src="<c:url value='/resources/js/jquery-3.7.1.min.js'/>"></script>
 		<script>
 			
@@ -52,31 +66,31 @@
 	</head>
 	<body>
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
-		<main>
+		<main class="container mt-4">
 			<section id="licenseQnABoardWriteSubtitleBox">
 				<h2>${jmfldnm } ${boardTypeStr } 게시판</h2>
-				<h3>새글작성</h3>
+				<h3>새 글 작성</h3>
 				<hr>
 			</section>
-			<section id="licenseQnABoardWriteContentBox">
-				<div class="contentBox">
+			<section id="licenseBoardWriteContentBox">
+				<div class="contentBox" class="card-body">
 					<form 
 						action="<c:url value='/licenses/lists/${jmcd }/${boardType }/write'/>" 
 						method="post" 
 						enctype="multipart/form-data">
 						
-						<p class="writeTitleBox">
-							<label for="wtitle">제목 : </label>
-							<input type="text" name="title" id="wtitle">
-						</p>
-						<p class="writeContentBox">
-							<label for="wcontent">내용 : </label>
-							<textarea name="content" id="wcontent"></textarea>
-						</p>
-						<p class="writeFileBox">
-							<input type="file" name="file" onchange="fileTypeValidateFn(this)">
-						</p>
-						<button type="submit">작성</button>
+						<div class="writeTitleBox mb-3 row">
+							<label for="wtitle" class="col-sm-2 col-form-label">제목 : </label>
+							<input type="text" name="title" id="wtitle" class="form-control" >
+						</div>
+						<div class="writeContentBox mb-3 row">
+							<label for="wcontent" class="col-sm-2 col-form-label">내용 : </label>
+							<textarea name="content" id="wcontent" class="form-control" rows="6"></textarea>
+						</div>
+						<div class="writeFileBox" class="mb-3 row">
+							<input type="file" name="file" onchange="fileTypeValidateFn(this)" class="form-control">
+						</div>
+						<button type="submit" class="btn btn-primary">작성</button>
 					</form>
 				</div>
 			</section>
