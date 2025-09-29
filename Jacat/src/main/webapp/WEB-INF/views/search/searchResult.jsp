@@ -6,52 +6,66 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>통합검색</title>
+<style>
+    .container {
+        max-width: 1000px; /* list.jsp, view.jsp와 동일 사이즈 */
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    /* 결과 리스트 */
+    .search-result {
+        border-bottom: 1px solid #ddd;
+        padding: 15px 0;
+    }
+    .search-result a {
+        font-weight: bold;
+        font-size: 16px;
+        text-decoration: none;
+        color: #333;
+    }
+    .search-result a:hover {
+        color: #007bff;
+    }
+    .search-result p {
+        margin-top: 5px;
+        color: #555;
+        font-size: 14px;
+    }
+</style>
 </head>
 <body>
-<h2>검색 결과</h2>
+<c:import url="/WEB-INF/views/includes/header.jsp"/>
+<main class="container">
 
-<!-- 검색창 -->
-<form action="${pageContext.request.contextPath}/search/result" onsubmit="return validateSearch();" method="get">
-    <input type="text" id="searchBox" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
-    <button type="submit">검색</button>
-</form>
-
-<hr>
-
-<!-- 결과 출력 -->
-<c:if test="${empty result}">
-    <p>검색 결과가 없습니다.</p>
-</c:if>
-
-<c:forEach var="item" items="${result}">
-     <div>
-        <c:choose>
-            <c:when test="${item.jmcd != null}">
-                <a href="<c:url value='/licenses/lists/${item.jmcd}'/>">
-                    <strong>${item.title}</strong>
-                </a>
-            </c:when>
-            <c:otherwise>
-                <a href="<c:url value='/freeboard/boards/${item.boardNum}'/>">
-                    <strong>${item.title}</strong>
-                </a>
-            </c:otherwise>
-        </c:choose>
-        <br>
-        ${item.content}<br>
-    </div>
+    <h2>통합 검색</h2>
+    
     <hr>
-</c:forEach>
+
+    <!-- 결과 출력 -->
+    <c:if test="${empty result}">
+        <p>검색 결과가 없습니다.</p>
+    </c:if>
+
+    <c:forEach var="item" items="${result}">
+        <div class="search-result">
+            <c:choose>
+                <c:when test="${item.jmcd != null}">
+                    <a href="<c:url value='/licenses/lists/${item.jmcd}'/>">
+                        ${item.title}
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="<c:url value='/freeboard/boards/${item.boardNum}'/>">
+                        ${item.title}
+                    </a>
+                </c:otherwise>
+            </c:choose>
+            <p>${fn:substring(item.content, 0, 120)}...</p>
+        </div>
+    </c:forEach>
+</main>
+<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 </body>
-	<script>
-	function validateSearch() {
-    const keyword = document.getElementById("searchBox").value.trim();
-    if (keyword === "") {
-        alert("검색어를 입력해주세요.");
-        return false; // submit 중단
-    	}
-    return true; // 정상 제출
-	}
-	</script>
 </html>
