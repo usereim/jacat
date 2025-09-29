@@ -60,11 +60,6 @@
 				<input class="btn btn-primary" type="submit" value="삭제" >
 			</form>
 		</c:if>
-		
-		<!-- 선택 삭제 버튼 오른쪽 아래 -->
-    <div style="text-align: right; margin-top: 10px;">
-        <button type="button" onclick="deleteSelectedComments()" class="btn btn-primary btn-sm">선택 삭제</button>
-    </div>
 	</main>
 </body>
 <footer>
