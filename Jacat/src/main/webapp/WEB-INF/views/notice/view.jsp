@@ -67,7 +67,9 @@
     </div>
 	</main>
 </body>
+<footer>
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
+</footer>
 <script>
 	function moveModifyPage(bno){
 		location.href="${pageContext.request.contextPath}/notice/modify/"+bno;

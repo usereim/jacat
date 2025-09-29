@@ -29,15 +29,16 @@
 		<hr>
 		<form action="<c:url value="/notice/write" />" method="post" enctype="multipart/form-data">
 			제목 <input name="title" class="form-control form-control-sm" type="text" placeholder="제목을 입력하세요."><br>
-			본문 <input id=content class="form-control form-control-sm" type="text"><br>
+			본문 <input id="content" name=content class="form-control form-control-sm" type="text"><br>
 			첨부파일 <input type="file" name="files" multiple class="btn btn-outline-primary"
 					class="form-control form-control-sm"><br>
 			<input type="submit" value="등록하기" class="form-control form-control-sm">
 		</form>
 	</main>
 </body>
+<footer>
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
-	
+</footer>
 	<script>
     // 이미지 선택 시 미리보기
     $("#file").on("change", function() {

@@ -8,40 +8,40 @@
 		<style>
 		#footerSection{
 		overflow-wrap: break-word;
+		background-color : rgb(84 165 255);
 		}
+		
 		#footerCompanyInfoBox{
 		height :50px;
 		}
+		
 		#footerTeamInfo{
 			text-align : center;
-			margin : 5px;
 		}
+		
 		footer{
-		height :100px;
+		height :80px;
+	    width: 100%;
+	    position: flexbox;
+	    bottom: 0;
+	    left: 0;
+	    text-align: center;
+	    line-height: 80px;
+	    
+		}
+		
+		p{
+		margin-top: -20px;
+	    margin-bottom: -20px;
 		}
 		</style>
 	</head>
 	<body>
 		<footer>
-			<section id="footerSection" class="bg-primary" data-bs-theme="dark">
-				<div id="footerCompanyInfoBox">
-					<span>
-						&copy; 이젠 IT 아카데미 / A팀(자캣)
-					</span>
-					<span>
-						전북 전주시 덕진구 백제대로 572 5층
-					</span>
-					<br>
-					<span>김철호</span>
-					<span>김정준</span>
-					<span>정태양</span>
-					<span>조윤성</span>
-					<br>
-				<div id="footerTeamInfo">			
-					
-				</div>
-				</div>
-			</section>
+			<div id="footerSection" class="bg-primary" data-bs-theme="dark">
+					<p>&copy; 이젠 IT 아카데미 / A팀(자캣) 전북 전주시 덕진구 백제대로 572 5층</p>
+					<p>김철호,김정준,정태양,조윤성</p>
+			</div>
 		</footer>
 	</body>
 </html>

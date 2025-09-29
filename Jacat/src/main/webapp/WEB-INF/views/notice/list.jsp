@@ -113,9 +113,8 @@
 		}
 	footer {
 	    width: 100%;
-	    height: 80px; /* 원하는 높이 */
 	    background-color: #f1f1f1;
-	    position: fixed;
+	    position: flexbox;
 	    bottom: 0;
 	    left: 0;
 	    text-align: center;
@@ -131,7 +130,6 @@
 	<hr>
 		<table>
 		<tr class="text-primary-emphasis">
-			<th>게시글 번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
@@ -141,10 +139,9 @@
 				<td>
 						<!-- 리스트에서 게시글 클릭시 넘어가는 url  -->
 					<a href="<c:url value="/notice/boards/${noticeboard.boardNum}" />">
-						${noticeboard.boardNum}
+						${noticeboard.title} 
 					</a>
 				</td> 
-				<td>${noticeboard.title}</td>
 				<td>${noticeboard.usersId}</td>
 				<td>${noticeboard.wDate}</td>
 			</tr>
@@ -161,5 +158,7 @@
             </c:if>
 	</main>
 </body>
-<c:import url="/WEB-INF/views/includes/footer.jsp"/>
+<footer>
+	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
+</footer>
 </html>
