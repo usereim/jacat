@@ -8,12 +8,12 @@
 	<title>자격증 정보의 모든 것! 자캣</title>
 	<style>
 		main{
-			height:70vh;
+			height:750px;
 			display:flex;
 			justify-content:space-evenly;
 		}
-		main>div{
-			width:40vw;
+		main>section{
+			width:50%;
 		}
 		h2{
 			text-align:center;
@@ -23,8 +23,8 @@
 <body>
 	<c:import url="/WEB-INF/views/includes/header.jsp"/>
 	<main>
-		<div>
-			<h2>2025년 인기 자격증</h2>
+		<section>
+			<h2>${nowYear }년 인기 자격증</h2>
 			<ol>
 				<c:forEach var="lList" items="${lList}" end="9">
 					<li>
@@ -32,8 +32,8 @@
 					</li>
 				</c:forEach>
 			</ol>
-		</div>
-		<div>
+		</section>
+		<section>
 			<h2><a href="<c:url value='/notice/list'/>">공지사항</a></h2>
 			<ol>
 				<c:forEach var="nList" items="${nList }" end="9">
@@ -42,7 +42,7 @@
 					</li>
 				</c:forEach>
 			</ol>
-		</div>
+		</section>
 	</main>
 	<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 </body>
