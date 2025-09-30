@@ -462,8 +462,8 @@ public class LicenseBoardsController {
 		
 		LicenseBoardsVO vo = lboardService.selectLicenseBoardOne(boardNum);
 		
-		//logger.info("vo : "+vo);
-		//logger.info("user : "+user);
+		logger.info("vo : {}",vo);
+		logger.info("user : {}",user);
 		
 		if(user != null) {
 			if(!(user.getId().equals(vo.getUsersId()))) {

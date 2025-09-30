@@ -84,7 +84,7 @@
 					success : function(result){
 						alert("관심자격증 등록이 완료되었습니다.");
 						
-						let delBtn = "<button type='button' onclick='delLicenseFn()'>관심자격증 제거</button>";
+						let delBtn = "<button type='button' onclick='delLicenseFn()' class='btn btn-primary'>관심자격증 제거</button>";
 						let favoBtnBox = $("#licenseFavoBtnBox");
 						
 						favoBtnBox.html("");
@@ -110,7 +110,7 @@
 					success : function(result){
 						alert("관심자격증 해제가 완료되었습니다.");
 						
-						let addBtn = "<button type='button' onclick='addLicenseFn()'>관심자격증 추가</button>";
+						let addBtn = "<button type='button' onclick='addLicenseFn()' class='btn btn-primary'>관심자격증 추가</button>";
 						let favoBtnBox = $("#licenseFavoBtnBox");
 						
 						favoBtnBox.html("");
@@ -202,7 +202,7 @@
 					<c:forEach var="lt" items="${lListOne.lTest }">
 						<c:choose>
 							<c:when test="${lTest.isEmpty() }">
-								바부
+								
 							</c:when>
 							<c:otherwise>
 								과목명 : ${lListOne.lTest }<br>
@@ -245,7 +245,7 @@
 										<td> : </td>
 										<td>${ltdi.docRegStartDt } ~ ${ltdi.docRegEndDt }</td>
 									</tr>
-									<c:if test="${ltdi.docRegStartDt != ltdi.docRegStartVacancyDt && ltdi.docRegEndDt != ltdi.docRegEndVacancyDt}">
+									<c:if test="${ltdi.docRegStartVacancyDt != null && ltdi.docRegEndVacancyDt != null && ltdi.docRegStartDt != ltdi.docRegStartVacancyDt && ltdi.docRegEndDt != ltdi.docRegEndVacancyDt}">
 										<tr>
 											<td>필기 빈자리접수일</td>
 											<td> : </td>

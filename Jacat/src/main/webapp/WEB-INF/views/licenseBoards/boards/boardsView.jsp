@@ -139,6 +139,14 @@
 			//댓글 작성 함수
 			function commentWriteFn(parentCommentNum){
 				
+				let commentGrade = "";
+				if(parentCommentNum == 0){
+					commentGrade = "parents";
+				}
+				else{
+					commentGrade = "child";
+				}
+				
 				let commentLength = $("input[name=comment]").length;
 				
 				let comment = $("input[name=comment]").val();
@@ -174,7 +182,7 @@
 						alert("댓글 작성이 완료되었습니다.");
 						
 						let addCommentBox = "";
-						addCommentBox += "<div id='commentBox"+cvo.commentNum+"' class='comments parentsComment'>";
+						addCommentBox += "<div id='commentBox"+cvo.commentNum+"' class='comments "+commentGrade+"Comments'>";
 						addCommentBox += "	<table>";
 						addCommentBox += "		<tr>";
 						addCommentBox += "			<td>"+cvo.nick+"</td>";
@@ -204,6 +212,10 @@
 							$("#commentListsId").append(addCommentBox);
 							//console.log(commentBox);
 							commentBox.val("");
+							$("#childCommentInput").val("");
+							if(parentCommentNum != 0){
+								commentInputRemoveFn();
+							}
 						}
 						
 						else{
@@ -213,7 +225,7 @@
 							addChildCommentBox.append(addCommentBox);
 							
 						}
-						$("#childCommentInput").val("");
+						
 						
 					},
 					error : function(cvo){
@@ -426,17 +438,17 @@
 				<div class="fileBox file-preview">
 					<h3 class="fileSubtitle">파일</h3>
 					<%--<c:forEach var="lfile" items="${board.lFile }">--%>
-						<p class="files">
+						<div class="files">
 							<a download="${board.lFile.realFileName }" 
 								href="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>"
 								class="img-fluid mt-2">
 								${board.lFile.realFileName }
 							</a><br>
-						</p>
+						</div>
 						<c:if test="${fn:contains(board.lFile.type, 'image')}">
 							<img 
 							class="imgPreview"
-							width="80%" 
+							
 							alt="${board.lFile.realFileName }" 
 							src="<c:url value='/uploads/licenses/boards/files/${board.boardNum }/${board.lFile.fileName }'/>">
 						</c:if>
