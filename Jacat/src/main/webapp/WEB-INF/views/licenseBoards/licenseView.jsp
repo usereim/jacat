@@ -262,28 +262,34 @@
 										<td> : </td>
 										<td>${ltdi.docPassDt }</td>
 									</tr>
-									<tr>
-										<td>실기 원서접수일</td>
-										<td> : </td>
-										<td>${ltdi.pracRegStartDt } ~ ${ltdi.pracRegEndDt }</td>
-									</tr>
-									<c:if test="${ltdi.pracRegStartDt != ltdi.pracRegStartVacancyDt && ltdi.pracRegEndDt != ltdi.pracRegVacancyEndDt }">
+									<c:if test="${not empty ltdi.pracRegStartDt }">
 										<tr>
-											<td>실기 빈자리접수일</td>
+											<td>실기 원서접수일</td>
 											<td> : </td>
-											<td>${ltdi.pracRegStartVacancyDt } ~ ${ltdi.pracRegVacancyEndDt }</td>
+											<td>${ltdi.pracRegStartDt } ~ ${ltdi.pracRegEndDt }</td>
+										</tr>
+										<c:if test="${ltdi.pracRegStartDt != ltdi.pracRegStartVacancyDt && ltdi.pracRegEndDt != ltdi.pracRegVacancyEndDt }">
+											<tr>
+												<td>실기 빈자리접수일</td>
+												<td> : </td>
+												<td>${ltdi.pracRegStartVacancyDt } ~ ${ltdi.pracRegVacancyEndDt }</td>
+											</tr>
+										</c:if>
+									</c:if>
+									<c:if test="${not empty ltdi.pracExamStartDt }">
+										<tr>
+											<td>실기 시험일</td>
+											<td> : </td>
+											<td>${ltdi.pracExamStartDt } ~ ${ltdi.pracExamEndDt }</td>
 										</tr>
 									</c:if>
-									<tr>
-										<td>실기 시험일</td>
-										<td> : </td>
-										<td>${ltdi.pracExamStartDt } ~ ${ltdi.pracExamEndDt }</td>
-									</tr>
-									<tr>
-										<td>합격자 발표일</td>
-										<td> : </td>
-										<td>${ltdi.pracPassDt }</td>
-									</tr>
+									<c:if test="${not empty ltdi.pracPassDt }">
+										<tr>
+											<td>합격자 발표일</td>
+											<td> : </td>
+											<td>${ltdi.pracPassDt }</td>
+										</tr>
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 						</table>

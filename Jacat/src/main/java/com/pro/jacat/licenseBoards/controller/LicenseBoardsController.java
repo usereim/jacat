@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pro.jacat.HomeController;
+import com.pro.jacat.licenseBoards.service.LicenseBoardsService;
 import com.pro.jacat.licenseBoards.service.LicenseBoardsServiceImpl;
 import com.pro.jacat.licenseBoards.vo.FileLicenseBoardVO;
 import com.pro.jacat.licenseBoards.vo.LicenseBoardReportVO;
@@ -39,20 +40,23 @@ public class LicenseBoardsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LicenseBoardsController.class);
 	
-	private final LicenseBoardsServiceImpl lboardService;
+	private final LicenseBoardsService lboardService;
 	
 	@Autowired
-	public LicenseBoardsController(LicenseBoardsServiceImpl lboardService) {
+	public LicenseBoardsController(LicenseBoardsService lboardService) {
 		//super();
 		this.lboardService = lboardService;
 	}
 
 	//자격증 목록
 	@RequestMapping(value="/lists", method=RequestMethod.GET)
-	public String licenseInfo(Model model) {
+	public String licenseInfo(
+			Model model,
+			LicenseListVO vo
+			) {
 		
 		
-		List<LicenseListVO> list = lboardService.selectLicenseLists();
+		List<LicenseListVO> list = lboardService.selectAllLicenseLists(vo);
 		
 		model.addAttribute("lList",list);
 		
@@ -80,7 +84,11 @@ public class LicenseBoardsController {
 			model.addAttribute("favoLi", favoriteLicenseYN);
 		}
 		
-		
+		/*
+		 * logger.info("1 {}",vo.getlTestDate());
+		 * logger.info("2 {}",vo.getlTestDate().get(0));
+		 * logger.info("3 {}",vo.getlTestDate().get(0).getPracExamStartDt());
+		 */
 		
 		model.addAttribute("jmcd",jmcd);
 		model.addAttribute("lListOne",vo);

@@ -53,7 +53,7 @@ public class HomeController {
 		
 		String nowYear = homeService.getNowYear();
 		List<NoticeBoardVO> nvo = nBoardService.selectAllNoticeBoard();
-		List<LicenseListVO> lvo = lboardService.selectLicenseLists();
+		List<LicenseListVO> lvo = lboardService.selectAllLicenseLists();
 		
 		model.addAttribute("nowYear", nowYear);
 		model.addAttribute("nList", nvo);

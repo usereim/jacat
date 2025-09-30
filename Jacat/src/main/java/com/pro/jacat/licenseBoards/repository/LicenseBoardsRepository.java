@@ -28,9 +28,22 @@ public class LicenseBoardsRepository {
 	}
 	
 	//자격증 목록조회
-	public List<LicenseListVO> selectLicenseLists() {
-		return template.selectList("licenseBoardMapper.selectLicenseLists");
+	public List<LicenseListVO> selectAllLicenseLists() {
+		return template.selectList("licenseBoardMapper.selectAllLicenseLists");
 	}
+	//자격증 목록조회(수정)
+	public List<LicenseListVO> selectAllLicenseLists(LicenseListVO vo) {
+		return template.selectList("licenseBoardMapper.selectAllLicenseLists2", vo);
+	}
+	//국가기술자격/전문자격 리스트 조회
+	public List<LicenseListVO> selectTechOrProQualLicenseList(String qualgbcd){
+		return template.selectList("licenseBoardMapper.selectTechOrProQualLicenseList",qualgbcd);
+	}
+	//국가기술자격 등급별 리스트 조회
+	public List<LicenseListVO> selectTechQualGradeLicenseList(String seriescd){
+		return template.selectList("licenseBoardMapper.selectTechQualGradeLicenseList",seriescd);
+	}
+	
 	//자격증 상세조회
 	public LicenseListVO selectLicenseOne(String jmcd) {
 		return template.selectOne("licenseBoardMapper.selectLicenseOne",jmcd);

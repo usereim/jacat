@@ -99,10 +99,32 @@
 	</resultMap>
 	
 	<!-- 자격증 리스트 조회 -->
-	<select id="selectLicenseLists" resultType="lList">
+	<select id="selectAllLicenseLists" resultType="lList">
 		select ll.* from license_list ll
-		 order by ll.seriescd asc , ll.jmfldnm asc
-		 limit 50;
+		 order by ll.seriescd asc , ll.jmfldnm asc;
+	</select>
+	<!-- 자격증 리스트 조회 (수정) -->
+	<select id="selectAllLicenseLists2" parameterType="lList" resultType="lList">
+		select ll.* from license_list ll
+		<where>
+			<if test="seriescd != null and !seriescd.equals('') ">
+				and ll.seriescd = #{seriescd}
+			</if>
+			<if test="qualgbcd != null and !qualgbcd.equals('')">
+				and ll.qualgbcd = #{qualgbcd}
+			</if>
+		</where>
+		order by ll.seriescd asc , ll.jmfldnm asc;
+	</select>
+	
+	<!-- 국가기술자격/전문자격 리스트 조회 -->
+	<select id="selectTechOrProQualLicenseList" parameterType="String" resultType="lList">
+		select * from license_list where qualgbcd = #{qualgbcd};
+	</select>
+	
+	<!-- 국가기술자격 등급별 리스트 조회 -->
+	<select id="selectTechQualGradeLicenseList" parameterType="String" resultType="lList">
+		select * from license_list where qualgbcd = 'T' and seriescd = #{seriescd};
 	</select>
 	
 	<!-- 자격증별 상세조회 -->
@@ -124,7 +146,7 @@
                 group_concat(prac_exam_start_dt order by prac_exam_start_dt asc) as prac_exam_start_dt_list,
                 group_concat(prac_exam_end_dt order by prac_exam_end_dt asc) as prac_exam_end_dt_list,
                 prac_pass_dt
-			FROM jacat_db.license_test_date
+			FROM license_test_date
 				where impl_seq != 0
 			group by 
 				impl_seq,
@@ -167,10 +189,10 @@
 		 lb.title, lb.content, date_format(lb.w_date,'%Y-%m-%d') as w_date, lb.modify_date,
 		 lb.delyn, lb.board_type,u.nick,
 		 (
-		  select count(*) from jacat_db.visit_license_board vlb 
+		  select count(*) from visit_license_board vlb 
 		  where lb.board_num = vlb.license_board_num
 		 ) as visit_count
- 		 FROM jacat_db.license_boards lb , jacat_db.users u
+ 		 FROM license_boards lb , users u
  		 where lb.board_type = 'Q' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
 	</select>
 	
@@ -180,10 +202,10 @@
 		 lb.title, lb.content, date_format(lb.w_date,'%Y-%m-%d') as w_date, lb.modify_date,
 		 lb.delyn, lb.board_type,u.nick,
 		 (
-		  select count(*) from jacat_db.visit_license_board vlb 
+		  select count(*) from visit_license_board vlb 
 		  where lb.board_num = vlb.license_board_num
 		 ) as visit_count
- 		 FROM jacat_db.license_boards lb , jacat_db.users u
+ 		 FROM license_boards lb , users u
  		 where lb.board_type = 'D' and lb.license_list_jmcd = #{licenseListJmcd} and u.id = lb.users_id and delyn = 'N';
 	</select>
 	
@@ -234,7 +256,7 @@
 	
 	<!-- 자격증 게시글 작성 -->
 	<insert id="insertLicenseBoardOne" parameterType="lboard" useGeneratedKeys="true" keyProperty="boardNum">
-		insert into jacat_db.license_boards(
+		insert into license_boards(
 		users_id,license_list_jmcd,title,content,board_type
 		)
 		values(
@@ -244,14 +266,14 @@
 	
 	<!-- 자격증 게시글 수정 -->
 	<update id="updateLicenseBoardOne" parameterType="lboard">
-		update jacat_db.license_boards set
+		update license_boards set
 		 title = #{title}, content = #{content}, modify_date = now()
 		 where board_num = #{boardNum};
 	</update>
 	
 	<!-- 자격증 게시글 삭제 -->
 	<update id="deleteLicenseBoardOne" parameterType="int">
-		update jacat_db.license_boards set
+		update license_boards set
 		 delyn = 'Y'
 		 where board_num = #{boardNum};
 	</update>

@@ -15,7 +15,13 @@ import com.pro.jacat.licenses.vo.LicenseListVO;
 
 public interface LicenseBoardsService {
 	
-	public List<LicenseListVO> selectLicenseLists();
+	public List<LicenseListVO> selectAllLicenseLists();
+	
+	public List<LicenseListVO> selectAllLicenseLists(LicenseListVO vo);
+	
+	public List<LicenseListVO> selectTechOrProQualLicenseList(String qualgbcd);
+	
+	public List<LicenseListVO> selectTechQualGradeLicenseList(String seriescd);
 	
 	public LicenseListVO selectLicenseOne(String jmcd);
 	

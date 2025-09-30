@@ -50,9 +50,26 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 	
 	//자격증 목록 조회
 	@Override
-	public List<LicenseListVO> selectLicenseLists(){
-		return lBoardRepo.selectLicenseLists();
+	public List<LicenseListVO> selectAllLicenseLists(){
+		return lBoardRepo.selectAllLicenseLists();
 	}
+	//자격증 목록조회(수정)
+	@Override
+	public List<LicenseListVO> selectAllLicenseLists(LicenseListVO vo){
+		return lBoardRepo.selectAllLicenseLists(vo);
+	}
+	
+	//국가기술자격/전문자격 리스트 조회
+	@Override
+	public List<LicenseListVO> selectTechOrProQualLicenseList(String qualgbcd){
+		return lBoardRepo.selectTechOrProQualLicenseList(qualgbcd);
+	}
+	//국가기술자격 등급별 리스트 조회
+	@Override
+	public List<LicenseListVO> selectTechQualGradeLicenseList(String seriescd){
+		return lBoardRepo.selectTechQualGradeLicenseList(seriescd);
+	}
+	
 	//자격증 상세조회
 	@Override
 	public LicenseListVO selectLicenseOne(String jmcd) {
@@ -110,86 +127,142 @@ public class LicenseBoardsServiceImpl implements LicenseBoardsService {
 			
 			//prac tarnsform
 			for(int j=0;j<intPracRegStartDtArr.length;j++) {
-				intPracRegStartDtArr[j] = Integer.parseInt(pracRegStartDtArr[j]);
+				try {
+					intPracRegStartDtArr[j] = Integer.parseInt(pracRegStartDtArr[j]);
+				}catch(NumberFormatException e) {
+					
+				}
 			}
 			for(int j=0;j<intPracRegEndDtArr.length;j++) {
-				intPracRegEndDtArr[j] = Integer.parseInt(pracRegEndDtArr[j]);
+				try {
+					intPracRegEndDtArr[j] = Integer.parseInt(pracRegEndDtArr[j]);
+				}catch(NumberFormatException e) {
+					
+				}
 			}
 			for(int j=0;j<intPracExamStartDtArr.length;j++) {
-				intPracExamStartDtArr[j] = Integer.parseInt(pracExamStartDtArr[j]);
+				try {
+					intPracExamStartDtArr[j] = Integer.parseInt(pracExamStartDtArr[j]);
+				}catch(NumberFormatException e) {
+					
+				}
+				
 			}
 			for(int j=0;j<intPracExamEndDtArr.length;j++) {
-				intPracExamEndDtArr[j] = Integer.parseInt(pracExamEndDtArr[j]);
+				try {
+					intPracExamEndDtArr[j] = Integer.parseInt(pracExamEndDtArr[j]);
+				}catch(NumberFormatException e) {
+					
+				}
+				
 			}
 			
 			//doc 값 판별 및 삽입
-			if(intDocRegStartDtArr[0] < intDocRegStartDtArr[1]) {
-				dvo.get(i).setDocRegStartDt(docRegStartDtArr[0]); 
-				dvo.get(i).setDocRegStartVacancyDt(docRegStartDtArr[1]); 
+			try {
+				if(intDocRegStartDtArr[0] < intDocRegStartDtArr[1]) {
+					dvo.get(i).setDocRegStartDt(docRegStartDtArr[0]); 
+					dvo.get(i).setDocRegStartVacancyDt(docRegStartDtArr[1]); 
+				}
+				else {
+					dvo.get(i).setDocRegStartDt(docRegStartDtArr[1]);
+					dvo.get(i).setDocRegStartVacancyDt(docRegStartDtArr[0]); 
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			else {
-				dvo.get(i).setDocRegStartDt(docRegStartDtArr[1]);
-				dvo.get(i).setDocRegStartVacancyDt(docRegStartDtArr[0]); 
+			try {
+				if(intDocRegEndDtArr[0] < intDocRegEndDtArr[1]) {
+					dvo.get(i).setDocRegEndDt(docRegStartDtArr[0]);
+					dvo.get(i).setDocRegEndVacancyDt(docRegStartDtArr[1]);
+				}
+				else {
+					dvo.get(i).setDocRegEndDt(docRegStartDtArr[1]);
+					dvo.get(i).setDocRegEndVacancyDt(docRegStartDtArr[0]);
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			if(intDocRegEndDtArr[0] < intDocRegEndDtArr[1]) {
-				dvo.get(i).setDocRegEndDt(docRegStartDtArr[0]);
-				dvo.get(i).setDocRegEndVacancyDt(docRegStartDtArr[1]);
+			try {
+				if(intDocExamStartDtArr[0] < intDocExamStartDtArr[1]) {
+					dvo.get(i).setDocExamStartDt(docRegStartDtArr[0]);
+					dvo.get(i).setDocExamStartVacancyDt(docRegStartDtArr[1]);
+				}
+				else {
+					dvo.get(i).setDocExamStartDt(docRegStartDtArr[1]);
+					dvo.get(i).setDocExamStartVacancyDt(docRegStartDtArr[0]);
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			else {
-				dvo.get(i).setDocRegEndDt(docRegStartDtArr[1]);
-				dvo.get(i).setDocRegEndVacancyDt(docRegStartDtArr[0]);
+			try {
+				if(intDocExamEndDtArr[0] < intDocExamEndDtArr[1]) {
+					dvo.get(i).setDocExamEndDt(docRegStartDtArr[0]);
+					dvo.get(i).setDocExamEndVacancyDt(docRegStartDtArr[1]);
+				}
+				else {
+					dvo.get(i).setDocExamEndDt(docRegStartDtArr[1]);
+					dvo.get(i).setDocExamEndVacancyDt(docRegStartDtArr[0]);
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			if(intDocExamStartDtArr[0] < intDocExamStartDtArr[1]) {
-				dvo.get(i).setDocExamStartDt(docRegStartDtArr[0]);
-				dvo.get(i).setDocExamStartVacancyDt(docRegStartDtArr[1]);
-			}
-			else {
-				dvo.get(i).setDocExamStartDt(docRegStartDtArr[1]);
-				dvo.get(i).setDocExamStartVacancyDt(docRegStartDtArr[0]);
-			}
-			if(intDocExamEndDtArr[0] < intDocExamEndDtArr[1]) {
-				dvo.get(i).setDocExamEndDt(docRegStartDtArr[0]);
-				dvo.get(i).setDocExamEndVacancyDt(docRegStartDtArr[1]);
-			}
-			else {
-				dvo.get(i).setDocExamEndDt(docRegStartDtArr[1]);
-				dvo.get(i).setDocExamEndVacancyDt(docRegStartDtArr[0]);
-			}
+			
 			
 			
 			//prac 값 판별 및 삽입
-			if(intPracRegStartDtArr[0] < intPracRegStartDtArr[1]) {
-				dvo.get(i).setPracRegStartDt(pracRegStartDtArr[0]); 
-				dvo.get(i).setPracRegStartVacancyDt(pracRegStartDtArr[1]); 
+			try {
+
+				if(intPracRegStartDtArr[0] < intPracRegStartDtArr[1]) {
+					dvo.get(i).setPracRegStartDt(pracRegStartDtArr[0]); 
+					dvo.get(i).setPracRegStartVacancyDt(pracRegStartDtArr[1]); 
+				}
+				else {
+					dvo.get(i).setPracRegStartDt(pracRegStartDtArr[1]);
+					dvo.get(i).setPracRegStartVacancyDt(pracRegStartDtArr[0]); 
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			else {
-				dvo.get(i).setPracRegStartDt(pracRegStartDtArr[1]);
-				dvo.get(i).setPracRegStartVacancyDt(pracRegStartDtArr[0]); 
+			try {
+
+				if(intPracRegEndDtArr[0] < intPracRegEndDtArr[1]) {
+					dvo.get(i).setPracRegEndDt(pracRegStartDtArr[0]);
+					dvo.get(i).setPracRegEndVacancyDt(pracRegStartDtArr[1]);
+				}
+				else {
+					dvo.get(i).setPracRegEndDt(pracRegStartDtArr[1]);
+					dvo.get(i).setPracRegEndVacancyDt(pracRegStartDtArr[0]);
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			if(intPracRegEndDtArr[0] < intPracRegEndDtArr[1]) {
-				dvo.get(i).setPracRegEndDt(pracRegStartDtArr[0]);
-				dvo.get(i).setPracRegEndVacancyDt(pracRegStartDtArr[1]);
+			try {
+
+				if(intPracExamStartDtArr[0] < intPracExamStartDtArr[1]) {
+					dvo.get(i).setPracExamStartDt(pracRegStartDtArr[0]);
+					dvo.get(i).setPracExamStartVacancyDt(pracRegStartDtArr[1]);
+				}
+				else {
+					dvo.get(i).setPracExamStartDt(pracRegStartDtArr[1]);
+					dvo.get(i).setPracExamStartVacancyDt(pracRegStartDtArr[0]);
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			else {
-				dvo.get(i).setPracRegEndDt(pracRegStartDtArr[1]);
-				dvo.get(i).setPracRegEndVacancyDt(pracRegStartDtArr[0]);
+			try {
+
+				if(intPracExamEndDtArr[0] < intPracExamEndDtArr[1]) {
+					dvo.get(i).setPracExamEndDt(pracRegStartDtArr[0]);
+					dvo.get(i).setPracExamEndVacancyDt(pracRegStartDtArr[1]);
+				}
+				else {
+					dvo.get(i).setPracExamEndDt(pracRegStartDtArr[1]);
+					dvo.get(i).setPracExamEndVacancyDt(pracRegStartDtArr[0]);
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				
 			}
-			if(intPracExamStartDtArr[0] < intPracExamStartDtArr[1]) {
-				dvo.get(i).setPracExamStartDt(pracRegStartDtArr[0]);
-				dvo.get(i).setPracExamStartVacancyDt(pracRegStartDtArr[1]);
-			}
-			else {
-				dvo.get(i).setPracExamStartDt(pracRegStartDtArr[1]);
-				dvo.get(i).setPracExamStartVacancyDt(pracRegStartDtArr[0]);
-			}
-			if(intPracExamEndDtArr[0] < intPracExamEndDtArr[1]) {
-				dvo.get(i).setPracExamEndDt(pracRegStartDtArr[0]);
-				dvo.get(i).setPracExamEndVacancyDt(pracRegStartDtArr[1]);
-			}
-			else {
-				dvo.get(i).setPracExamEndDt(pracRegStartDtArr[1]);
-				dvo.get(i).setPracExamEndVacancyDt(pracRegStartDtArr[0]);
-			}
+
 			
 			
 		}
